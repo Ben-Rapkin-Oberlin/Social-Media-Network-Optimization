@@ -29,6 +29,7 @@ cpdef random_setup(nodes, N, Neighbourhood_size):
 
 cpdef update_step(cnp.ndarray[int, ndim=2] graph, cnp.ndarray[int, ndim=2] fitness):
     cdef int i
+    cdef cnp.ndarray neighbours
     for i in range(graph.shape[0]):
         #find neighbours
         neighbours = np.where(graph[i]==1)[0]

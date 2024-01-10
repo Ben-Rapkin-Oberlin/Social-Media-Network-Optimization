@@ -2,7 +2,7 @@ import igraph as ig
 import CythonMods.graph as graph
 import CythonMods.NK_landscape as nk
 import matplotlib.pyplot as plt
-
+import time
 
 # Generate Landscape
 N = 5
@@ -13,10 +13,12 @@ Neighbors=4
 landscape = nk.NKModel(N, K, 1)
 
 
-
+start = time.time()
 # Generate random setup
 mat, fit = graph.random_setup(Nodes,N,Neighbors)
+end = time.time()
 print(mat)
+print("Time to generate random setup: ", end - start)
 
 
 

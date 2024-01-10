@@ -1,6 +1,6 @@
 import igraph as ig
-import graph
-import NK_landscape as nk
+import CythonMods.graph as graph
+import CythonMods.NK_landscape as nk
 import matplotlib.pyplot as plt
 
 

@@ -1,31 +1,45 @@
 using Random
 using BenchmarkTools
-function random_setup(nodes, N, Neighbourhood_size)
-    # Create a random graph and return the adjacency matrix
-    graph = rand(0:1, nodes, nodes)
-    
-    #graph = triu(graph)
-    graph=triu!(trues(size(graph)))#[graph[row,col] for col in 1:n for row in 1:col]
-    graph = graph + transpose(graph)
-    
-    for i in 1:nodes
-        graph[i, i] = 0
-        while sum(graph[i, :]) > Neighbourhood_size
-            a = rand(1:nodes)
-            graph[i, a] = 0
-            graph[a, i] = 0
+using LinearAlgebra
+using PyCall
+using Pkg
+using StatsBase 
+
+#println(PyCall.python) 
+#Pkg.build("PyCall")
+
+using Random
+
+function generate_symmetric_matrix_no_diag(node_num, neighbor_num)
+    if neighbor_num > node_num - 1
+        error("N cannot be greater than n - 1 for a zero diagonal")
+    end
+
+    matrix = zeros(Int, node_num, node_num)
+
+    for i in 1:node_num
+        positions = setdiff(1:node_num, i)
+        print(positions)
+        exit()
+        selected_positions = sample(positions, neighbor_num, replace=false)
+
+        for pos in selected_positions
+            matrix[i, pos] = 1
+            matrix[pos, i] = 1  # Ensuring symmetry
         end
     end
-    
-    # Assign random fitness
-    fitness = rand(0:1, nodes, N)
 
-    return graph, fitness
+    return matrix
 end
-@btime random_setup(15, 5, 4)
-#now call the function
-graph, fitness = random_setup(15, 5, 4)
 
-#print graph
-println(graph)
+function print_matrix(matrix)
+    for i in 1:size(matrix, 1)
+        for j in 1:size(matrix, 2)
+            print("$(matrix[i, j]) ")
+        end
+        println()
+    end
+end
 
+mat=generate_symmetric_matrix_no_diag(10,2)
+print_matrix(mat)

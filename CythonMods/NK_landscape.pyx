@@ -34,27 +34,11 @@ cdef class NKModel:
 
         return (total_fitness / self.N)**8
     
-    cpdef double get_fitness_array(self, cnp.ndarray[int, ndim=2] states):
-        cdef int i, j, idx
-        cdef double total_fitness = 0
-        cdef int num_states = states.shape[0]
-        cdef cnp.ndarray fitnesses = np.zeros(num_states)
-
-        for i in range(num_states):
-            total_fitness = 0
-            for j in range(self.N):
-                # Create the index for the row in the landscape array
-                idx = states[i, j] * int(2**self.K)
-                for k in range(self.K):
-                    idx += states[i, (j+k+1) % self.N] * 2**(self.K-k-1)
-
-                # Add the local fitness to the total fitness
-                total_fitness += self.landscapes[j, idx]
-
-            fitnesses[i] = (total_fitness / self.N)**8
-
-        return fitnesses
-
+    cpdef cnp.ndarray[double, ndim=2] get_fitness_array(self, cnp.ndarray[int, ndim=2] states):
+        cdef cnp.ndarray fit_score= np.zeros(states.shape[0])
+        for i in range(states.shape[0]):
+            fit_score[i] = self.get_fitness(states[i])
+        return fit_score
 # Example usage
 def create_nk_landscape(int N, int K):
     cdef NKModel nk_model = NKModel(N, K)

@@ -11,11 +11,11 @@ import numpy as np
 import math
 os.path.dirname(sys.executable)
 # Generate Landscape
-N = 5
-K = 2
-Nodes=6
+N = 10
+K = 7
+Nodes=40
 Neighbors=4
-steps=5
+steps=40
 
 def setup(nodes,Max_Neighbourhood,N,landscape):
     seeds=np.random.normal((1+Max_Neighbourhood)/2, (1+Max_Neighbourhood)/16, 10000)
@@ -45,9 +45,7 @@ def setup(nodes,Max_Neighbourhood,N,landscape):
 
 
     fit_base = np.random.choice([0, 1], size=(nodes,N))
-    fit_score = []
-    for i in fit_base:
-        fit_score.append(landscape.get_fitness(i))
+    fit_score = landscape.get_fitness_array(fit_base)
     #fitness = [''.join(str(a) for a in x)for x in fitness]
 
     return edges,fit_base,fit_score
@@ -57,21 +55,25 @@ landscape = nk.NKModel(N, K, 1)
 
 edges,fit_base,fit_score=setup(Nodes,Neighbors,N,landscape)
 g = ig.Graph(edges, directed=False)
-
-adj=g.get_adjacency()
-print(fit_base[:5])
-print(fit_score[:5])
+layout = g.layout(layout='auto')
+    # Plot the graph
+fig, ax = plt.subplots()
+    #ig.plot(temp, target=ax)       
+plot = ig.plot(g, target=ax, layout=layout)
+#plt.show() 
+adj=np.array(list(g.get_adjacency()),dtype=np.int32)
+#print degrees of each node
+print(np.sum(adj,axis=0))
 for i in range(0,steps):
-    fit_base=graph.update(fitness,edges,Nodes)
+    fit_base=graph.step(adj, fit_base, fit_score, Nodes, N)
     fit_score = landscape.get_fitness_array(fit_base)
-
+    print(fit_score.sum())
     #test entire update function
     #test get_fitness_array
 
-    
     ####not implimented yet
-    fitness,edges,Nodes=graph.algo(fitness,edges,Nodes)
-
+    #fitness,edges,Nodes=graph.algo(fitness,edges,Nodes)
+exit()
 g = ig.Graph(edges, directed=False)
 print(fitness[:5])
 print(np.count_nonzero(fitness[0]!=fitness[1]))

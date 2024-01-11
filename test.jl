@@ -28,3 +28,4 @@ graph, fitness = random_setup(15, 5, 4)
 
 #print graph
 println(graph)
+

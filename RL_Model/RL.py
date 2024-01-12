@@ -2,6 +2,7 @@
 !pip3 install gym[mujoco]
 !pip3 install tqdm"""
 
+
 from collections import defaultdict
 
 import matplotlib.pyplot as plt

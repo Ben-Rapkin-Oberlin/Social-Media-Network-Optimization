@@ -32,7 +32,7 @@ cdef class NKModel:
             # Add the local fitness to the total fitness
             total_fitness += self.landscapes[i, idx]
 
-        return (total_fitness / self.N)**8
+        return (total_fitness / self.N)#**8
     
     cpdef cnp.ndarray[double, ndim=2] get_fitness_array(self, cnp.ndarray[int, ndim=2] states):
         cdef cnp.ndarray fit_score= np.zeros(states.shape[0])

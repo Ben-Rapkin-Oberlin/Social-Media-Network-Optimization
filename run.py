@@ -9,15 +9,16 @@ import sys
 import os
 import numpy as np
 import math
-from sklearn.linear_model import LogisticRegression
+from scipy import stats
+import CythonMods.nk_test as nk
 os.path.dirname(sys.executable)
 # Generate Landscape
 N = 15
-K = 10
+K = 6
 Nodes=100
 #Neighbors=8
-steps=1000
-
+steps=500
+np.random.seed(0)
 def setup(nodes,Max_Neighbourhood,N,landscape):
     seeds=np.random.normal((1+Max_Neighbourhood)/2, (1+Max_Neighbourhood)/16, 10000)
     seeds=[round(abs(x)) for x in seeds if round(abs(x))<Max_Neighbourhood and round(abs(x))>.5]
@@ -56,14 +57,16 @@ def prime_fitness(N,landscape):
     fit_score = landscape.get_fitness_array(fit_base)
     return np.array(fit_base),np.array(fit_score)
 
-num_=[1,2,3,4]
+num_=[3,6,9,12,14]
 scores=[]
-landscape = nk.NKModel(N, K, 1)
-for i in num_:
-    
+#landscape = nk.NKModel(N, K, 1)
+for k in num_:
+    #landscape = nk.NKModel(N, k, 1)
+
     #edges,fit_base,fit_score=setup(Nodes,Neighbors,N,landscape)
     #g = ig.Graph(edges, directed=False)
-
+    land = nk.generate_landscape(N, k)
+    interact=nk.interaction_matrix(N,k)
     g = ig.Graph.SBM(Nodes, [[.8,.05,.05,.05,.05],[.05,.8,.05,.05,.05],[.05,.05,.8,.05,.05],[.05,.05,.05,.8,.05],[.05,.05,.05,.05,.8]],
                               [20,20,20,20,20], directed=False, loops=False)
     #layout = g.layout(layout='auto')
@@ -76,24 +79,38 @@ for i in num_:
     #print degrees of each node
     #print(np.sum(adj,axis=0))
     #adj=np.array(list(g.get_adjacency()))
-    fit_base,fit_score=prime_fitness(N,landscape)
-    scoresAvg=[]
+    #fit_base,fit_score=prime_fitness(N,landscape)
+    fit_base=np.random.randint(0,2,size=(Nodes,N),dtype=np.int8)
+    fit_score=nk.all_scores(fit_base,interact,land,N)
 
+    #print(type(fit_base))
+    #print(type(fit_score))
+    max_score=nk.get_globalmax(interact,land,N)
+    scoresAvg=[]
+    print('max:',max_score)
     Neighbors=g.maxdegree()
-    print('max:',Neighbors)
+    #print('max:',Neighbors)
     for i in range(0,steps):
-        fit_base=graph.step(adj, fit_base, fit_score, Nodes, N,landscape,Neighbors)
-        fit_score = landscape.get_fitness_array(fit_base)
+        a=graph.step(adj, fit_base, fit_score, Nodes, N,land,interact,Neighbors)
+        #print(a)
+        fit_base=a
+        fit_score = fit_score=nk.all_scores(fit_base,interact,land,N)
         #print(fit_score)
-        if i%200==0:    
+        if i%250==0:    
             print(i)
         
         #   plot = ig.plot(g, target=ax, layout=layout,vertex_label=[str(x)[2:6] for x in fit_score])
             #print(fit_score.sum())
         scoresAvg.append(fit_score.sum()/Nodes)
-    scores.append(scoresAvg)
+    scores.append(scoresAvg)#/max_score)
+transformed_data, best_lambda = stats.boxcox(scores[0])
 for i in scores:
-    plt.plot(i,label=str(num_.pop()))
+    a=str(num_.pop())
+    plt.plot(i,label='K='+a)
+    #plt.plot(transformed_data,label=a+'boxcox')
+    #plt.plot([x**(1/8) for x in i],label='K='+a)
+
+    #plt.plot([math.exp(x) for x in i],label='log('+a+')')
 plt.legend(loc='upper left')
 plt.show()
 exit()

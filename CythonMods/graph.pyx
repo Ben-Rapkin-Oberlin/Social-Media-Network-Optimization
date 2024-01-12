@@ -2,13 +2,13 @@ import numpy as np
 cimport numpy as cnp
 import itertools
 import igraph as ig
-import CythonMods.NK_landscape as nk
-
+#import CythonMods.NK_landscape as nk
+import CythonMods.nk_test as nk
 
 cpdef step(cnp.ndarray[int, ndim=2] adj_matrix,
-    cnp.ndarray[int, ndim=2]  fit_base,
+    cnp.ndarray[char, ndim=2]  fit_base,
     cnp.ndarray[double, ndim=1] fit_score, 
-    int nodes, N,landscape,Neighbors):
+    int nodes, N,landscape,interaction,Neighbors):
     #look at surrounding utility, use that to determine how much your opinion changes, randomly copy
     #opinion of one of your neighbors
 
@@ -18,7 +18,9 @@ cpdef step(cnp.ndarray[int, ndim=2] adj_matrix,
     cdef int i
     cdef int j
     cdef int choosen_neighbor
-    cdef cnp.ndarray rand_seed_low=np.random.randint(4,9,size=nodes+2)
+    #cdef cnp.ndarray rand_seed_low=np.random.randint(4,9,size=nodes+2)
+    cdef cnp.ndarray rand_seed_low=np.random.randint(2,5,size=nodes+2)
+
     #cdef cnp.ndarray rand_seed_high=np.random.randint(N//2,N,size=nodes+2)
     cdef cnp.ndarray rand_seed_index=np.random.randint(0,N-1,size=N*nodes)
     cdef cnp.ndarray rand_neighbor=np.random.randint(0,Neighbors,size=nodes+2)
@@ -75,8 +77,7 @@ cpdef step(cnp.ndarray[int, ndim=2] adj_matrix,
                     rand_index_counter+=1
                 
                 try:
-                    if landscape.get_fitness(new_solution)>fit_score[i]:
-                        
+                    if nk.calculate_performances(new_solution, interaction, landscape, N)>fit_score[i]:                        
                         #print("below",landscape.get_fitness(new_solution),fit_score[i])
                         fit_base[i]=new_solution
 
@@ -85,7 +86,7 @@ cpdef step(cnp.ndarray[int, ndim=2] adj_matrix,
                         new_solution=np.copy(fit_base[i])
                         new_solution[rand_seed_index[rand_index_counter]]=1-new_solution[rand_seed_index[rand_index_counter]]
                         rand_index_counter+=1
-                        if landscape.get_fitness(new_solution)>fit_score[i]:
+                        if nk.calculate_performances(new_solution, interaction, landscape, N)>fit_score[i]:                        
                             
                             #print("below_self",landscape.get_fitness(new_solution),fit_score[i]) 
                             fit_base[i]=new_solution
@@ -104,7 +105,7 @@ cpdef step(cnp.ndarray[int, ndim=2] adj_matrix,
                 #if better than average, try to flip one bit
                 new_solution[rand_seed_index[rand_index_counter]]=1-new_solution[rand_seed_index[rand_index_counter]]
                 rand_index_counter+=1
-                if landscape.get_fitness(new_solution)>fit_score[i]:
+                if nk.calculate_performances(new_solution, interaction, landscape, N)>fit_score[i]:                        
                     
                     #print("above_self",landscape.get_fitness(new_solution),fit_score[i])
                     fit_base[i]=new_solution
@@ -115,10 +116,10 @@ cpdef step(cnp.ndarray[int, ndim=2] adj_matrix,
 
         else: #no neighbors, randomly mutate
             for k in range(rand_seed_low[i]):
-                    #copy from holder to i for some number of chars
-                    new_solution[rand_seed_index[rand_index_counter]]=fit_base[holder,rand_seed_index[rand_index_counter]]
-                    rand_index_counter+=1
-            if landscape.get_fitness(new_solution)>fit_score[i]:
+                #copy from holder to i for some number of chars
+                new_solution[rand_seed_index[rand_index_counter]]=fit_base[holder,rand_seed_index[rand_index_counter]]
+                rand_index_counter+=1
+                if nk.calculate_performances(new_solution, interaction, landscape, N)>fit_score[i]:                        
                     
                     #print("iso",landscape.get_fitness(new_solution),fit_score[i]) 
                     fit_base[i]=new_solution

@@ -2636,9 +2636,10 @@ static CYTHON_INLINE char *__pyx_f_5numpy_7ndarray_4data_data(PyArrayObject *__p
 /* Module declarations from "numpy" */
 
 /* Module declarations from "graph" */
-static PyObject *__pyx_f_5graph_step(PyArrayObject *, PyArrayObject *, PyArrayObject *, int, PyObject *, PyObject *, PyObject *, int __pyx_skip_dispatch); /*proto*/
+static PyObject *__pyx_f_5graph_step(PyArrayObject *, PyArrayObject *, PyArrayObject *, int, PyObject *, PyObject *, PyObject *, PyObject *, int __pyx_skip_dispatch); /*proto*/
 /* #### Code section: typeinfo ### */
 static __Pyx_TypeInfo __Pyx_TypeInfo_int = { "int", NULL, sizeof(int), { 0 }, 0, __PYX_IS_UNSIGNED(int) ? 'U' : 'I', __PYX_IS_UNSIGNED(int), 0 };
+static __Pyx_TypeInfo __Pyx_TypeInfo_char = { "char", NULL, sizeof(char), { 0 }, 0, 'H', __PYX_IS_UNSIGNED(char), 0 };
 static __Pyx_TypeInfo __Pyx_TypeInfo_double = { "double", NULL, sizeof(double), { 0 }, 0, 'R', 0, 0 };
 /* #### Code section: before_global_var ### */
 #define __Pyx_MODULE_NAME "graph"
@@ -2677,6 +2678,7 @@ static const char __pyx_k_failed[] = "failed";
 static const char __pyx_k_igraph[] = "igraph";
 static const char __pyx_k_import[] = "__import__";
 static const char __pyx_k_random[] = "random";
+static const char __pyx_k_nk_test[] = "nk_test";
 static const char __pyx_k_randint[] = "randint";
 static const char __pyx_k_fit_base[] = "fit_base";
 static const char __pyx_k_Neighbors[] = "Neighbors";
@@ -2687,19 +2689,19 @@ static const char __pyx_k_landscape[] = "landscape";
 static const char __pyx_k_CythonMods[] = "CythonMods";
 static const char __pyx_k_adj_matrix[] = "adj_matrix";
 static const char __pyx_k_ImportError[] = "ImportError";
-static const char __pyx_k_get_fitness[] = "get_fitness";
-static const char __pyx_k_NK_landscape[] = "NK_landscape";
+static const char __pyx_k_interaction[] = "interaction";
 static const char __pyx_k_initializing[] = "_initializing";
 static const char __pyx_k_is_coroutine[] = "_is_coroutine";
 static const char __pyx_k_class_getitem[] = "__class_getitem__";
+static const char __pyx_k_CythonMods_nk_test[] = "CythonMods.nk_test";
 static const char __pyx_k_asyncio_coroutines[] = "asyncio.coroutines";
 static const char __pyx_k_cline_in_traceback[] = "cline_in_traceback";
-static const char __pyx_k_CythonMods_NK_landscape[] = "CythonMods.NK_landscape";
+static const char __pyx_k_calculate_performances[] = "calculate_performances";
 static const char __pyx_k_failed_in_neighbor_count[] = "failed in neighbor count";
 static const char __pyx_k_numpy_core_multiarray_failed_to[] = "numpy.core.multiarray failed to import";
 static const char __pyx_k_numpy_core_umath_failed_to_impor[] = "numpy.core.umath failed to import";
 /* #### Code section: decls ### */
-static PyObject *__pyx_pf_5graph_step(CYTHON_UNUSED PyObject *__pyx_self, PyArrayObject *__pyx_v_adj_matrix, PyArrayObject *__pyx_v_fit_base, PyArrayObject *__pyx_v_fit_score, int __pyx_v_nodes, PyObject *__pyx_v_N, PyObject *__pyx_v_landscape, PyObject *__pyx_v_Neighbors); /* proto */
+static PyObject *__pyx_pf_5graph_step(CYTHON_UNUSED PyObject *__pyx_self, PyArrayObject *__pyx_v_adj_matrix, PyArrayObject *__pyx_v_fit_base, PyArrayObject *__pyx_v_fit_score, int __pyx_v_nodes, PyObject *__pyx_v_N, PyObject *__pyx_v_landscape, PyObject *__pyx_v_interaction, PyObject *__pyx_v_Neighbors); /* proto */
 /* #### Code section: late_includes ### */
 /* #### Code section: module_state ### */
 typedef struct {
@@ -2764,15 +2766,15 @@ typedef struct {
   #if CYTHON_USE_MODULE_STATE
   #endif
   PyObject *__pyx_n_s_CythonMods;
-  PyObject *__pyx_n_s_CythonMods_NK_landscape;
+  PyObject *__pyx_n_s_CythonMods_nk_test;
   PyObject *__pyx_n_s_ImportError;
   PyObject *__pyx_n_s_N;
-  PyObject *__pyx_n_s_NK_landscape;
   PyObject *__pyx_n_s_Neighbors;
   PyObject *__pyx_n_s__10;
   PyObject *__pyx_n_s__6;
   PyObject *__pyx_n_s_adj_matrix;
   PyObject *__pyx_n_s_asyncio_coroutines;
+  PyObject *__pyx_n_s_calculate_performances;
   PyObject *__pyx_n_s_class_getitem;
   PyObject *__pyx_n_s_cline_in_traceback;
   PyObject *__pyx_n_s_copy;
@@ -2782,19 +2784,20 @@ typedef struct {
   PyObject *__pyx_kp_s_failed_in_neighbor_count;
   PyObject *__pyx_n_s_fit_base;
   PyObject *__pyx_n_s_fit_score;
-  PyObject *__pyx_n_s_get_fitness;
   PyObject *__pyx_n_s_graph;
   PyObject *__pyx_kp_s_graph_pyx;
   PyObject *__pyx_n_s_ig;
   PyObject *__pyx_n_s_igraph;
   PyObject *__pyx_n_s_import;
   PyObject *__pyx_n_s_initializing;
+  PyObject *__pyx_n_s_interaction;
   PyObject *__pyx_n_s_is_coroutine;
   PyObject *__pyx_n_s_itertools;
   PyObject *__pyx_n_s_landscape;
   PyObject *__pyx_n_s_main;
   PyObject *__pyx_n_s_name;
   PyObject *__pyx_n_s_nk;
+  PyObject *__pyx_n_s_nk_test;
   PyObject *__pyx_n_s_nodes;
   PyObject *__pyx_n_s_np;
   PyObject *__pyx_n_s_numpy;
@@ -2811,8 +2814,8 @@ typedef struct {
   PyObject *__pyx_n_s_zeros;
   PyObject *__pyx_int_0;
   PyObject *__pyx_int_1;
-  PyObject *__pyx_int_4;
-  PyObject *__pyx_int_9;
+  PyObject *__pyx_int_2;
+  PyObject *__pyx_int_5;
   PyObject *__pyx_tuple_;
   PyObject *__pyx_tuple__2;
   PyObject *__pyx_tuple__3;
@@ -2880,15 +2883,15 @@ static int __pyx_m_clear(PyObject *m) {
   Py_CLEAR(clear_module_state->__pyx_ptype_5numpy_character);
   Py_CLEAR(clear_module_state->__pyx_ptype_5numpy_ufunc);
   Py_CLEAR(clear_module_state->__pyx_n_s_CythonMods);
-  Py_CLEAR(clear_module_state->__pyx_n_s_CythonMods_NK_landscape);
+  Py_CLEAR(clear_module_state->__pyx_n_s_CythonMods_nk_test);
   Py_CLEAR(clear_module_state->__pyx_n_s_ImportError);
   Py_CLEAR(clear_module_state->__pyx_n_s_N);
-  Py_CLEAR(clear_module_state->__pyx_n_s_NK_landscape);
   Py_CLEAR(clear_module_state->__pyx_n_s_Neighbors);
   Py_CLEAR(clear_module_state->__pyx_n_s__10);
   Py_CLEAR(clear_module_state->__pyx_n_s__6);
   Py_CLEAR(clear_module_state->__pyx_n_s_adj_matrix);
   Py_CLEAR(clear_module_state->__pyx_n_s_asyncio_coroutines);
+  Py_CLEAR(clear_module_state->__pyx_n_s_calculate_performances);
   Py_CLEAR(clear_module_state->__pyx_n_s_class_getitem);
   Py_CLEAR(clear_module_state->__pyx_n_s_cline_in_traceback);
   Py_CLEAR(clear_module_state->__pyx_n_s_copy);
@@ -2898,19 +2901,20 @@ static int __pyx_m_clear(PyObject *m) {
   Py_CLEAR(clear_module_state->__pyx_kp_s_failed_in_neighbor_count);
   Py_CLEAR(clear_module_state->__pyx_n_s_fit_base);
   Py_CLEAR(clear_module_state->__pyx_n_s_fit_score);
-  Py_CLEAR(clear_module_state->__pyx_n_s_get_fitness);
   Py_CLEAR(clear_module_state->__pyx_n_s_graph);
   Py_CLEAR(clear_module_state->__pyx_kp_s_graph_pyx);
   Py_CLEAR(clear_module_state->__pyx_n_s_ig);
   Py_CLEAR(clear_module_state->__pyx_n_s_igraph);
   Py_CLEAR(clear_module_state->__pyx_n_s_import);
   Py_CLEAR(clear_module_state->__pyx_n_s_initializing);
+  Py_CLEAR(clear_module_state->__pyx_n_s_interaction);
   Py_CLEAR(clear_module_state->__pyx_n_s_is_coroutine);
   Py_CLEAR(clear_module_state->__pyx_n_s_itertools);
   Py_CLEAR(clear_module_state->__pyx_n_s_landscape);
   Py_CLEAR(clear_module_state->__pyx_n_s_main);
   Py_CLEAR(clear_module_state->__pyx_n_s_name);
   Py_CLEAR(clear_module_state->__pyx_n_s_nk);
+  Py_CLEAR(clear_module_state->__pyx_n_s_nk_test);
   Py_CLEAR(clear_module_state->__pyx_n_s_nodes);
   Py_CLEAR(clear_module_state->__pyx_n_s_np);
   Py_CLEAR(clear_module_state->__pyx_n_s_numpy);
@@ -2927,8 +2931,8 @@ static int __pyx_m_clear(PyObject *m) {
   Py_CLEAR(clear_module_state->__pyx_n_s_zeros);
   Py_CLEAR(clear_module_state->__pyx_int_0);
   Py_CLEAR(clear_module_state->__pyx_int_1);
-  Py_CLEAR(clear_module_state->__pyx_int_4);
-  Py_CLEAR(clear_module_state->__pyx_int_9);
+  Py_CLEAR(clear_module_state->__pyx_int_2);
+  Py_CLEAR(clear_module_state->__pyx_int_5);
   Py_CLEAR(clear_module_state->__pyx_tuple_);
   Py_CLEAR(clear_module_state->__pyx_tuple__2);
   Py_CLEAR(clear_module_state->__pyx_tuple__3);
@@ -2974,15 +2978,15 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
   Py_VISIT(traverse_module_state->__pyx_ptype_5numpy_character);
   Py_VISIT(traverse_module_state->__pyx_ptype_5numpy_ufunc);
   Py_VISIT(traverse_module_state->__pyx_n_s_CythonMods);
-  Py_VISIT(traverse_module_state->__pyx_n_s_CythonMods_NK_landscape);
+  Py_VISIT(traverse_module_state->__pyx_n_s_CythonMods_nk_test);
   Py_VISIT(traverse_module_state->__pyx_n_s_ImportError);
   Py_VISIT(traverse_module_state->__pyx_n_s_N);
-  Py_VISIT(traverse_module_state->__pyx_n_s_NK_landscape);
   Py_VISIT(traverse_module_state->__pyx_n_s_Neighbors);
   Py_VISIT(traverse_module_state->__pyx_n_s__10);
   Py_VISIT(traverse_module_state->__pyx_n_s__6);
   Py_VISIT(traverse_module_state->__pyx_n_s_adj_matrix);
   Py_VISIT(traverse_module_state->__pyx_n_s_asyncio_coroutines);
+  Py_VISIT(traverse_module_state->__pyx_n_s_calculate_performances);
   Py_VISIT(traverse_module_state->__pyx_n_s_class_getitem);
   Py_VISIT(traverse_module_state->__pyx_n_s_cline_in_traceback);
   Py_VISIT(traverse_module_state->__pyx_n_s_copy);
@@ -2992,19 +2996,20 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
   Py_VISIT(traverse_module_state->__pyx_kp_s_failed_in_neighbor_count);
   Py_VISIT(traverse_module_state->__pyx_n_s_fit_base);
   Py_VISIT(traverse_module_state->__pyx_n_s_fit_score);
-  Py_VISIT(traverse_module_state->__pyx_n_s_get_fitness);
   Py_VISIT(traverse_module_state->__pyx_n_s_graph);
   Py_VISIT(traverse_module_state->__pyx_kp_s_graph_pyx);
   Py_VISIT(traverse_module_state->__pyx_n_s_ig);
   Py_VISIT(traverse_module_state->__pyx_n_s_igraph);
   Py_VISIT(traverse_module_state->__pyx_n_s_import);
   Py_VISIT(traverse_module_state->__pyx_n_s_initializing);
+  Py_VISIT(traverse_module_state->__pyx_n_s_interaction);
   Py_VISIT(traverse_module_state->__pyx_n_s_is_coroutine);
   Py_VISIT(traverse_module_state->__pyx_n_s_itertools);
   Py_VISIT(traverse_module_state->__pyx_n_s_landscape);
   Py_VISIT(traverse_module_state->__pyx_n_s_main);
   Py_VISIT(traverse_module_state->__pyx_n_s_name);
   Py_VISIT(traverse_module_state->__pyx_n_s_nk);
+  Py_VISIT(traverse_module_state->__pyx_n_s_nk_test);
   Py_VISIT(traverse_module_state->__pyx_n_s_nodes);
   Py_VISIT(traverse_module_state->__pyx_n_s_np);
   Py_VISIT(traverse_module_state->__pyx_n_s_numpy);
@@ -3021,8 +3026,8 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
   Py_VISIT(traverse_module_state->__pyx_n_s_zeros);
   Py_VISIT(traverse_module_state->__pyx_int_0);
   Py_VISIT(traverse_module_state->__pyx_int_1);
-  Py_VISIT(traverse_module_state->__pyx_int_4);
-  Py_VISIT(traverse_module_state->__pyx_int_9);
+  Py_VISIT(traverse_module_state->__pyx_int_2);
+  Py_VISIT(traverse_module_state->__pyx_int_5);
   Py_VISIT(traverse_module_state->__pyx_tuple_);
   Py_VISIT(traverse_module_state->__pyx_tuple__2);
   Py_VISIT(traverse_module_state->__pyx_tuple__3);
@@ -3096,15 +3101,15 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
 #if CYTHON_USE_MODULE_STATE
 #endif
 #define __pyx_n_s_CythonMods __pyx_mstate_global->__pyx_n_s_CythonMods
-#define __pyx_n_s_CythonMods_NK_landscape __pyx_mstate_global->__pyx_n_s_CythonMods_NK_landscape
+#define __pyx_n_s_CythonMods_nk_test __pyx_mstate_global->__pyx_n_s_CythonMods_nk_test
 #define __pyx_n_s_ImportError __pyx_mstate_global->__pyx_n_s_ImportError
 #define __pyx_n_s_N __pyx_mstate_global->__pyx_n_s_N
-#define __pyx_n_s_NK_landscape __pyx_mstate_global->__pyx_n_s_NK_landscape
 #define __pyx_n_s_Neighbors __pyx_mstate_global->__pyx_n_s_Neighbors
 #define __pyx_n_s__10 __pyx_mstate_global->__pyx_n_s__10
 #define __pyx_n_s__6 __pyx_mstate_global->__pyx_n_s__6
 #define __pyx_n_s_adj_matrix __pyx_mstate_global->__pyx_n_s_adj_matrix
 #define __pyx_n_s_asyncio_coroutines __pyx_mstate_global->__pyx_n_s_asyncio_coroutines
+#define __pyx_n_s_calculate_performances __pyx_mstate_global->__pyx_n_s_calculate_performances
 #define __pyx_n_s_class_getitem __pyx_mstate_global->__pyx_n_s_class_getitem
 #define __pyx_n_s_cline_in_traceback __pyx_mstate_global->__pyx_n_s_cline_in_traceback
 #define __pyx_n_s_copy __pyx_mstate_global->__pyx_n_s_copy
@@ -3114,19 +3119,20 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
 #define __pyx_kp_s_failed_in_neighbor_count __pyx_mstate_global->__pyx_kp_s_failed_in_neighbor_count
 #define __pyx_n_s_fit_base __pyx_mstate_global->__pyx_n_s_fit_base
 #define __pyx_n_s_fit_score __pyx_mstate_global->__pyx_n_s_fit_score
-#define __pyx_n_s_get_fitness __pyx_mstate_global->__pyx_n_s_get_fitness
 #define __pyx_n_s_graph __pyx_mstate_global->__pyx_n_s_graph
 #define __pyx_kp_s_graph_pyx __pyx_mstate_global->__pyx_kp_s_graph_pyx
 #define __pyx_n_s_ig __pyx_mstate_global->__pyx_n_s_ig
 #define __pyx_n_s_igraph __pyx_mstate_global->__pyx_n_s_igraph
 #define __pyx_n_s_import __pyx_mstate_global->__pyx_n_s_import
 #define __pyx_n_s_initializing __pyx_mstate_global->__pyx_n_s_initializing
+#define __pyx_n_s_interaction __pyx_mstate_global->__pyx_n_s_interaction
 #define __pyx_n_s_is_coroutine __pyx_mstate_global->__pyx_n_s_is_coroutine
 #define __pyx_n_s_itertools __pyx_mstate_global->__pyx_n_s_itertools
 #define __pyx_n_s_landscape __pyx_mstate_global->__pyx_n_s_landscape
 #define __pyx_n_s_main __pyx_mstate_global->__pyx_n_s_main
 #define __pyx_n_s_name __pyx_mstate_global->__pyx_n_s_name
 #define __pyx_n_s_nk __pyx_mstate_global->__pyx_n_s_nk
+#define __pyx_n_s_nk_test __pyx_mstate_global->__pyx_n_s_nk_test
 #define __pyx_n_s_nodes __pyx_mstate_global->__pyx_n_s_nodes
 #define __pyx_n_s_np __pyx_mstate_global->__pyx_n_s_np
 #define __pyx_n_s_numpy __pyx_mstate_global->__pyx_n_s_numpy
@@ -3143,8 +3149,8 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
 #define __pyx_n_s_zeros __pyx_mstate_global->__pyx_n_s_zeros
 #define __pyx_int_0 __pyx_mstate_global->__pyx_int_0
 #define __pyx_int_1 __pyx_mstate_global->__pyx_int_1
-#define __pyx_int_4 __pyx_mstate_global->__pyx_int_4
-#define __pyx_int_9 __pyx_mstate_global->__pyx_int_9
+#define __pyx_int_2 __pyx_mstate_global->__pyx_int_2
+#define __pyx_int_5 __pyx_mstate_global->__pyx_int_5
 #define __pyx_tuple_ __pyx_mstate_global->__pyx_tuple_
 #define __pyx_tuple__2 __pyx_mstate_global->__pyx_tuple__2
 #define __pyx_tuple__3 __pyx_mstate_global->__pyx_tuple__3
@@ -4410,10 +4416,10 @@ static CYTHON_INLINE NPY_DATETIMEUNIT __pyx_f_5numpy_get_datetime64_unit(PyObjec
 }
 
 /* "graph.pyx":8
- * 
+ * import CythonMods.nk_test as nk
  * 
  * cpdef step(cnp.ndarray[int, ndim=2] adj_matrix,             # <<<<<<<<<<<<<<
- *     cnp.ndarray[int, ndim=2]  fit_base,
+ *     cnp.ndarray[char, ndim=2]  fit_base,
  *     cnp.ndarray[double, ndim=1] fit_score,
  */
 
@@ -4424,7 +4430,7 @@ PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 PyObject *__pyx_args, PyObject *__pyx_kwds
 #endif
 ); /*proto*/
-static PyObject *__pyx_f_5graph_step(PyArrayObject *__pyx_v_adj_matrix, PyArrayObject *__pyx_v_fit_base, PyArrayObject *__pyx_v_fit_score, int __pyx_v_nodes, PyObject *__pyx_v_N, PyObject *__pyx_v_landscape, PyObject *__pyx_v_Neighbors, CYTHON_UNUSED int __pyx_skip_dispatch) {
+static PyObject *__pyx_f_5graph_step(PyArrayObject *__pyx_v_adj_matrix, PyArrayObject *__pyx_v_fit_base, PyArrayObject *__pyx_v_fit_score, int __pyx_v_nodes, PyObject *__pyx_v_N, PyObject *__pyx_v_landscape, PyObject *__pyx_v_interaction, PyObject *__pyx_v_Neighbors, CYTHON_UNUSED int __pyx_skip_dispatch) {
   double __pyx_v_avg;
   int __pyx_v_neighbor_count;
   int __pyx_v_i;
@@ -4502,7 +4508,7 @@ static PyObject *__pyx_f_5graph_step(PyArrayObject *__pyx_v_adj_matrix, PyArrayO
   __pyx_pybuffernd_adj_matrix.diminfo[0].strides = __pyx_pybuffernd_adj_matrix.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_adj_matrix.diminfo[0].shape = __pyx_pybuffernd_adj_matrix.rcbuffer->pybuffer.shape[0]; __pyx_pybuffernd_adj_matrix.diminfo[1].strides = __pyx_pybuffernd_adj_matrix.rcbuffer->pybuffer.strides[1]; __pyx_pybuffernd_adj_matrix.diminfo[1].shape = __pyx_pybuffernd_adj_matrix.rcbuffer->pybuffer.shape[1];
   {
     __Pyx_BufFmt_StackElem __pyx_stack[1];
-    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_fit_base.rcbuffer->pybuffer, (PyObject*)__pyx_v_fit_base, &__Pyx_TypeInfo_int, PyBUF_FORMAT| PyBUF_STRIDES, 2, 0, __pyx_stack) == -1)) __PYX_ERR(0, 8, __pyx_L1_error)
+    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_fit_base.rcbuffer->pybuffer, (PyObject*)__pyx_v_fit_base, &__Pyx_TypeInfo_char, PyBUF_FORMAT| PyBUF_STRIDES, 2, 0, __pyx_stack) == -1)) __PYX_ERR(0, 8, __pyx_L1_error)
   }
   __pyx_pybuffernd_fit_base.diminfo[0].strides = __pyx_pybuffernd_fit_base.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_fit_base.diminfo[0].shape = __pyx_pybuffernd_fit_base.rcbuffer->pybuffer.shape[0]; __pyx_pybuffernd_fit_base.diminfo[1].strides = __pyx_pybuffernd_fit_base.rcbuffer->pybuffer.strides[1]; __pyx_pybuffernd_fit_base.diminfo[1].shape = __pyx_pybuffernd_fit_base.rcbuffer->pybuffer.shape[1];
   {
@@ -4511,117 +4517,117 @@ static PyObject *__pyx_f_5graph_step(PyArrayObject *__pyx_v_adj_matrix, PyArrayO
   }
   __pyx_pybuffernd_fit_score.diminfo[0].strides = __pyx_pybuffernd_fit_score.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_fit_score.diminfo[0].shape = __pyx_pybuffernd_fit_score.rcbuffer->pybuffer.shape[0];
 
-  /* "graph.pyx":21
- *     cdef int j
+  /* "graph.pyx":22
  *     cdef int choosen_neighbor
- *     cdef cnp.ndarray rand_seed_low=np.random.randint(4,9,size=nodes+2)             # <<<<<<<<<<<<<<
+ *     #cdef cnp.ndarray rand_seed_low=np.random.randint(4,9,size=nodes+2)
+ *     cdef cnp.ndarray rand_seed_low=np.random.randint(2,5,size=nodes+2)             # <<<<<<<<<<<<<<
+ * 
  *     #cdef cnp.ndarray rand_seed_high=np.random.randint(N//2,N,size=nodes+2)
- *     cdef cnp.ndarray rand_seed_index=np.random.randint(0,N-1,size=N*nodes)
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 21, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 22, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_random); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 21, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_random); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 22, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_randint); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 21, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_randint); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 22, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 21, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 22, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyInt_From_long((__pyx_v_nodes + 2)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 21, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyInt_From_long((__pyx_v_nodes + 2)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 22, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_size, __pyx_t_3) < 0) __PYX_ERR(0, 21, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_size, __pyx_t_3) < 0) __PYX_ERR(0, 22, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_tuple__3, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 21, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_tuple__3, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 22, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (!(likely(((__pyx_t_3) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_3, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 21, __pyx_L1_error)
+  if (!(likely(((__pyx_t_3) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_3, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 22, __pyx_L1_error)
   __pyx_v_rand_seed_low = ((PyArrayObject *)__pyx_t_3);
   __pyx_t_3 = 0;
 
-  /* "graph.pyx":23
- *     cdef cnp.ndarray rand_seed_low=np.random.randint(4,9,size=nodes+2)
+  /* "graph.pyx":25
+ * 
  *     #cdef cnp.ndarray rand_seed_high=np.random.randint(N//2,N,size=nodes+2)
  *     cdef cnp.ndarray rand_seed_index=np.random.randint(0,N-1,size=N*nodes)             # <<<<<<<<<<<<<<
  *     cdef cnp.ndarray rand_neighbor=np.random.randint(0,Neighbors,size=nodes+2)
  *     cdef int holder
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 23, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 25, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_random); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 23, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_random); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 25, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_randint); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 23, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_randint); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 25, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_PyInt_SubtractObjC(__pyx_v_N, __pyx_int_1, 1, 0, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 23, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyInt_SubtractObjC(__pyx_v_N, __pyx_int_1, 1, 0, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 25, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_1 = PyTuple_New(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 23, __pyx_L1_error)
+  __pyx_t_1 = PyTuple_New(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 25, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_INCREF(__pyx_int_0);
   __Pyx_GIVEREF(__pyx_int_0);
-  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_int_0)) __PYX_ERR(0, 23, __pyx_L1_error);
+  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_int_0)) __PYX_ERR(0, 25, __pyx_L1_error);
   __Pyx_GIVEREF(__pyx_t_2);
-  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_1, 1, __pyx_t_2)) __PYX_ERR(0, 23, __pyx_L1_error);
+  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_1, 1, __pyx_t_2)) __PYX_ERR(0, 25, __pyx_L1_error);
   __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 23, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 25, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_4 = __Pyx_PyInt_From_int(__pyx_v_nodes); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 23, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyInt_From_int(__pyx_v_nodes); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 25, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_5 = PyNumber_Multiply(__pyx_v_N, __pyx_t_4); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 23, __pyx_L1_error)
+  __pyx_t_5 = PyNumber_Multiply(__pyx_v_N, __pyx_t_4); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 25, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_size, __pyx_t_5) < 0) __PYX_ERR(0, 23, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_size, __pyx_t_5) < 0) __PYX_ERR(0, 25, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_1, __pyx_t_2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 23, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_1, __pyx_t_2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 25, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (!(likely(((__pyx_t_5) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_5, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 23, __pyx_L1_error)
+  if (!(likely(((__pyx_t_5) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_5, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 25, __pyx_L1_error)
   __pyx_v_rand_seed_index = ((PyArrayObject *)__pyx_t_5);
   __pyx_t_5 = 0;
 
-  /* "graph.pyx":24
+  /* "graph.pyx":26
  *     #cdef cnp.ndarray rand_seed_high=np.random.randint(N//2,N,size=nodes+2)
  *     cdef cnp.ndarray rand_seed_index=np.random.randint(0,N-1,size=N*nodes)
  *     cdef cnp.ndarray rand_neighbor=np.random.randint(0,Neighbors,size=nodes+2)             # <<<<<<<<<<<<<<
  *     cdef int holder
  *     cdef int rand_neighbor_index = 0
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_np); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 24, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_np); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 26, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_random); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 24, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_random); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 26, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_randint); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 24, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_randint); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 26, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 24, __pyx_L1_error)
+  __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 26, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_INCREF(__pyx_int_0);
   __Pyx_GIVEREF(__pyx_int_0);
-  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_int_0)) __PYX_ERR(0, 24, __pyx_L1_error);
+  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_int_0)) __PYX_ERR(0, 26, __pyx_L1_error);
   __Pyx_INCREF(__pyx_v_Neighbors);
   __Pyx_GIVEREF(__pyx_v_Neighbors);
-  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_v_Neighbors)) __PYX_ERR(0, 24, __pyx_L1_error);
-  __pyx_t_1 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 24, __pyx_L1_error)
+  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_v_Neighbors)) __PYX_ERR(0, 26, __pyx_L1_error);
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 26, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_3 = __Pyx_PyInt_From_long((__pyx_v_nodes + 2)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 24, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyInt_From_long((__pyx_v_nodes + 2)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 26, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_size, __pyx_t_3) < 0) __PYX_ERR(0, 24, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_size, __pyx_t_3) < 0) __PYX_ERR(0, 26, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_2, __pyx_t_1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 24, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_2, __pyx_t_1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 26, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  if (!(likely(((__pyx_t_3) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_3, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 24, __pyx_L1_error)
+  if (!(likely(((__pyx_t_3) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_3, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 26, __pyx_L1_error)
   __pyx_v_rand_neighbor = ((PyArrayObject *)__pyx_t_3);
   __pyx_t_3 = 0;
 
-  /* "graph.pyx":26
+  /* "graph.pyx":28
  *     cdef cnp.ndarray rand_neighbor=np.random.randint(0,Neighbors,size=nodes+2)
  *     cdef int holder
  *     cdef int rand_neighbor_index = 0             # <<<<<<<<<<<<<<
@@ -4630,7 +4636,7 @@ static PyObject *__pyx_f_5graph_step(PyArrayObject *__pyx_v_adj_matrix, PyArrayO
  */
   __pyx_v_rand_neighbor_index = 0;
 
-  /* "graph.pyx":27
+  /* "graph.pyx":29
  *     cdef int holder
  *     cdef int rand_neighbor_index = 0
  *     cdef int rand_index_counter = 0             # <<<<<<<<<<<<<<
@@ -4639,65 +4645,65 @@ static PyObject *__pyx_f_5graph_step(PyArrayObject *__pyx_v_adj_matrix, PyArrayO
  */
   __pyx_v_rand_index_counter = 0;
 
-  /* "graph.pyx":28
+  /* "graph.pyx":30
  *     cdef int rand_neighbor_index = 0
  *     cdef int rand_index_counter = 0
  *     cdef cnp.ndarray neighbors=np.zeros(Neighbors, dtype=int)             # <<<<<<<<<<<<<<
  *     cdef double temp
  *     cdef cnp.ndarray new_solution = np.zeros(N, dtype=int)
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 28, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 30, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_zeros); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 28, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_zeros); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 30, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 28, __pyx_L1_error)
+  __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 30, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_INCREF(__pyx_v_Neighbors);
   __Pyx_GIVEREF(__pyx_v_Neighbors);
-  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_v_Neighbors)) __PYX_ERR(0, 28, __pyx_L1_error);
-  __pyx_t_2 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 28, __pyx_L1_error)
+  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_v_Neighbors)) __PYX_ERR(0, 30, __pyx_L1_error);
+  __pyx_t_2 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 30, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_dtype, ((PyObject *)(&PyInt_Type))) < 0) __PYX_ERR(0, 28, __pyx_L1_error)
-  __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_3, __pyx_t_2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 28, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_dtype, ((PyObject *)(&PyInt_Type))) < 0) __PYX_ERR(0, 30, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_3, __pyx_t_2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 30, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (!(likely(((__pyx_t_5) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_5, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 28, __pyx_L1_error)
+  if (!(likely(((__pyx_t_5) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_5, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 30, __pyx_L1_error)
   __pyx_v_neighbors = ((PyArrayObject *)__pyx_t_5);
   __pyx_t_5 = 0;
 
-  /* "graph.pyx":30
+  /* "graph.pyx":32
  *     cdef cnp.ndarray neighbors=np.zeros(Neighbors, dtype=int)
  *     cdef double temp
  *     cdef cnp.ndarray new_solution = np.zeros(N, dtype=int)             # <<<<<<<<<<<<<<
  *     for i in range(0,nodes):
  *         #print('i=',i,'fit_base=',fit_base[i])
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_np); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 30, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_np); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 32, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_zeros); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 30, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_zeros); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 32, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __pyx_t_5 = PyTuple_New(1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 30, __pyx_L1_error)
+  __pyx_t_5 = PyTuple_New(1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 32, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_INCREF(__pyx_v_N);
   __Pyx_GIVEREF(__pyx_v_N);
-  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_v_N)) __PYX_ERR(0, 30, __pyx_L1_error);
-  __pyx_t_3 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 30, __pyx_L1_error)
+  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_v_N)) __PYX_ERR(0, 32, __pyx_L1_error);
+  __pyx_t_3 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 32, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_dtype, ((PyObject *)(&PyInt_Type))) < 0) __PYX_ERR(0, 30, __pyx_L1_error)
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_5, __pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 30, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_dtype, ((PyObject *)(&PyInt_Type))) < 0) __PYX_ERR(0, 32, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_5, __pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 32, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (!(likely(((__pyx_t_1) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_1, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 30, __pyx_L1_error)
+  if (!(likely(((__pyx_t_1) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_1, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 32, __pyx_L1_error)
   __pyx_v_new_solution = ((PyArrayObject *)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "graph.pyx":31
+  /* "graph.pyx":33
  *     cdef double temp
  *     cdef cnp.ndarray new_solution = np.zeros(N, dtype=int)
  *     for i in range(0,nodes):             # <<<<<<<<<<<<<<
@@ -4709,7 +4715,7 @@ static PyObject *__pyx_f_5graph_step(PyArrayObject *__pyx_v_adj_matrix, PyArrayO
   for (__pyx_t_8 = 0; __pyx_t_8 < __pyx_t_7; __pyx_t_8+=1) {
     __pyx_v_i = __pyx_t_8;
 
-    /* "graph.pyx":33
+    /* "graph.pyx":35
  *     for i in range(0,nodes):
  *         #print('i=',i,'fit_base=',fit_base[i])
  *         avg=0             # <<<<<<<<<<<<<<
@@ -4718,7 +4724,7 @@ static PyObject *__pyx_f_5graph_step(PyArrayObject *__pyx_v_adj_matrix, PyArrayO
  */
     __pyx_v_avg = 0.0;
 
-    /* "graph.pyx":34
+    /* "graph.pyx":36
  *         #print('i=',i,'fit_base=',fit_base[i])
  *         avg=0
  *         neighbor_count=0             # <<<<<<<<<<<<<<
@@ -4727,48 +4733,48 @@ static PyObject *__pyx_f_5graph_step(PyArrayObject *__pyx_v_adj_matrix, PyArrayO
  */
     __pyx_v_neighbor_count = 0;
 
-    /* "graph.pyx":35
+    /* "graph.pyx":37
  *         avg=0
  *         neighbor_count=0
  *         neighbors=np.zeros(Neighbors,dtype=int)             # <<<<<<<<<<<<<<
  *         new_solution=np.copy(fit_base[i])
  *         for j in range(0,nodes):
  */
-    __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 35, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 37, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_zeros); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 35, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_zeros); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 37, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __pyx_t_1 = PyTuple_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 35, __pyx_L1_error)
+    __pyx_t_1 = PyTuple_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 37, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_INCREF(__pyx_v_Neighbors);
     __Pyx_GIVEREF(__pyx_v_Neighbors);
-    if (__Pyx_PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_v_Neighbors)) __PYX_ERR(0, 35, __pyx_L1_error);
-    __pyx_t_5 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 35, __pyx_L1_error)
+    if (__Pyx_PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_v_Neighbors)) __PYX_ERR(0, 37, __pyx_L1_error);
+    __pyx_t_5 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 37, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_dtype, ((PyObject *)(&PyInt_Type))) < 0) __PYX_ERR(0, 35, __pyx_L1_error)
-    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_1, __pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 35, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_dtype, ((PyObject *)(&PyInt_Type))) < 0) __PYX_ERR(0, 37, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_1, __pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 37, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    if (!(likely(((__pyx_t_2) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_2, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 35, __pyx_L1_error)
+    if (!(likely(((__pyx_t_2) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_2, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 37, __pyx_L1_error)
     __Pyx_DECREF_SET(__pyx_v_neighbors, ((PyArrayObject *)__pyx_t_2));
     __pyx_t_2 = 0;
 
-    /* "graph.pyx":36
+    /* "graph.pyx":38
  *         neighbor_count=0
  *         neighbors=np.zeros(Neighbors,dtype=int)
  *         new_solution=np.copy(fit_base[i])             # <<<<<<<<<<<<<<
  *         for j in range(0,nodes):
  *             try:
  */
-    __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_np); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 36, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_np); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 38, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_copy); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 36, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_copy); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 38, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __pyx_t_5 = __Pyx_GetItemInt(((PyObject *)__pyx_v_fit_base), __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 36, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_GetItemInt(((PyObject *)__pyx_v_fit_base), __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 38, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __pyx_t_3 = NULL;
     __pyx_t_9 = 0;
@@ -4789,15 +4795,15 @@ static PyObject *__pyx_f_5graph_step(PyArrayObject *__pyx_v_adj_matrix, PyArrayO
       __pyx_t_2 = __Pyx_PyObject_FastCall(__pyx_t_1, __pyx_callargs+1-__pyx_t_9, 1+__pyx_t_9);
       __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-      if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 36, __pyx_L1_error)
+      if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 38, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     }
-    if (!(likely(((__pyx_t_2) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_2, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 36, __pyx_L1_error)
+    if (!(likely(((__pyx_t_2) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_2, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 38, __pyx_L1_error)
     __Pyx_DECREF_SET(__pyx_v_new_solution, ((PyArrayObject *)__pyx_t_2));
     __pyx_t_2 = 0;
 
-    /* "graph.pyx":37
+    /* "graph.pyx":39
  *         neighbors=np.zeros(Neighbors,dtype=int)
  *         new_solution=np.copy(fit_base[i])
  *         for j in range(0,nodes):             # <<<<<<<<<<<<<<
@@ -4809,7 +4815,7 @@ static PyObject *__pyx_f_5graph_step(PyArrayObject *__pyx_v_adj_matrix, PyArrayO
     for (__pyx_t_11 = 0; __pyx_t_11 < __pyx_t_10; __pyx_t_11+=1) {
       __pyx_v_j = __pyx_t_11;
 
-      /* "graph.pyx":38
+      /* "graph.pyx":40
  *         new_solution=np.copy(fit_base[i])
  *         for j in range(0,nodes):
  *             try:             # <<<<<<<<<<<<<<
@@ -4825,7 +4831,7 @@ static PyObject *__pyx_f_5graph_step(PyArrayObject *__pyx_v_adj_matrix, PyArrayO
         __Pyx_XGOTREF(__pyx_t_14);
         /*try:*/ {
 
-          /* "graph.pyx":39
+          /* "graph.pyx":41
  *         for j in range(0,nodes):
  *             try:
  *                 if adj_matrix[i,j] == 1:             # <<<<<<<<<<<<<<
@@ -4845,12 +4851,12 @@ static PyObject *__pyx_f_5graph_step(PyArrayObject *__pyx_v_adj_matrix, PyArrayO
           } else if (unlikely(__pyx_t_16 >= __pyx_pybuffernd_adj_matrix.diminfo[1].shape)) __pyx_t_17 = 1;
           if (unlikely(__pyx_t_17 != -1)) {
             __Pyx_RaiseBufferIndexError(__pyx_t_17);
-            __PYX_ERR(0, 39, __pyx_L7_error)
+            __PYX_ERR(0, 41, __pyx_L7_error)
           }
           __pyx_t_18 = ((*__Pyx_BufPtrStrided2d(int *, __pyx_pybuffernd_adj_matrix.rcbuffer->pybuffer.buf, __pyx_t_15, __pyx_pybuffernd_adj_matrix.diminfo[0].strides, __pyx_t_16, __pyx_pybuffernd_adj_matrix.diminfo[1].strides)) == 1);
           if (__pyx_t_18) {
 
-            /* "graph.pyx":41
+            /* "graph.pyx":43
  *                 if adj_matrix[i,j] == 1:
  * 
  *                     avg+=fit_score[j]             # <<<<<<<<<<<<<<
@@ -4865,11 +4871,11 @@ static PyObject *__pyx_f_5graph_step(PyArrayObject *__pyx_v_adj_matrix, PyArrayO
             } else if (unlikely(__pyx_t_16 >= __pyx_pybuffernd_fit_score.diminfo[0].shape)) __pyx_t_17 = 0;
             if (unlikely(__pyx_t_17 != -1)) {
               __Pyx_RaiseBufferIndexError(__pyx_t_17);
-              __PYX_ERR(0, 41, __pyx_L7_error)
+              __PYX_ERR(0, 43, __pyx_L7_error)
             }
             __pyx_v_avg = (__pyx_v_avg + (*__Pyx_BufPtrStrided1d(double *, __pyx_pybuffernd_fit_score.rcbuffer->pybuffer.buf, __pyx_t_16, __pyx_pybuffernd_fit_score.diminfo[0].strides)));
 
-            /* "graph.pyx":42
+            /* "graph.pyx":44
  * 
  *                     avg+=fit_score[j]
  *                     neighbor_count+=1             # <<<<<<<<<<<<<<
@@ -4878,20 +4884,20 @@ static PyObject *__pyx_f_5graph_step(PyArrayObject *__pyx_v_adj_matrix, PyArrayO
  */
             __pyx_v_neighbor_count = (__pyx_v_neighbor_count + 1);
 
-            /* "graph.pyx":43
+            /* "graph.pyx":45
  *                     avg+=fit_score[j]
  *                     neighbor_count+=1
  *                     neighbors[neighbor_count-1]=j             # <<<<<<<<<<<<<<
  *             except Exception as e:
  *                 print("failed in neighbor count")
  */
-            __pyx_t_2 = __Pyx_PyInt_From_int(__pyx_v_j); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 43, __pyx_L7_error)
+            __pyx_t_2 = __Pyx_PyInt_From_int(__pyx_v_j); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 45, __pyx_L7_error)
             __Pyx_GOTREF(__pyx_t_2);
             __pyx_t_19 = (__pyx_v_neighbor_count - 1);
-            if (unlikely((__Pyx_SetItemInt(((PyObject *)__pyx_v_neighbors), __pyx_t_19, __pyx_t_2, long, 1, __Pyx_PyInt_From_long, 0, 1, 1) < 0))) __PYX_ERR(0, 43, __pyx_L7_error)
+            if (unlikely((__Pyx_SetItemInt(((PyObject *)__pyx_v_neighbors), __pyx_t_19, __pyx_t_2, long, 1, __Pyx_PyInt_From_long, 0, 1, 1) < 0))) __PYX_ERR(0, 45, __pyx_L7_error)
             __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-            /* "graph.pyx":39
+            /* "graph.pyx":41
  *         for j in range(0,nodes):
  *             try:
  *                 if adj_matrix[i,j] == 1:             # <<<<<<<<<<<<<<
@@ -4900,7 +4906,7 @@ static PyObject *__pyx_f_5graph_step(PyArrayObject *__pyx_v_adj_matrix, PyArrayO
  */
           }
 
-          /* "graph.pyx":38
+          /* "graph.pyx":40
  *         new_solution=np.copy(fit_base[i])
  *         for j in range(0,nodes):
  *             try:             # <<<<<<<<<<<<<<
@@ -4919,7 +4925,7 @@ static PyObject *__pyx_f_5graph_step(PyArrayObject *__pyx_v_adj_matrix, PyArrayO
         __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
         __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-        /* "graph.pyx":44
+        /* "graph.pyx":46
  *                     neighbor_count+=1
  *                     neighbors[neighbor_count-1]=j
  *             except Exception as e:             # <<<<<<<<<<<<<<
@@ -4929,7 +4935,7 @@ static PyObject *__pyx_f_5graph_step(PyArrayObject *__pyx_v_adj_matrix, PyArrayO
         __pyx_t_17 = __Pyx_PyErr_ExceptionMatches(((PyObject *)(&((PyTypeObject*)PyExc_Exception)[0])));
         if (__pyx_t_17) {
           __Pyx_AddTraceback("graph.step", __pyx_clineno, __pyx_lineno, __pyx_filename);
-          if (__Pyx_GetException(&__pyx_t_2, &__pyx_t_1, &__pyx_t_5) < 0) __PYX_ERR(0, 44, __pyx_L9_except_error)
+          if (__Pyx_GetException(&__pyx_t_2, &__pyx_t_1, &__pyx_t_5) < 0) __PYX_ERR(0, 46, __pyx_L9_except_error)
           __Pyx_XGOTREF(__pyx_t_2);
           __Pyx_XGOTREF(__pyx_t_1);
           __Pyx_XGOTREF(__pyx_t_5);
@@ -4937,94 +4943,65 @@ static PyObject *__pyx_f_5graph_step(PyArrayObject *__pyx_v_adj_matrix, PyArrayO
           __pyx_v_e = __pyx_t_1;
           /*try:*/ {
 
-            /* "graph.pyx":45
+            /* "graph.pyx":47
  *                     neighbors[neighbor_count-1]=j
  *             except Exception as e:
  *                 print("failed in neighbor count")             # <<<<<<<<<<<<<<
  *                 print(e)
  *                 print(i,j,nodes)
  */
-            __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_tuple__4, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 45, __pyx_L21_error)
+            __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_tuple__4, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 47, __pyx_L21_error)
             __Pyx_GOTREF(__pyx_t_3);
             __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-            /* "graph.pyx":46
+            /* "graph.pyx":48
  *             except Exception as e:
  *                 print("failed in neighbor count")
  *                 print(e)             # <<<<<<<<<<<<<<
  *                 print(i,j,nodes)
  *                 print(len(neighbors))
  */
-            __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_builtin_print, __pyx_v_e); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 46, __pyx_L21_error)
+            __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_builtin_print, __pyx_v_e); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 48, __pyx_L21_error)
             __Pyx_GOTREF(__pyx_t_3);
             __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-            /* "graph.pyx":47
+            /* "graph.pyx":49
  *                 print("failed in neighbor count")
  *                 print(e)
  *                 print(i,j,nodes)             # <<<<<<<<<<<<<<
  *                 print(len(neighbors))
  *                 print(neighbor_count)
  */
-            __pyx_t_3 = __Pyx_PyInt_From_int(__pyx_v_i); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 47, __pyx_L21_error)
+            __pyx_t_3 = __Pyx_PyInt_From_int(__pyx_v_i); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 49, __pyx_L21_error)
             __Pyx_GOTREF(__pyx_t_3);
-            __pyx_t_4 = __Pyx_PyInt_From_int(__pyx_v_j); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 47, __pyx_L21_error)
+            __pyx_t_4 = __Pyx_PyInt_From_int(__pyx_v_j); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 49, __pyx_L21_error)
             __Pyx_GOTREF(__pyx_t_4);
-            __pyx_t_20 = __Pyx_PyInt_From_int(__pyx_v_nodes); if (unlikely(!__pyx_t_20)) __PYX_ERR(0, 47, __pyx_L21_error)
+            __pyx_t_20 = __Pyx_PyInt_From_int(__pyx_v_nodes); if (unlikely(!__pyx_t_20)) __PYX_ERR(0, 49, __pyx_L21_error)
             __Pyx_GOTREF(__pyx_t_20);
-            __pyx_t_21 = PyTuple_New(3); if (unlikely(!__pyx_t_21)) __PYX_ERR(0, 47, __pyx_L21_error)
+            __pyx_t_21 = PyTuple_New(3); if (unlikely(!__pyx_t_21)) __PYX_ERR(0, 49, __pyx_L21_error)
             __Pyx_GOTREF(__pyx_t_21);
             __Pyx_GIVEREF(__pyx_t_3);
-            if (__Pyx_PyTuple_SET_ITEM(__pyx_t_21, 0, __pyx_t_3)) __PYX_ERR(0, 47, __pyx_L21_error);
+            if (__Pyx_PyTuple_SET_ITEM(__pyx_t_21, 0, __pyx_t_3)) __PYX_ERR(0, 49, __pyx_L21_error);
             __Pyx_GIVEREF(__pyx_t_4);
-            if (__Pyx_PyTuple_SET_ITEM(__pyx_t_21, 1, __pyx_t_4)) __PYX_ERR(0, 47, __pyx_L21_error);
+            if (__Pyx_PyTuple_SET_ITEM(__pyx_t_21, 1, __pyx_t_4)) __PYX_ERR(0, 49, __pyx_L21_error);
             __Pyx_GIVEREF(__pyx_t_20);
-            if (__Pyx_PyTuple_SET_ITEM(__pyx_t_21, 2, __pyx_t_20)) __PYX_ERR(0, 47, __pyx_L21_error);
+            if (__Pyx_PyTuple_SET_ITEM(__pyx_t_21, 2, __pyx_t_20)) __PYX_ERR(0, 49, __pyx_L21_error);
             __pyx_t_3 = 0;
             __pyx_t_4 = 0;
             __pyx_t_20 = 0;
-            __pyx_t_20 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_t_21, NULL); if (unlikely(!__pyx_t_20)) __PYX_ERR(0, 47, __pyx_L21_error)
+            __pyx_t_20 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_t_21, NULL); if (unlikely(!__pyx_t_20)) __PYX_ERR(0, 49, __pyx_L21_error)
             __Pyx_GOTREF(__pyx_t_20);
             __Pyx_DECREF(__pyx_t_21); __pyx_t_21 = 0;
             __Pyx_DECREF(__pyx_t_20); __pyx_t_20 = 0;
 
-            /* "graph.pyx":48
+            /* "graph.pyx":50
  *                 print(e)
  *                 print(i,j,nodes)
  *                 print(len(neighbors))             # <<<<<<<<<<<<<<
  *                 print(neighbor_count)
  *                 print(len(fit_score))
  */
-            __pyx_t_22 = PyObject_Length(((PyObject *)__pyx_v_neighbors)); if (unlikely(__pyx_t_22 == ((Py_ssize_t)-1))) __PYX_ERR(0, 48, __pyx_L21_error)
-            __pyx_t_20 = PyInt_FromSsize_t(__pyx_t_22); if (unlikely(!__pyx_t_20)) __PYX_ERR(0, 48, __pyx_L21_error)
-            __Pyx_GOTREF(__pyx_t_20);
-            __pyx_t_21 = __Pyx_PyObject_CallOneArg(__pyx_builtin_print, __pyx_t_20); if (unlikely(!__pyx_t_21)) __PYX_ERR(0, 48, __pyx_L21_error)
-            __Pyx_GOTREF(__pyx_t_21);
-            __Pyx_DECREF(__pyx_t_20); __pyx_t_20 = 0;
-            __Pyx_DECREF(__pyx_t_21); __pyx_t_21 = 0;
-
-            /* "graph.pyx":49
- *                 print(i,j,nodes)
- *                 print(len(neighbors))
- *                 print(neighbor_count)             # <<<<<<<<<<<<<<
- *                 print(len(fit_score))
- * 
- */
-            __pyx_t_21 = __Pyx_PyInt_From_int(__pyx_v_neighbor_count); if (unlikely(!__pyx_t_21)) __PYX_ERR(0, 49, __pyx_L21_error)
-            __Pyx_GOTREF(__pyx_t_21);
-            __pyx_t_20 = __Pyx_PyObject_CallOneArg(__pyx_builtin_print, __pyx_t_21); if (unlikely(!__pyx_t_20)) __PYX_ERR(0, 49, __pyx_L21_error)
-            __Pyx_GOTREF(__pyx_t_20);
-            __Pyx_DECREF(__pyx_t_21); __pyx_t_21 = 0;
-            __Pyx_DECREF(__pyx_t_20); __pyx_t_20 = 0;
-
-            /* "graph.pyx":50
- *                 print(len(neighbors))
- *                 print(neighbor_count)
- *                 print(len(fit_score))             # <<<<<<<<<<<<<<
- * 
- *                 exit()
- */
-            __pyx_t_22 = PyObject_Length(((PyObject *)__pyx_v_fit_score)); if (unlikely(__pyx_t_22 == ((Py_ssize_t)-1))) __PYX_ERR(0, 50, __pyx_L21_error)
+            __pyx_t_22 = PyObject_Length(((PyObject *)__pyx_v_neighbors)); if (unlikely(__pyx_t_22 == ((Py_ssize_t)-1))) __PYX_ERR(0, 50, __pyx_L21_error)
             __pyx_t_20 = PyInt_FromSsize_t(__pyx_t_22); if (unlikely(!__pyx_t_20)) __PYX_ERR(0, 50, __pyx_L21_error)
             __Pyx_GOTREF(__pyx_t_20);
             __pyx_t_21 = __Pyx_PyObject_CallOneArg(__pyx_builtin_print, __pyx_t_20); if (unlikely(!__pyx_t_21)) __PYX_ERR(0, 50, __pyx_L21_error)
@@ -5032,19 +5009,48 @@ static PyObject *__pyx_f_5graph_step(PyArrayObject *__pyx_v_adj_matrix, PyArrayO
             __Pyx_DECREF(__pyx_t_20); __pyx_t_20 = 0;
             __Pyx_DECREF(__pyx_t_21); __pyx_t_21 = 0;
 
+            /* "graph.pyx":51
+ *                 print(i,j,nodes)
+ *                 print(len(neighbors))
+ *                 print(neighbor_count)             # <<<<<<<<<<<<<<
+ *                 print(len(fit_score))
+ * 
+ */
+            __pyx_t_21 = __Pyx_PyInt_From_int(__pyx_v_neighbor_count); if (unlikely(!__pyx_t_21)) __PYX_ERR(0, 51, __pyx_L21_error)
+            __Pyx_GOTREF(__pyx_t_21);
+            __pyx_t_20 = __Pyx_PyObject_CallOneArg(__pyx_builtin_print, __pyx_t_21); if (unlikely(!__pyx_t_20)) __PYX_ERR(0, 51, __pyx_L21_error)
+            __Pyx_GOTREF(__pyx_t_20);
+            __Pyx_DECREF(__pyx_t_21); __pyx_t_21 = 0;
+            __Pyx_DECREF(__pyx_t_20); __pyx_t_20 = 0;
+
             /* "graph.pyx":52
+ *                 print(len(neighbors))
+ *                 print(neighbor_count)
+ *                 print(len(fit_score))             # <<<<<<<<<<<<<<
+ * 
+ *                 exit()
+ */
+            __pyx_t_22 = PyObject_Length(((PyObject *)__pyx_v_fit_score)); if (unlikely(__pyx_t_22 == ((Py_ssize_t)-1))) __PYX_ERR(0, 52, __pyx_L21_error)
+            __pyx_t_20 = PyInt_FromSsize_t(__pyx_t_22); if (unlikely(!__pyx_t_20)) __PYX_ERR(0, 52, __pyx_L21_error)
+            __Pyx_GOTREF(__pyx_t_20);
+            __pyx_t_21 = __Pyx_PyObject_CallOneArg(__pyx_builtin_print, __pyx_t_20); if (unlikely(!__pyx_t_21)) __PYX_ERR(0, 52, __pyx_L21_error)
+            __Pyx_GOTREF(__pyx_t_21);
+            __Pyx_DECREF(__pyx_t_20); __pyx_t_20 = 0;
+            __Pyx_DECREF(__pyx_t_21); __pyx_t_21 = 0;
+
+            /* "graph.pyx":54
  *                 print(len(fit_score))
  * 
  *                 exit()             # <<<<<<<<<<<<<<
  * 
  *         if neighbor_count>0:
  */
-            __pyx_t_21 = __Pyx_PyObject_CallNoArg(__pyx_builtin_exit); if (unlikely(!__pyx_t_21)) __PYX_ERR(0, 52, __pyx_L21_error)
+            __pyx_t_21 = __Pyx_PyObject_CallNoArg(__pyx_builtin_exit); if (unlikely(!__pyx_t_21)) __PYX_ERR(0, 54, __pyx_L21_error)
             __Pyx_GOTREF(__pyx_t_21);
             __Pyx_DECREF(__pyx_t_21); __pyx_t_21 = 0;
           }
 
-          /* "graph.pyx":44
+          /* "graph.pyx":46
  *                     neighbor_count+=1
  *                     neighbors[neighbor_count-1]=j
  *             except Exception as e:             # <<<<<<<<<<<<<<
@@ -5100,7 +5106,7 @@ static PyObject *__pyx_f_5graph_step(PyArrayObject *__pyx_v_adj_matrix, PyArrayO
         }
         goto __pyx_L9_except_error;
 
-        /* "graph.pyx":38
+        /* "graph.pyx":40
  *         new_solution=np.copy(fit_base[i])
  *         for j in range(0,nodes):
  *             try:             # <<<<<<<<<<<<<<
@@ -5122,7 +5128,7 @@ static PyObject *__pyx_f_5graph_step(PyArrayObject *__pyx_v_adj_matrix, PyArrayO
       }
     }
 
-    /* "graph.pyx":54
+    /* "graph.pyx":56
  *                 exit()
  * 
  *         if neighbor_count>0:             # <<<<<<<<<<<<<<
@@ -5132,20 +5138,20 @@ static PyObject *__pyx_f_5graph_step(PyArrayObject *__pyx_v_adj_matrix, PyArrayO
     __pyx_t_18 = (__pyx_v_neighbor_count > 0);
     if (__pyx_t_18) {
 
-      /* "graph.pyx":61
+      /* "graph.pyx":63
  * 
  *             #choose index between 0 and neighbor_count-1
  *             choosen_neighbor=rand_neighbor[rand_neighbor_index]             # <<<<<<<<<<<<<<
  *             rand_neighbor_index+=1
  *             while choosen_neighbor>neighbor_count-1:
  */
-      __pyx_t_5 = __Pyx_GetItemInt(((PyObject *)__pyx_v_rand_neighbor), __pyx_v_rand_neighbor_index, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 61, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_GetItemInt(((PyObject *)__pyx_v_rand_neighbor), __pyx_v_rand_neighbor_index, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 63, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
-      __pyx_t_9 = __Pyx_PyInt_As_int(__pyx_t_5); if (unlikely((__pyx_t_9 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 61, __pyx_L1_error)
+      __pyx_t_9 = __Pyx_PyInt_As_int(__pyx_t_5); if (unlikely((__pyx_t_9 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 63, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       __pyx_v_choosen_neighbor = __pyx_t_9;
 
-      /* "graph.pyx":62
+      /* "graph.pyx":64
  *             #choose index between 0 and neighbor_count-1
  *             choosen_neighbor=rand_neighbor[rand_neighbor_index]
  *             rand_neighbor_index+=1             # <<<<<<<<<<<<<<
@@ -5154,7 +5160,7 @@ static PyObject *__pyx_f_5graph_step(PyArrayObject *__pyx_v_adj_matrix, PyArrayO
  */
       __pyx_v_rand_neighbor_index = (__pyx_v_rand_neighbor_index + 1);
 
-      /* "graph.pyx":63
+      /* "graph.pyx":65
  *             choosen_neighbor=rand_neighbor[rand_neighbor_index]
  *             rand_neighbor_index+=1
  *             while choosen_neighbor>neighbor_count-1:             # <<<<<<<<<<<<<<
@@ -5165,7 +5171,7 @@ static PyObject *__pyx_f_5graph_step(PyArrayObject *__pyx_v_adj_matrix, PyArrayO
         __pyx_t_18 = (__pyx_v_choosen_neighbor > (__pyx_v_neighbor_count - 1));
         if (!__pyx_t_18) break;
 
-        /* "graph.pyx":64
+        /* "graph.pyx":66
  *             rand_neighbor_index+=1
  *             while choosen_neighbor>neighbor_count-1:
  *                 choosen_neighbor=choosen_neighbor-neighbor_count             # <<<<<<<<<<<<<<
@@ -5175,20 +5181,20 @@ static PyObject *__pyx_f_5graph_step(PyArrayObject *__pyx_v_adj_matrix, PyArrayO
         __pyx_v_choosen_neighbor = (__pyx_v_choosen_neighbor - __pyx_v_neighbor_count);
       }
 
-      /* "graph.pyx":67
+      /* "graph.pyx":69
  * 
  *             #look at random neighbor
  *             holder=neighbors[choosen_neighbor]             # <<<<<<<<<<<<<<
  *             avg=fit_score[holder]
  *             if avg>fit_score[i]:
  */
-      __pyx_t_5 = __Pyx_GetItemInt(((PyObject *)__pyx_v_neighbors), __pyx_v_choosen_neighbor, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 67, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_GetItemInt(((PyObject *)__pyx_v_neighbors), __pyx_v_choosen_neighbor, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 69, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
-      __pyx_t_9 = __Pyx_PyInt_As_int(__pyx_t_5); if (unlikely((__pyx_t_9 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 67, __pyx_L1_error)
+      __pyx_t_9 = __Pyx_PyInt_As_int(__pyx_t_5); if (unlikely((__pyx_t_9 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 69, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       __pyx_v_holder = __pyx_t_9;
 
-      /* "graph.pyx":68
+      /* "graph.pyx":70
  *             #look at random neighbor
  *             holder=neighbors[choosen_neighbor]
  *             avg=fit_score[holder]             # <<<<<<<<<<<<<<
@@ -5203,11 +5209,11 @@ static PyObject *__pyx_f_5graph_step(PyArrayObject *__pyx_v_adj_matrix, PyArrayO
       } else if (unlikely(__pyx_t_16 >= __pyx_pybuffernd_fit_score.diminfo[0].shape)) __pyx_t_9 = 0;
       if (unlikely(__pyx_t_9 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_9);
-        __PYX_ERR(0, 68, __pyx_L1_error)
+        __PYX_ERR(0, 70, __pyx_L1_error)
       }
       __pyx_v_avg = (*__Pyx_BufPtrStrided1d(double *, __pyx_pybuffernd_fit_score.rcbuffer->pybuffer.buf, __pyx_t_16, __pyx_pybuffernd_fit_score.diminfo[0].strides));
 
-      /* "graph.pyx":69
+      /* "graph.pyx":71
  *             holder=neighbors[choosen_neighbor]
  *             avg=fit_score[holder]
  *             if avg>fit_score[i]:             # <<<<<<<<<<<<<<
@@ -5222,21 +5228,21 @@ static PyObject *__pyx_f_5graph_step(PyArrayObject *__pyx_v_adj_matrix, PyArrayO
       } else if (unlikely(__pyx_t_16 >= __pyx_pybuffernd_fit_score.diminfo[0].shape)) __pyx_t_9 = 0;
       if (unlikely(__pyx_t_9 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_9);
-        __PYX_ERR(0, 69, __pyx_L1_error)
+        __PYX_ERR(0, 71, __pyx_L1_error)
       }
       __pyx_t_18 = (__pyx_v_avg > (*__Pyx_BufPtrStrided1d(double *, __pyx_pybuffernd_fit_score.rcbuffer->pybuffer.buf, __pyx_t_16, __pyx_pybuffernd_fit_score.diminfo[0].strides)));
       if (__pyx_t_18) {
 
-        /* "graph.pyx":72
+        /* "graph.pyx":74
  *                 # below avg
  * 
  *                 for k in range(rand_seed_low[i]):             # <<<<<<<<<<<<<<
  *                     #copy from holder to i for some number of chars
  *                     new_solution[rand_seed_index[rand_index_counter]]=fit_base[holder,rand_seed_index[rand_index_counter]]
  */
-        __pyx_t_5 = __Pyx_GetItemInt(((PyObject *)__pyx_v_rand_seed_low), __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 72, __pyx_L1_error)
+        __pyx_t_5 = __Pyx_GetItemInt(((PyObject *)__pyx_v_rand_seed_low), __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 74, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_5);
-        __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_builtin_range, __pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 72, __pyx_L1_error)
+        __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_builtin_range, __pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 74, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
         __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
         if (likely(PyList_CheckExact(__pyx_t_1)) || PyTuple_CheckExact(__pyx_t_1)) {
@@ -5244,9 +5250,9 @@ static PyObject *__pyx_f_5graph_step(PyArrayObject *__pyx_v_adj_matrix, PyArrayO
           __pyx_t_22 = 0;
           __pyx_t_31 = NULL;
         } else {
-          __pyx_t_22 = -1; __pyx_t_5 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 72, __pyx_L1_error)
+          __pyx_t_22 = -1; __pyx_t_5 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 74, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_5);
-          __pyx_t_31 = __Pyx_PyObject_GetIterNextFunc(__pyx_t_5); if (unlikely(!__pyx_t_31)) __PYX_ERR(0, 72, __pyx_L1_error)
+          __pyx_t_31 = __Pyx_PyObject_GetIterNextFunc(__pyx_t_5); if (unlikely(!__pyx_t_31)) __PYX_ERR(0, 74, __pyx_L1_error)
         }
         __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
         for (;;) {
@@ -5255,28 +5261,28 @@ static PyObject *__pyx_f_5graph_step(PyArrayObject *__pyx_v_adj_matrix, PyArrayO
               {
                 Py_ssize_t __pyx_temp = __Pyx_PyList_GET_SIZE(__pyx_t_5);
                 #if !CYTHON_ASSUME_SAFE_MACROS
-                if (unlikely((__pyx_temp < 0))) __PYX_ERR(0, 72, __pyx_L1_error)
+                if (unlikely((__pyx_temp < 0))) __PYX_ERR(0, 74, __pyx_L1_error)
                 #endif
                 if (__pyx_t_22 >= __pyx_temp) break;
               }
               #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-              __pyx_t_1 = PyList_GET_ITEM(__pyx_t_5, __pyx_t_22); __Pyx_INCREF(__pyx_t_1); __pyx_t_22++; if (unlikely((0 < 0))) __PYX_ERR(0, 72, __pyx_L1_error)
+              __pyx_t_1 = PyList_GET_ITEM(__pyx_t_5, __pyx_t_22); __Pyx_INCREF(__pyx_t_1); __pyx_t_22++; if (unlikely((0 < 0))) __PYX_ERR(0, 74, __pyx_L1_error)
               #else
-              __pyx_t_1 = __Pyx_PySequence_ITEM(__pyx_t_5, __pyx_t_22); __pyx_t_22++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 72, __pyx_L1_error)
+              __pyx_t_1 = __Pyx_PySequence_ITEM(__pyx_t_5, __pyx_t_22); __pyx_t_22++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 74, __pyx_L1_error)
               __Pyx_GOTREF(__pyx_t_1);
               #endif
             } else {
               {
                 Py_ssize_t __pyx_temp = __Pyx_PyTuple_GET_SIZE(__pyx_t_5);
                 #if !CYTHON_ASSUME_SAFE_MACROS
-                if (unlikely((__pyx_temp < 0))) __PYX_ERR(0, 72, __pyx_L1_error)
+                if (unlikely((__pyx_temp < 0))) __PYX_ERR(0, 74, __pyx_L1_error)
                 #endif
                 if (__pyx_t_22 >= __pyx_temp) break;
               }
               #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-              __pyx_t_1 = PyTuple_GET_ITEM(__pyx_t_5, __pyx_t_22); __Pyx_INCREF(__pyx_t_1); __pyx_t_22++; if (unlikely((0 < 0))) __PYX_ERR(0, 72, __pyx_L1_error)
+              __pyx_t_1 = PyTuple_GET_ITEM(__pyx_t_5, __pyx_t_22); __Pyx_INCREF(__pyx_t_1); __pyx_t_22++; if (unlikely((0 < 0))) __PYX_ERR(0, 74, __pyx_L1_error)
               #else
-              __pyx_t_1 = __Pyx_PySequence_ITEM(__pyx_t_5, __pyx_t_22); __pyx_t_22++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 72, __pyx_L1_error)
+              __pyx_t_1 = __Pyx_PySequence_ITEM(__pyx_t_5, __pyx_t_22); __pyx_t_22++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 74, __pyx_L1_error)
               __Pyx_GOTREF(__pyx_t_1);
               #endif
             }
@@ -5286,7 +5292,7 @@ static PyObject *__pyx_f_5graph_step(PyArrayObject *__pyx_v_adj_matrix, PyArrayO
               PyObject* exc_type = PyErr_Occurred();
               if (exc_type) {
                 if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-                else __PYX_ERR(0, 72, __pyx_L1_error)
+                else __PYX_ERR(0, 74, __pyx_L1_error)
               }
               break;
             }
@@ -5295,35 +5301,35 @@ static PyObject *__pyx_f_5graph_step(PyArrayObject *__pyx_v_adj_matrix, PyArrayO
           __Pyx_XDECREF_SET(__pyx_v_k, __pyx_t_1);
           __pyx_t_1 = 0;
 
-          /* "graph.pyx":74
+          /* "graph.pyx":76
  *                 for k in range(rand_seed_low[i]):
  *                     #copy from holder to i for some number of chars
  *                     new_solution[rand_seed_index[rand_index_counter]]=fit_base[holder,rand_seed_index[rand_index_counter]]             # <<<<<<<<<<<<<<
  *                     rand_index_counter+=1
  * 
  */
-          __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_holder); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 74, __pyx_L1_error)
+          __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_holder); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 76, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_1);
-          __pyx_t_2 = __Pyx_GetItemInt(((PyObject *)__pyx_v_rand_seed_index), __pyx_v_rand_index_counter, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 74, __pyx_L1_error)
+          __pyx_t_2 = __Pyx_GetItemInt(((PyObject *)__pyx_v_rand_seed_index), __pyx_v_rand_index_counter, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 76, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_2);
-          __pyx_t_21 = PyTuple_New(2); if (unlikely(!__pyx_t_21)) __PYX_ERR(0, 74, __pyx_L1_error)
+          __pyx_t_21 = PyTuple_New(2); if (unlikely(!__pyx_t_21)) __PYX_ERR(0, 76, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_21);
           __Pyx_GIVEREF(__pyx_t_1);
-          if (__Pyx_PyTuple_SET_ITEM(__pyx_t_21, 0, __pyx_t_1)) __PYX_ERR(0, 74, __pyx_L1_error);
+          if (__Pyx_PyTuple_SET_ITEM(__pyx_t_21, 0, __pyx_t_1)) __PYX_ERR(0, 76, __pyx_L1_error);
           __Pyx_GIVEREF(__pyx_t_2);
-          if (__Pyx_PyTuple_SET_ITEM(__pyx_t_21, 1, __pyx_t_2)) __PYX_ERR(0, 74, __pyx_L1_error);
+          if (__Pyx_PyTuple_SET_ITEM(__pyx_t_21, 1, __pyx_t_2)) __PYX_ERR(0, 76, __pyx_L1_error);
           __pyx_t_1 = 0;
           __pyx_t_2 = 0;
-          __pyx_t_2 = __Pyx_PyObject_GetItem(((PyObject *)__pyx_v_fit_base), __pyx_t_21); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 74, __pyx_L1_error)
+          __pyx_t_2 = __Pyx_PyObject_GetItem(((PyObject *)__pyx_v_fit_base), __pyx_t_21); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 76, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_2);
           __Pyx_DECREF(__pyx_t_21); __pyx_t_21 = 0;
-          __pyx_t_21 = __Pyx_GetItemInt(((PyObject *)__pyx_v_rand_seed_index), __pyx_v_rand_index_counter, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_21)) __PYX_ERR(0, 74, __pyx_L1_error)
+          __pyx_t_21 = __Pyx_GetItemInt(((PyObject *)__pyx_v_rand_seed_index), __pyx_v_rand_index_counter, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_21)) __PYX_ERR(0, 76, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_21);
-          if (unlikely((PyObject_SetItem(((PyObject *)__pyx_v_new_solution), __pyx_t_21, __pyx_t_2) < 0))) __PYX_ERR(0, 74, __pyx_L1_error)
+          if (unlikely((PyObject_SetItem(((PyObject *)__pyx_v_new_solution), __pyx_t_21, __pyx_t_2) < 0))) __PYX_ERR(0, 76, __pyx_L1_error)
           __Pyx_DECREF(__pyx_t_21); __pyx_t_21 = 0;
           __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-          /* "graph.pyx":75
+          /* "graph.pyx":77
  *                     #copy from holder to i for some number of chars
  *                     new_solution[rand_seed_index[rand_index_counter]]=fit_base[holder,rand_seed_index[rand_index_counter]]
  *                     rand_index_counter+=1             # <<<<<<<<<<<<<<
@@ -5332,7 +5338,7 @@ static PyObject *__pyx_f_5graph_step(PyArrayObject *__pyx_v_adj_matrix, PyArrayO
  */
           __pyx_v_rand_index_counter = (__pyx_v_rand_index_counter + 1);
 
-          /* "graph.pyx":72
+          /* "graph.pyx":74
  *                 # below avg
  * 
  *                 for k in range(rand_seed_low[i]):             # <<<<<<<<<<<<<<
@@ -5342,12 +5348,12 @@ static PyObject *__pyx_f_5graph_step(PyArrayObject *__pyx_v_adj_matrix, PyArrayO
         }
         __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-        /* "graph.pyx":77
+        /* "graph.pyx":79
  *                     rand_index_counter+=1
  * 
  *                 try:             # <<<<<<<<<<<<<<
- *                     if landscape.get_fitness(new_solution)>fit_score[i]:
- * 
+ *                     if nk.calculate_performances(new_solution, interaction, landscape, N)>fit_score[i]:
+ *                         #print("below",landscape.get_fitness(new_solution),fit_score[i])
  */
         {
           __Pyx_PyThreadState_declare
@@ -5358,36 +5364,39 @@ static PyObject *__pyx_f_5graph_step(PyArrayObject *__pyx_v_adj_matrix, PyArrayO
           __Pyx_XGOTREF(__pyx_t_12);
           /*try:*/ {
 
-            /* "graph.pyx":78
+            /* "graph.pyx":80
  * 
  *                 try:
- *                     if landscape.get_fitness(new_solution)>fit_score[i]:             # <<<<<<<<<<<<<<
- * 
+ *                     if nk.calculate_performances(new_solution, interaction, landscape, N)>fit_score[i]:             # <<<<<<<<<<<<<<
  *                         #print("below",landscape.get_fitness(new_solution),fit_score[i])
+ *                         fit_base[i]=new_solution
  */
-            __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_landscape, __pyx_n_s_get_fitness); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 78, __pyx_L34_error)
+            __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_nk); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 80, __pyx_L34_error)
             __Pyx_GOTREF(__pyx_t_2);
-            __pyx_t_21 = NULL;
+            __pyx_t_21 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_calculate_performances); if (unlikely(!__pyx_t_21)) __PYX_ERR(0, 80, __pyx_L34_error)
+            __Pyx_GOTREF(__pyx_t_21);
+            __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+            __pyx_t_2 = NULL;
             __pyx_t_9 = 0;
             #if CYTHON_UNPACK_METHODS
-            if (likely(PyMethod_Check(__pyx_t_2))) {
-              __pyx_t_21 = PyMethod_GET_SELF(__pyx_t_2);
-              if (likely(__pyx_t_21)) {
-                PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_2);
-                __Pyx_INCREF(__pyx_t_21);
+            if (unlikely(PyMethod_Check(__pyx_t_21))) {
+              __pyx_t_2 = PyMethod_GET_SELF(__pyx_t_21);
+              if (likely(__pyx_t_2)) {
+                PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_21);
+                __Pyx_INCREF(__pyx_t_2);
                 __Pyx_INCREF(function);
-                __Pyx_DECREF_SET(__pyx_t_2, function);
+                __Pyx_DECREF_SET(__pyx_t_21, function);
                 __pyx_t_9 = 1;
               }
             }
             #endif
             {
-              PyObject *__pyx_callargs[2] = {__pyx_t_21, ((PyObject *)__pyx_v_new_solution)};
-              __pyx_t_5 = __Pyx_PyObject_FastCall(__pyx_t_2, __pyx_callargs+1-__pyx_t_9, 1+__pyx_t_9);
-              __Pyx_XDECREF(__pyx_t_21); __pyx_t_21 = 0;
-              if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 78, __pyx_L34_error)
+              PyObject *__pyx_callargs[5] = {__pyx_t_2, ((PyObject *)__pyx_v_new_solution), __pyx_v_interaction, __pyx_v_landscape, __pyx_v_N};
+              __pyx_t_5 = __Pyx_PyObject_FastCall(__pyx_t_21, __pyx_callargs+1-__pyx_t_9, 4+__pyx_t_9);
+              __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
+              if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 80, __pyx_L34_error)
               __Pyx_GOTREF(__pyx_t_5);
-              __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+              __Pyx_DECREF(__pyx_t_21); __pyx_t_21 = 0;
             }
             __pyx_t_16 = __pyx_v_i;
             __pyx_t_9 = -1;
@@ -5397,37 +5406,37 @@ static PyObject *__pyx_f_5graph_step(PyArrayObject *__pyx_v_adj_matrix, PyArrayO
             } else if (unlikely(__pyx_t_16 >= __pyx_pybuffernd_fit_score.diminfo[0].shape)) __pyx_t_9 = 0;
             if (unlikely(__pyx_t_9 != -1)) {
               __Pyx_RaiseBufferIndexError(__pyx_t_9);
-              __PYX_ERR(0, 78, __pyx_L34_error)
+              __PYX_ERR(0, 80, __pyx_L34_error)
             }
-            __pyx_t_2 = PyFloat_FromDouble((*__Pyx_BufPtrStrided1d(double *, __pyx_pybuffernd_fit_score.rcbuffer->pybuffer.buf, __pyx_t_16, __pyx_pybuffernd_fit_score.diminfo[0].strides))); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 78, __pyx_L34_error)
-            __Pyx_GOTREF(__pyx_t_2);
-            __pyx_t_21 = PyObject_RichCompare(__pyx_t_5, __pyx_t_2, Py_GT); __Pyx_XGOTREF(__pyx_t_21); if (unlikely(!__pyx_t_21)) __PYX_ERR(0, 78, __pyx_L34_error)
+            __pyx_t_21 = PyFloat_FromDouble((*__Pyx_BufPtrStrided1d(double *, __pyx_pybuffernd_fit_score.rcbuffer->pybuffer.buf, __pyx_t_16, __pyx_pybuffernd_fit_score.diminfo[0].strides))); if (unlikely(!__pyx_t_21)) __PYX_ERR(0, 80, __pyx_L34_error)
+            __Pyx_GOTREF(__pyx_t_21);
+            __pyx_t_2 = PyObject_RichCompare(__pyx_t_5, __pyx_t_21, Py_GT); __Pyx_XGOTREF(__pyx_t_2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 80, __pyx_L34_error)
             __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-            __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-            __pyx_t_18 = __Pyx_PyObject_IsTrue(__pyx_t_21); if (unlikely((__pyx_t_18 < 0))) __PYX_ERR(0, 78, __pyx_L34_error)
             __Pyx_DECREF(__pyx_t_21); __pyx_t_21 = 0;
+            __pyx_t_18 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely((__pyx_t_18 < 0))) __PYX_ERR(0, 80, __pyx_L34_error)
+            __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
             if (__pyx_t_18) {
 
-              /* "graph.pyx":81
- * 
+              /* "graph.pyx":82
+ *                     if nk.calculate_performances(new_solution, interaction, landscape, N)>fit_score[i]:
  *                         #print("below",landscape.get_fitness(new_solution),fit_score[i])
  *                         fit_base[i]=new_solution             # <<<<<<<<<<<<<<
  * 
  *                     else:
  */
-              if (unlikely((__Pyx_SetItemInt(((PyObject *)__pyx_v_fit_base), __pyx_v_i, ((PyObject *)__pyx_v_new_solution), int, 1, __Pyx_PyInt_From_int, 0, 1, 1) < 0))) __PYX_ERR(0, 81, __pyx_L34_error)
+              if (unlikely((__Pyx_SetItemInt(((PyObject *)__pyx_v_fit_base), __pyx_v_i, ((PyObject *)__pyx_v_new_solution), int, 1, __Pyx_PyInt_From_int, 0, 1, 1) < 0))) __PYX_ERR(0, 82, __pyx_L34_error)
 
-              /* "graph.pyx":78
+              /* "graph.pyx":80
  * 
  *                 try:
- *                     if landscape.get_fitness(new_solution)>fit_score[i]:             # <<<<<<<<<<<<<<
- * 
+ *                     if nk.calculate_performances(new_solution, interaction, landscape, N)>fit_score[i]:             # <<<<<<<<<<<<<<
  *                         #print("below",landscape.get_fitness(new_solution),fit_score[i])
+ *                         fit_base[i]=new_solution
  */
               goto __pyx_L42;
             }
 
-            /* "graph.pyx":85
+            /* "graph.pyx":86
  *                     else:
  *                         #try self learning
  *                         new_solution=np.copy(fit_base[i])             # <<<<<<<<<<<<<<
@@ -5435,13 +5444,13 @@ static PyObject *__pyx_f_5graph_step(PyArrayObject *__pyx_v_adj_matrix, PyArrayO
  *                         rand_index_counter+=1
  */
             /*else*/ {
-              __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 85, __pyx_L34_error)
-              __Pyx_GOTREF(__pyx_t_2);
-              __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_copy); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 85, __pyx_L34_error)
+              __Pyx_GetModuleGlobalName(__pyx_t_21, __pyx_n_s_np); if (unlikely(!__pyx_t_21)) __PYX_ERR(0, 86, __pyx_L34_error)
+              __Pyx_GOTREF(__pyx_t_21);
+              __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_21, __pyx_n_s_copy); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 86, __pyx_L34_error)
               __Pyx_GOTREF(__pyx_t_5);
-              __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-              __pyx_t_2 = __Pyx_GetItemInt(((PyObject *)__pyx_v_fit_base), __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 85, __pyx_L34_error)
-              __Pyx_GOTREF(__pyx_t_2);
+              __Pyx_DECREF(__pyx_t_21); __pyx_t_21 = 0;
+              __pyx_t_21 = __Pyx_GetItemInt(((PyObject *)__pyx_v_fit_base), __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_21)) __PYX_ERR(0, 86, __pyx_L34_error)
+              __Pyx_GOTREF(__pyx_t_21);
               __pyx_t_1 = NULL;
               __pyx_t_9 = 0;
               #if CYTHON_UNPACK_METHODS
@@ -5457,78 +5466,81 @@ static PyObject *__pyx_f_5graph_step(PyArrayObject *__pyx_v_adj_matrix, PyArrayO
               }
               #endif
               {
-                PyObject *__pyx_callargs[2] = {__pyx_t_1, __pyx_t_2};
-                __pyx_t_21 = __Pyx_PyObject_FastCall(__pyx_t_5, __pyx_callargs+1-__pyx_t_9, 1+__pyx_t_9);
+                PyObject *__pyx_callargs[2] = {__pyx_t_1, __pyx_t_21};
+                __pyx_t_2 = __Pyx_PyObject_FastCall(__pyx_t_5, __pyx_callargs+1-__pyx_t_9, 1+__pyx_t_9);
                 __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
-                __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-                if (unlikely(!__pyx_t_21)) __PYX_ERR(0, 85, __pyx_L34_error)
-                __Pyx_GOTREF(__pyx_t_21);
+                __Pyx_DECREF(__pyx_t_21); __pyx_t_21 = 0;
+                if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 86, __pyx_L34_error)
+                __Pyx_GOTREF(__pyx_t_2);
                 __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
               }
-              if (!(likely(((__pyx_t_21) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_21, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 85, __pyx_L34_error)
-              __Pyx_DECREF_SET(__pyx_v_new_solution, ((PyArrayObject *)__pyx_t_21));
-              __pyx_t_21 = 0;
+              if (!(likely(((__pyx_t_2) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_2, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 86, __pyx_L34_error)
+              __Pyx_DECREF_SET(__pyx_v_new_solution, ((PyArrayObject *)__pyx_t_2));
+              __pyx_t_2 = 0;
 
-              /* "graph.pyx":86
+              /* "graph.pyx":87
  *                         #try self learning
  *                         new_solution=np.copy(fit_base[i])
  *                         new_solution[rand_seed_index[rand_index_counter]]=1-new_solution[rand_seed_index[rand_index_counter]]             # <<<<<<<<<<<<<<
  *                         rand_index_counter+=1
- *                         if landscape.get_fitness(new_solution)>fit_score[i]:
+ *                         if nk.calculate_performances(new_solution, interaction, landscape, N)>fit_score[i]:
  */
-              __pyx_t_21 = __Pyx_GetItemInt(((PyObject *)__pyx_v_rand_seed_index), __pyx_v_rand_index_counter, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_21)) __PYX_ERR(0, 86, __pyx_L34_error)
-              __Pyx_GOTREF(__pyx_t_21);
-              __pyx_t_5 = __Pyx_PyObject_GetItem(((PyObject *)__pyx_v_new_solution), __pyx_t_21); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 86, __pyx_L34_error)
+              __pyx_t_2 = __Pyx_GetItemInt(((PyObject *)__pyx_v_rand_seed_index), __pyx_v_rand_index_counter, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 87, __pyx_L34_error)
+              __Pyx_GOTREF(__pyx_t_2);
+              __pyx_t_5 = __Pyx_PyObject_GetItem(((PyObject *)__pyx_v_new_solution), __pyx_t_2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 87, __pyx_L34_error)
               __Pyx_GOTREF(__pyx_t_5);
-              __Pyx_DECREF(__pyx_t_21); __pyx_t_21 = 0;
-              __pyx_t_21 = __Pyx_PyInt_SubtractCObj(__pyx_int_1, __pyx_t_5, 1, 0, 0); if (unlikely(!__pyx_t_21)) __PYX_ERR(0, 86, __pyx_L34_error)
-              __Pyx_GOTREF(__pyx_t_21);
+              __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+              __pyx_t_2 = __Pyx_PyInt_SubtractCObj(__pyx_int_1, __pyx_t_5, 1, 0, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 87, __pyx_L34_error)
+              __Pyx_GOTREF(__pyx_t_2);
               __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-              __pyx_t_5 = __Pyx_GetItemInt(((PyObject *)__pyx_v_rand_seed_index), __pyx_v_rand_index_counter, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 86, __pyx_L34_error)
+              __pyx_t_5 = __Pyx_GetItemInt(((PyObject *)__pyx_v_rand_seed_index), __pyx_v_rand_index_counter, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 87, __pyx_L34_error)
               __Pyx_GOTREF(__pyx_t_5);
-              if (unlikely((PyObject_SetItem(((PyObject *)__pyx_v_new_solution), __pyx_t_5, __pyx_t_21) < 0))) __PYX_ERR(0, 86, __pyx_L34_error)
+              if (unlikely((PyObject_SetItem(((PyObject *)__pyx_v_new_solution), __pyx_t_5, __pyx_t_2) < 0))) __PYX_ERR(0, 87, __pyx_L34_error)
               __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-              __Pyx_DECREF(__pyx_t_21); __pyx_t_21 = 0;
+              __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-              /* "graph.pyx":87
+              /* "graph.pyx":88
  *                         new_solution=np.copy(fit_base[i])
  *                         new_solution[rand_seed_index[rand_index_counter]]=1-new_solution[rand_seed_index[rand_index_counter]]
  *                         rand_index_counter+=1             # <<<<<<<<<<<<<<
- *                         if landscape.get_fitness(new_solution)>fit_score[i]:
+ *                         if nk.calculate_performances(new_solution, interaction, landscape, N)>fit_score[i]:
  * 
  */
               __pyx_v_rand_index_counter = (__pyx_v_rand_index_counter + 1);
 
-              /* "graph.pyx":88
+              /* "graph.pyx":89
  *                         new_solution[rand_seed_index[rand_index_counter]]=1-new_solution[rand_seed_index[rand_index_counter]]
  *                         rand_index_counter+=1
- *                         if landscape.get_fitness(new_solution)>fit_score[i]:             # <<<<<<<<<<<<<<
+ *                         if nk.calculate_performances(new_solution, interaction, landscape, N)>fit_score[i]:             # <<<<<<<<<<<<<<
  * 
  *                             #print("below_self",landscape.get_fitness(new_solution),fit_score[i])
  */
-              __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_landscape, __pyx_n_s_get_fitness); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 88, __pyx_L34_error)
+              __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_nk); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 89, __pyx_L34_error)
               __Pyx_GOTREF(__pyx_t_5);
-              __pyx_t_2 = NULL;
+              __pyx_t_21 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_calculate_performances); if (unlikely(!__pyx_t_21)) __PYX_ERR(0, 89, __pyx_L34_error)
+              __Pyx_GOTREF(__pyx_t_21);
+              __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+              __pyx_t_5 = NULL;
               __pyx_t_9 = 0;
               #if CYTHON_UNPACK_METHODS
-              if (likely(PyMethod_Check(__pyx_t_5))) {
-                __pyx_t_2 = PyMethod_GET_SELF(__pyx_t_5);
-                if (likely(__pyx_t_2)) {
-                  PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_5);
-                  __Pyx_INCREF(__pyx_t_2);
+              if (unlikely(PyMethod_Check(__pyx_t_21))) {
+                __pyx_t_5 = PyMethod_GET_SELF(__pyx_t_21);
+                if (likely(__pyx_t_5)) {
+                  PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_21);
+                  __Pyx_INCREF(__pyx_t_5);
                   __Pyx_INCREF(function);
-                  __Pyx_DECREF_SET(__pyx_t_5, function);
+                  __Pyx_DECREF_SET(__pyx_t_21, function);
                   __pyx_t_9 = 1;
                 }
               }
               #endif
               {
-                PyObject *__pyx_callargs[2] = {__pyx_t_2, ((PyObject *)__pyx_v_new_solution)};
-                __pyx_t_21 = __Pyx_PyObject_FastCall(__pyx_t_5, __pyx_callargs+1-__pyx_t_9, 1+__pyx_t_9);
-                __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
-                if (unlikely(!__pyx_t_21)) __PYX_ERR(0, 88, __pyx_L34_error)
-                __Pyx_GOTREF(__pyx_t_21);
-                __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+                PyObject *__pyx_callargs[5] = {__pyx_t_5, ((PyObject *)__pyx_v_new_solution), __pyx_v_interaction, __pyx_v_landscape, __pyx_v_N};
+                __pyx_t_2 = __Pyx_PyObject_FastCall(__pyx_t_21, __pyx_callargs+1-__pyx_t_9, 4+__pyx_t_9);
+                __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
+                if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 89, __pyx_L34_error)
+                __Pyx_GOTREF(__pyx_t_2);
+                __Pyx_DECREF(__pyx_t_21); __pyx_t_21 = 0;
               }
               __pyx_t_16 = __pyx_v_i;
               __pyx_t_9 = -1;
@@ -5538,37 +5550,37 @@ static PyObject *__pyx_f_5graph_step(PyArrayObject *__pyx_v_adj_matrix, PyArrayO
               } else if (unlikely(__pyx_t_16 >= __pyx_pybuffernd_fit_score.diminfo[0].shape)) __pyx_t_9 = 0;
               if (unlikely(__pyx_t_9 != -1)) {
                 __Pyx_RaiseBufferIndexError(__pyx_t_9);
-                __PYX_ERR(0, 88, __pyx_L34_error)
+                __PYX_ERR(0, 89, __pyx_L34_error)
               }
-              __pyx_t_5 = PyFloat_FromDouble((*__Pyx_BufPtrStrided1d(double *, __pyx_pybuffernd_fit_score.rcbuffer->pybuffer.buf, __pyx_t_16, __pyx_pybuffernd_fit_score.diminfo[0].strides))); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 88, __pyx_L34_error)
-              __Pyx_GOTREF(__pyx_t_5);
-              __pyx_t_2 = PyObject_RichCompare(__pyx_t_21, __pyx_t_5, Py_GT); __Pyx_XGOTREF(__pyx_t_2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 88, __pyx_L34_error)
-              __Pyx_DECREF(__pyx_t_21); __pyx_t_21 = 0;
-              __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-              __pyx_t_18 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely((__pyx_t_18 < 0))) __PYX_ERR(0, 88, __pyx_L34_error)
+              __pyx_t_21 = PyFloat_FromDouble((*__Pyx_BufPtrStrided1d(double *, __pyx_pybuffernd_fit_score.rcbuffer->pybuffer.buf, __pyx_t_16, __pyx_pybuffernd_fit_score.diminfo[0].strides))); if (unlikely(!__pyx_t_21)) __PYX_ERR(0, 89, __pyx_L34_error)
+              __Pyx_GOTREF(__pyx_t_21);
+              __pyx_t_5 = PyObject_RichCompare(__pyx_t_2, __pyx_t_21, Py_GT); __Pyx_XGOTREF(__pyx_t_5); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 89, __pyx_L34_error)
               __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+              __Pyx_DECREF(__pyx_t_21); __pyx_t_21 = 0;
+              __pyx_t_18 = __Pyx_PyObject_IsTrue(__pyx_t_5); if (unlikely((__pyx_t_18 < 0))) __PYX_ERR(0, 89, __pyx_L34_error)
+              __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
               if (__pyx_t_18) {
 
-                /* "graph.pyx":91
+                /* "graph.pyx":92
  * 
  *                             #print("below_self",landscape.get_fitness(new_solution),fit_score[i])
  *                             fit_base[i]=new_solution             # <<<<<<<<<<<<<<
  *                         else:
  *                             #print("below_self_fail",landscape.get_fitness(new_solution),fit_score[i])
  */
-                if (unlikely((__Pyx_SetItemInt(((PyObject *)__pyx_v_fit_base), __pyx_v_i, ((PyObject *)__pyx_v_new_solution), int, 1, __Pyx_PyInt_From_int, 0, 1, 1) < 0))) __PYX_ERR(0, 91, __pyx_L34_error)
+                if (unlikely((__Pyx_SetItemInt(((PyObject *)__pyx_v_fit_base), __pyx_v_i, ((PyObject *)__pyx_v_new_solution), int, 1, __Pyx_PyInt_From_int, 0, 1, 1) < 0))) __PYX_ERR(0, 92, __pyx_L34_error)
 
-                /* "graph.pyx":88
+                /* "graph.pyx":89
  *                         new_solution[rand_seed_index[rand_index_counter]]=1-new_solution[rand_seed_index[rand_index_counter]]
  *                         rand_index_counter+=1
- *                         if landscape.get_fitness(new_solution)>fit_score[i]:             # <<<<<<<<<<<<<<
+ *                         if nk.calculate_performances(new_solution, interaction, landscape, N)>fit_score[i]:             # <<<<<<<<<<<<<<
  * 
  *                             #print("below_self",landscape.get_fitness(new_solution),fit_score[i])
  */
                 goto __pyx_L43;
               }
 
-              /* "graph.pyx":94
+              /* "graph.pyx":95
  *                         else:
  *                             #print("below_self_fail",landscape.get_fitness(new_solution),fit_score[i])
  *                             pass             # <<<<<<<<<<<<<<
@@ -5581,12 +5593,12 @@ static PyObject *__pyx_f_5graph_step(PyArrayObject *__pyx_v_adj_matrix, PyArrayO
             }
             __pyx_L42:;
 
-            /* "graph.pyx":77
+            /* "graph.pyx":79
  *                     rand_index_counter+=1
  * 
  *                 try:             # <<<<<<<<<<<<<<
- *                     if landscape.get_fitness(new_solution)>fit_score[i]:
- * 
+ *                     if nk.calculate_performances(new_solution, interaction, landscape, N)>fit_score[i]:
+ *                         #print("below",landscape.get_fitness(new_solution),fit_score[i])
  */
           }
           __Pyx_XDECREF(__pyx_t_14); __pyx_t_14 = 0;
@@ -5602,7 +5614,7 @@ static PyObject *__pyx_f_5graph_step(PyArrayObject *__pyx_v_adj_matrix, PyArrayO
           __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
           __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-          /* "graph.pyx":95
+          /* "graph.pyx":96
  *                             #print("below_self_fail",landscape.get_fitness(new_solution),fit_score[i])
  *                             pass
  *                 except:             # <<<<<<<<<<<<<<
@@ -5611,90 +5623,90 @@ static PyObject *__pyx_f_5graph_step(PyArrayObject *__pyx_v_adj_matrix, PyArrayO
  */
           /*except:*/ {
             __Pyx_AddTraceback("graph.step", __pyx_clineno, __pyx_lineno, __pyx_filename);
-            if (__Pyx_GetException(&__pyx_t_2, &__pyx_t_5, &__pyx_t_21) < 0) __PYX_ERR(0, 95, __pyx_L36_except_error)
-            __Pyx_XGOTREF(__pyx_t_2);
+            if (__Pyx_GetException(&__pyx_t_5, &__pyx_t_21, &__pyx_t_2) < 0) __PYX_ERR(0, 96, __pyx_L36_except_error)
             __Pyx_XGOTREF(__pyx_t_5);
             __Pyx_XGOTREF(__pyx_t_21);
+            __Pyx_XGOTREF(__pyx_t_2);
 
-            /* "graph.pyx":96
+            /* "graph.pyx":97
  *                             pass
  *                 except:
  *                     print("failed")             # <<<<<<<<<<<<<<
  *                     print(new_solution)
  *                     print(i,nodes)
  */
-            __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_tuple__5, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 96, __pyx_L36_except_error)
+            __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_tuple__5, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 97, __pyx_L36_except_error)
             __Pyx_GOTREF(__pyx_t_1);
             __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-            /* "graph.pyx":97
+            /* "graph.pyx":98
  *                 except:
  *                     print("failed")
  *                     print(new_solution)             # <<<<<<<<<<<<<<
  *                     print(i,nodes)
  *                     print(fit_score)
  */
-            __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_builtin_print, ((PyObject *)__pyx_v_new_solution)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 97, __pyx_L36_except_error)
+            __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_builtin_print, ((PyObject *)__pyx_v_new_solution)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 98, __pyx_L36_except_error)
             __Pyx_GOTREF(__pyx_t_1);
             __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-            /* "graph.pyx":98
+            /* "graph.pyx":99
  *                     print("failed")
  *                     print(new_solution)
  *                     print(i,nodes)             # <<<<<<<<<<<<<<
  *                     print(fit_score)
  *                     exit()
  */
-            __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_i); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 98, __pyx_L36_except_error)
+            __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_i); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 99, __pyx_L36_except_error)
             __Pyx_GOTREF(__pyx_t_1);
-            __pyx_t_20 = __Pyx_PyInt_From_int(__pyx_v_nodes); if (unlikely(!__pyx_t_20)) __PYX_ERR(0, 98, __pyx_L36_except_error)
+            __pyx_t_20 = __Pyx_PyInt_From_int(__pyx_v_nodes); if (unlikely(!__pyx_t_20)) __PYX_ERR(0, 99, __pyx_L36_except_error)
             __Pyx_GOTREF(__pyx_t_20);
-            __pyx_t_4 = PyTuple_New(2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 98, __pyx_L36_except_error)
+            __pyx_t_4 = PyTuple_New(2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 99, __pyx_L36_except_error)
             __Pyx_GOTREF(__pyx_t_4);
             __Pyx_GIVEREF(__pyx_t_1);
-            if (__Pyx_PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_1)) __PYX_ERR(0, 98, __pyx_L36_except_error);
+            if (__Pyx_PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_1)) __PYX_ERR(0, 99, __pyx_L36_except_error);
             __Pyx_GIVEREF(__pyx_t_20);
-            if (__Pyx_PyTuple_SET_ITEM(__pyx_t_4, 1, __pyx_t_20)) __PYX_ERR(0, 98, __pyx_L36_except_error);
+            if (__Pyx_PyTuple_SET_ITEM(__pyx_t_4, 1, __pyx_t_20)) __PYX_ERR(0, 99, __pyx_L36_except_error);
             __pyx_t_1 = 0;
             __pyx_t_20 = 0;
-            __pyx_t_20 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_t_4, NULL); if (unlikely(!__pyx_t_20)) __PYX_ERR(0, 98, __pyx_L36_except_error)
+            __pyx_t_20 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_t_4, NULL); if (unlikely(!__pyx_t_20)) __PYX_ERR(0, 99, __pyx_L36_except_error)
             __Pyx_GOTREF(__pyx_t_20);
             __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
             __Pyx_DECREF(__pyx_t_20); __pyx_t_20 = 0;
 
-            /* "graph.pyx":99
+            /* "graph.pyx":100
  *                     print(new_solution)
  *                     print(i,nodes)
  *                     print(fit_score)             # <<<<<<<<<<<<<<
  *                     exit()
  * 
  */
-            __pyx_t_20 = __Pyx_PyObject_CallOneArg(__pyx_builtin_print, ((PyObject *)__pyx_v_fit_score)); if (unlikely(!__pyx_t_20)) __PYX_ERR(0, 99, __pyx_L36_except_error)
+            __pyx_t_20 = __Pyx_PyObject_CallOneArg(__pyx_builtin_print, ((PyObject *)__pyx_v_fit_score)); if (unlikely(!__pyx_t_20)) __PYX_ERR(0, 100, __pyx_L36_except_error)
             __Pyx_GOTREF(__pyx_t_20);
             __Pyx_DECREF(__pyx_t_20); __pyx_t_20 = 0;
 
-            /* "graph.pyx":100
+            /* "graph.pyx":101
  *                     print(i,nodes)
  *                     print(fit_score)
  *                     exit()             # <<<<<<<<<<<<<<
  * 
  * 
  */
-            __pyx_t_20 = __Pyx_PyObject_CallNoArg(__pyx_builtin_exit); if (unlikely(!__pyx_t_20)) __PYX_ERR(0, 100, __pyx_L36_except_error)
+            __pyx_t_20 = __Pyx_PyObject_CallNoArg(__pyx_builtin_exit); if (unlikely(!__pyx_t_20)) __PYX_ERR(0, 101, __pyx_L36_except_error)
             __Pyx_GOTREF(__pyx_t_20);
             __Pyx_DECREF(__pyx_t_20); __pyx_t_20 = 0;
-            __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
             __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
             __Pyx_XDECREF(__pyx_t_21); __pyx_t_21 = 0;
+            __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
             goto __pyx_L35_exception_handled;
           }
 
-          /* "graph.pyx":77
+          /* "graph.pyx":79
  *                     rand_index_counter+=1
  * 
  *                 try:             # <<<<<<<<<<<<<<
- *                     if landscape.get_fitness(new_solution)>fit_score[i]:
- * 
+ *                     if nk.calculate_performances(new_solution, interaction, landscape, N)>fit_score[i]:
+ *                         #print("below",landscape.get_fitness(new_solution),fit_score[i])
  */
           __pyx_L36_except_error:;
           __Pyx_XGIVEREF(__pyx_t_14);
@@ -5710,7 +5722,7 @@ static PyObject *__pyx_f_5graph_step(PyArrayObject *__pyx_v_adj_matrix, PyArrayO
           __pyx_L41_try_end:;
         }
 
-        /* "graph.pyx":69
+        /* "graph.pyx":71
  *             holder=neighbors[choosen_neighbor]
  *             avg=fit_score[holder]
  *             if avg>fit_score[i]:             # <<<<<<<<<<<<<<
@@ -5720,54 +5732,57 @@ static PyObject *__pyx_f_5graph_step(PyArrayObject *__pyx_v_adj_matrix, PyArrayO
         goto __pyx_L30;
       }
 
-      /* "graph.pyx":105
+      /* "graph.pyx":106
  *             else:
  *                 #if better than average, try to flip one bit
  *                 new_solution[rand_seed_index[rand_index_counter]]=1-new_solution[rand_seed_index[rand_index_counter]]             # <<<<<<<<<<<<<<
  *                 rand_index_counter+=1
- *                 if landscape.get_fitness(new_solution)>fit_score[i]:
+ *                 if nk.calculate_performances(new_solution, interaction, landscape, N)>fit_score[i]:
  */
       /*else*/ {
-        __pyx_t_21 = __Pyx_GetItemInt(((PyObject *)__pyx_v_rand_seed_index), __pyx_v_rand_index_counter, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_21)) __PYX_ERR(0, 105, __pyx_L1_error)
+        __pyx_t_2 = __Pyx_GetItemInt(((PyObject *)__pyx_v_rand_seed_index), __pyx_v_rand_index_counter, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 106, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_2);
+        __pyx_t_21 = __Pyx_PyObject_GetItem(((PyObject *)__pyx_v_new_solution), __pyx_t_2); if (unlikely(!__pyx_t_21)) __PYX_ERR(0, 106, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_21);
-        __pyx_t_5 = __Pyx_PyObject_GetItem(((PyObject *)__pyx_v_new_solution), __pyx_t_21); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 105, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_5);
+        __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+        __pyx_t_2 = __Pyx_PyInt_SubtractCObj(__pyx_int_1, __pyx_t_21, 1, 0, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 106, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_2);
         __Pyx_DECREF(__pyx_t_21); __pyx_t_21 = 0;
-        __pyx_t_21 = __Pyx_PyInt_SubtractCObj(__pyx_int_1, __pyx_t_5, 1, 0, 0); if (unlikely(!__pyx_t_21)) __PYX_ERR(0, 105, __pyx_L1_error)
+        __pyx_t_21 = __Pyx_GetItemInt(((PyObject *)__pyx_v_rand_seed_index), __pyx_v_rand_index_counter, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_21)) __PYX_ERR(0, 106, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_21);
-        __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-        __pyx_t_5 = __Pyx_GetItemInt(((PyObject *)__pyx_v_rand_seed_index), __pyx_v_rand_index_counter, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 105, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_5);
-        if (unlikely((PyObject_SetItem(((PyObject *)__pyx_v_new_solution), __pyx_t_5, __pyx_t_21) < 0))) __PYX_ERR(0, 105, __pyx_L1_error)
-        __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+        if (unlikely((PyObject_SetItem(((PyObject *)__pyx_v_new_solution), __pyx_t_21, __pyx_t_2) < 0))) __PYX_ERR(0, 106, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_21); __pyx_t_21 = 0;
+        __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-        /* "graph.pyx":106
+        /* "graph.pyx":107
  *                 #if better than average, try to flip one bit
  *                 new_solution[rand_seed_index[rand_index_counter]]=1-new_solution[rand_seed_index[rand_index_counter]]
  *                 rand_index_counter+=1             # <<<<<<<<<<<<<<
- *                 if landscape.get_fitness(new_solution)>fit_score[i]:
+ *                 if nk.calculate_performances(new_solution, interaction, landscape, N)>fit_score[i]:
  * 
  */
         __pyx_v_rand_index_counter = (__pyx_v_rand_index_counter + 1);
 
-        /* "graph.pyx":107
+        /* "graph.pyx":108
  *                 new_solution[rand_seed_index[rand_index_counter]]=1-new_solution[rand_seed_index[rand_index_counter]]
  *                 rand_index_counter+=1
- *                 if landscape.get_fitness(new_solution)>fit_score[i]:             # <<<<<<<<<<<<<<
+ *                 if nk.calculate_performances(new_solution, interaction, landscape, N)>fit_score[i]:             # <<<<<<<<<<<<<<
  * 
  *                     #print("above_self",landscape.get_fitness(new_solution),fit_score[i])
  */
-        __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_landscape, __pyx_n_s_get_fitness); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 107, __pyx_L1_error)
+        __Pyx_GetModuleGlobalName(__pyx_t_21, __pyx_n_s_nk); if (unlikely(!__pyx_t_21)) __PYX_ERR(0, 108, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_21);
+        __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_21, __pyx_n_s_calculate_performances); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 108, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_5);
-        __pyx_t_2 = NULL;
+        __Pyx_DECREF(__pyx_t_21); __pyx_t_21 = 0;
+        __pyx_t_21 = NULL;
         __pyx_t_9 = 0;
         #if CYTHON_UNPACK_METHODS
-        if (likely(PyMethod_Check(__pyx_t_5))) {
-          __pyx_t_2 = PyMethod_GET_SELF(__pyx_t_5);
-          if (likely(__pyx_t_2)) {
+        if (unlikely(PyMethod_Check(__pyx_t_5))) {
+          __pyx_t_21 = PyMethod_GET_SELF(__pyx_t_5);
+          if (likely(__pyx_t_21)) {
             PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_5);
-            __Pyx_INCREF(__pyx_t_2);
+            __Pyx_INCREF(__pyx_t_21);
             __Pyx_INCREF(function);
             __Pyx_DECREF_SET(__pyx_t_5, function);
             __pyx_t_9 = 1;
@@ -5775,11 +5790,11 @@ static PyObject *__pyx_f_5graph_step(PyArrayObject *__pyx_v_adj_matrix, PyArrayO
         }
         #endif
         {
-          PyObject *__pyx_callargs[2] = {__pyx_t_2, ((PyObject *)__pyx_v_new_solution)};
-          __pyx_t_21 = __Pyx_PyObject_FastCall(__pyx_t_5, __pyx_callargs+1-__pyx_t_9, 1+__pyx_t_9);
-          __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
-          if (unlikely(!__pyx_t_21)) __PYX_ERR(0, 107, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_21);
+          PyObject *__pyx_callargs[5] = {__pyx_t_21, ((PyObject *)__pyx_v_new_solution), __pyx_v_interaction, __pyx_v_landscape, __pyx_v_N};
+          __pyx_t_2 = __Pyx_PyObject_FastCall(__pyx_t_5, __pyx_callargs+1-__pyx_t_9, 4+__pyx_t_9);
+          __Pyx_XDECREF(__pyx_t_21); __pyx_t_21 = 0;
+          if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 108, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_2);
           __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
         }
         __pyx_t_16 = __pyx_v_i;
@@ -5790,37 +5805,37 @@ static PyObject *__pyx_f_5graph_step(PyArrayObject *__pyx_v_adj_matrix, PyArrayO
         } else if (unlikely(__pyx_t_16 >= __pyx_pybuffernd_fit_score.diminfo[0].shape)) __pyx_t_9 = 0;
         if (unlikely(__pyx_t_9 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_9);
-          __PYX_ERR(0, 107, __pyx_L1_error)
+          __PYX_ERR(0, 108, __pyx_L1_error)
         }
-        __pyx_t_5 = PyFloat_FromDouble((*__Pyx_BufPtrStrided1d(double *, __pyx_pybuffernd_fit_score.rcbuffer->pybuffer.buf, __pyx_t_16, __pyx_pybuffernd_fit_score.diminfo[0].strides))); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 107, __pyx_L1_error)
+        __pyx_t_5 = PyFloat_FromDouble((*__Pyx_BufPtrStrided1d(double *, __pyx_pybuffernd_fit_score.rcbuffer->pybuffer.buf, __pyx_t_16, __pyx_pybuffernd_fit_score.diminfo[0].strides))); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 108, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_5);
-        __pyx_t_2 = PyObject_RichCompare(__pyx_t_21, __pyx_t_5, Py_GT); __Pyx_XGOTREF(__pyx_t_2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 107, __pyx_L1_error)
-        __Pyx_DECREF(__pyx_t_21); __pyx_t_21 = 0;
-        __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-        __pyx_t_18 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely((__pyx_t_18 < 0))) __PYX_ERR(0, 107, __pyx_L1_error)
+        __pyx_t_21 = PyObject_RichCompare(__pyx_t_2, __pyx_t_5, Py_GT); __Pyx_XGOTREF(__pyx_t_21); if (unlikely(!__pyx_t_21)) __PYX_ERR(0, 108, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+        __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+        __pyx_t_18 = __Pyx_PyObject_IsTrue(__pyx_t_21); if (unlikely((__pyx_t_18 < 0))) __PYX_ERR(0, 108, __pyx_L1_error)
+        __Pyx_DECREF(__pyx_t_21); __pyx_t_21 = 0;
         if (__pyx_t_18) {
 
-          /* "graph.pyx":110
+          /* "graph.pyx":111
  * 
  *                     #print("above_self",landscape.get_fitness(new_solution),fit_score[i])
  *                     fit_base[i]=new_solution             # <<<<<<<<<<<<<<
  * 
  *                 else:
  */
-          if (unlikely((__Pyx_SetItemInt(((PyObject *)__pyx_v_fit_base), __pyx_v_i, ((PyObject *)__pyx_v_new_solution), int, 1, __Pyx_PyInt_From_int, 0, 1, 1) < 0))) __PYX_ERR(0, 110, __pyx_L1_error)
+          if (unlikely((__Pyx_SetItemInt(((PyObject *)__pyx_v_fit_base), __pyx_v_i, ((PyObject *)__pyx_v_new_solution), int, 1, __Pyx_PyInt_From_int, 0, 1, 1) < 0))) __PYX_ERR(0, 111, __pyx_L1_error)
 
-          /* "graph.pyx":107
+          /* "graph.pyx":108
  *                 new_solution[rand_seed_index[rand_index_counter]]=1-new_solution[rand_seed_index[rand_index_counter]]
  *                 rand_index_counter+=1
- *                 if landscape.get_fitness(new_solution)>fit_score[i]:             # <<<<<<<<<<<<<<
+ *                 if nk.calculate_performances(new_solution, interaction, landscape, N)>fit_score[i]:             # <<<<<<<<<<<<<<
  * 
  *                     #print("above_self",landscape.get_fitness(new_solution),fit_score[i])
  */
           goto __pyx_L46;
         }
 
-        /* "graph.pyx":114
+        /* "graph.pyx":115
  *                 else:
  *                     #print("above_self_fail",landscape.get_fitness(new_solution),fit_score[i])
  *                     pass             # <<<<<<<<<<<<<<
@@ -5833,7 +5848,7 @@ static PyObject *__pyx_f_5graph_step(PyArrayObject *__pyx_v_adj_matrix, PyArrayO
       }
       __pyx_L30:;
 
-      /* "graph.pyx":54
+      /* "graph.pyx":56
  *                 exit()
  * 
  *         if neighbor_count>0:             # <<<<<<<<<<<<<<
@@ -5843,67 +5858,67 @@ static PyObject *__pyx_f_5graph_step(PyArrayObject *__pyx_v_adj_matrix, PyArrayO
       goto __pyx_L27;
     }
 
-    /* "graph.pyx":117
+    /* "graph.pyx":118
  * 
  *         else: #no neighbors, randomly mutate
  *             for k in range(rand_seed_low[i]):             # <<<<<<<<<<<<<<
- *                     #copy from holder to i for some number of chars
- *                     new_solution[rand_seed_index[rand_index_counter]]=fit_base[holder,rand_seed_index[rand_index_counter]]
+ *                 #copy from holder to i for some number of chars
+ *                 new_solution[rand_seed_index[rand_index_counter]]=fit_base[holder,rand_seed_index[rand_index_counter]]
  */
     /*else*/ {
-      __pyx_t_2 = __Pyx_GetItemInt(((PyObject *)__pyx_v_rand_seed_low), __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 117, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_2);
-      __pyx_t_5 = __Pyx_PyObject_CallOneArg(__pyx_builtin_range, __pyx_t_2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 117, __pyx_L1_error)
+      __pyx_t_21 = __Pyx_GetItemInt(((PyObject *)__pyx_v_rand_seed_low), __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_21)) __PYX_ERR(0, 118, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_21);
+      __pyx_t_5 = __Pyx_PyObject_CallOneArg(__pyx_builtin_range, __pyx_t_21); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 118, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
-      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+      __Pyx_DECREF(__pyx_t_21); __pyx_t_21 = 0;
       if (likely(PyList_CheckExact(__pyx_t_5)) || PyTuple_CheckExact(__pyx_t_5)) {
-        __pyx_t_2 = __pyx_t_5; __Pyx_INCREF(__pyx_t_2);
+        __pyx_t_21 = __pyx_t_5; __Pyx_INCREF(__pyx_t_21);
         __pyx_t_22 = 0;
         __pyx_t_31 = NULL;
       } else {
-        __pyx_t_22 = -1; __pyx_t_2 = PyObject_GetIter(__pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 117, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_2);
-        __pyx_t_31 = __Pyx_PyObject_GetIterNextFunc(__pyx_t_2); if (unlikely(!__pyx_t_31)) __PYX_ERR(0, 117, __pyx_L1_error)
+        __pyx_t_22 = -1; __pyx_t_21 = PyObject_GetIter(__pyx_t_5); if (unlikely(!__pyx_t_21)) __PYX_ERR(0, 118, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_21);
+        __pyx_t_31 = __Pyx_PyObject_GetIterNextFunc(__pyx_t_21); if (unlikely(!__pyx_t_31)) __PYX_ERR(0, 118, __pyx_L1_error)
       }
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       for (;;) {
         if (likely(!__pyx_t_31)) {
-          if (likely(PyList_CheckExact(__pyx_t_2))) {
+          if (likely(PyList_CheckExact(__pyx_t_21))) {
             {
-              Py_ssize_t __pyx_temp = __Pyx_PyList_GET_SIZE(__pyx_t_2);
+              Py_ssize_t __pyx_temp = __Pyx_PyList_GET_SIZE(__pyx_t_21);
               #if !CYTHON_ASSUME_SAFE_MACROS
-              if (unlikely((__pyx_temp < 0))) __PYX_ERR(0, 117, __pyx_L1_error)
+              if (unlikely((__pyx_temp < 0))) __PYX_ERR(0, 118, __pyx_L1_error)
               #endif
               if (__pyx_t_22 >= __pyx_temp) break;
             }
             #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-            __pyx_t_5 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_22); __Pyx_INCREF(__pyx_t_5); __pyx_t_22++; if (unlikely((0 < 0))) __PYX_ERR(0, 117, __pyx_L1_error)
+            __pyx_t_5 = PyList_GET_ITEM(__pyx_t_21, __pyx_t_22); __Pyx_INCREF(__pyx_t_5); __pyx_t_22++; if (unlikely((0 < 0))) __PYX_ERR(0, 118, __pyx_L1_error)
             #else
-            __pyx_t_5 = __Pyx_PySequence_ITEM(__pyx_t_2, __pyx_t_22); __pyx_t_22++; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 117, __pyx_L1_error)
+            __pyx_t_5 = __Pyx_PySequence_ITEM(__pyx_t_21, __pyx_t_22); __pyx_t_22++; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 118, __pyx_L1_error)
             __Pyx_GOTREF(__pyx_t_5);
             #endif
           } else {
             {
-              Py_ssize_t __pyx_temp = __Pyx_PyTuple_GET_SIZE(__pyx_t_2);
+              Py_ssize_t __pyx_temp = __Pyx_PyTuple_GET_SIZE(__pyx_t_21);
               #if !CYTHON_ASSUME_SAFE_MACROS
-              if (unlikely((__pyx_temp < 0))) __PYX_ERR(0, 117, __pyx_L1_error)
+              if (unlikely((__pyx_temp < 0))) __PYX_ERR(0, 118, __pyx_L1_error)
               #endif
               if (__pyx_t_22 >= __pyx_temp) break;
             }
             #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-            __pyx_t_5 = PyTuple_GET_ITEM(__pyx_t_2, __pyx_t_22); __Pyx_INCREF(__pyx_t_5); __pyx_t_22++; if (unlikely((0 < 0))) __PYX_ERR(0, 117, __pyx_L1_error)
+            __pyx_t_5 = PyTuple_GET_ITEM(__pyx_t_21, __pyx_t_22); __Pyx_INCREF(__pyx_t_5); __pyx_t_22++; if (unlikely((0 < 0))) __PYX_ERR(0, 118, __pyx_L1_error)
             #else
-            __pyx_t_5 = __Pyx_PySequence_ITEM(__pyx_t_2, __pyx_t_22); __pyx_t_22++; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 117, __pyx_L1_error)
+            __pyx_t_5 = __Pyx_PySequence_ITEM(__pyx_t_21, __pyx_t_22); __pyx_t_22++; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 118, __pyx_L1_error)
             __Pyx_GOTREF(__pyx_t_5);
             #endif
           }
         } else {
-          __pyx_t_5 = __pyx_t_31(__pyx_t_2);
+          __pyx_t_5 = __pyx_t_31(__pyx_t_21);
           if (unlikely(!__pyx_t_5)) {
             PyObject* exc_type = PyErr_Occurred();
             if (exc_type) {
               if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-              else __PYX_ERR(0, 117, __pyx_L1_error)
+              else __PYX_ERR(0, 118, __pyx_L1_error)
             }
             break;
           }
@@ -5912,137 +5927,130 @@ static PyObject *__pyx_f_5graph_step(PyArrayObject *__pyx_v_adj_matrix, PyArrayO
         __Pyx_XDECREF_SET(__pyx_v_k, __pyx_t_5);
         __pyx_t_5 = 0;
 
-        /* "graph.pyx":119
+        /* "graph.pyx":120
  *             for k in range(rand_seed_low[i]):
- *                     #copy from holder to i for some number of chars
- *                     new_solution[rand_seed_index[rand_index_counter]]=fit_base[holder,rand_seed_index[rand_index_counter]]             # <<<<<<<<<<<<<<
- *                     rand_index_counter+=1
- *             if landscape.get_fitness(new_solution)>fit_score[i]:
+ *                 #copy from holder to i for some number of chars
+ *                 new_solution[rand_seed_index[rand_index_counter]]=fit_base[holder,rand_seed_index[rand_index_counter]]             # <<<<<<<<<<<<<<
+ *                 rand_index_counter+=1
+ *                 if nk.calculate_performances(new_solution, interaction, landscape, N)>fit_score[i]:
  */
-        __pyx_t_5 = __Pyx_PyInt_From_int(__pyx_v_holder); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 119, __pyx_L1_error)
+        __pyx_t_5 = __Pyx_PyInt_From_int(__pyx_v_holder); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 120, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_5);
-        __pyx_t_21 = __Pyx_GetItemInt(((PyObject *)__pyx_v_rand_seed_index), __pyx_v_rand_index_counter, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_21)) __PYX_ERR(0, 119, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_21);
-        __pyx_t_20 = PyTuple_New(2); if (unlikely(!__pyx_t_20)) __PYX_ERR(0, 119, __pyx_L1_error)
+        __pyx_t_2 = __Pyx_GetItemInt(((PyObject *)__pyx_v_rand_seed_index), __pyx_v_rand_index_counter, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 120, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_2);
+        __pyx_t_20 = PyTuple_New(2); if (unlikely(!__pyx_t_20)) __PYX_ERR(0, 120, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_20);
         __Pyx_GIVEREF(__pyx_t_5);
-        if (__Pyx_PyTuple_SET_ITEM(__pyx_t_20, 0, __pyx_t_5)) __PYX_ERR(0, 119, __pyx_L1_error);
-        __Pyx_GIVEREF(__pyx_t_21);
-        if (__Pyx_PyTuple_SET_ITEM(__pyx_t_20, 1, __pyx_t_21)) __PYX_ERR(0, 119, __pyx_L1_error);
+        if (__Pyx_PyTuple_SET_ITEM(__pyx_t_20, 0, __pyx_t_5)) __PYX_ERR(0, 120, __pyx_L1_error);
+        __Pyx_GIVEREF(__pyx_t_2);
+        if (__Pyx_PyTuple_SET_ITEM(__pyx_t_20, 1, __pyx_t_2)) __PYX_ERR(0, 120, __pyx_L1_error);
         __pyx_t_5 = 0;
-        __pyx_t_21 = 0;
-        __pyx_t_21 = __Pyx_PyObject_GetItem(((PyObject *)__pyx_v_fit_base), __pyx_t_20); if (unlikely(!__pyx_t_21)) __PYX_ERR(0, 119, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_21);
+        __pyx_t_2 = 0;
+        __pyx_t_2 = __Pyx_PyObject_GetItem(((PyObject *)__pyx_v_fit_base), __pyx_t_20); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 120, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_2);
         __Pyx_DECREF(__pyx_t_20); __pyx_t_20 = 0;
-        __pyx_t_20 = __Pyx_GetItemInt(((PyObject *)__pyx_v_rand_seed_index), __pyx_v_rand_index_counter, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_20)) __PYX_ERR(0, 119, __pyx_L1_error)
+        __pyx_t_20 = __Pyx_GetItemInt(((PyObject *)__pyx_v_rand_seed_index), __pyx_v_rand_index_counter, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_20)) __PYX_ERR(0, 120, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_20);
-        if (unlikely((PyObject_SetItem(((PyObject *)__pyx_v_new_solution), __pyx_t_20, __pyx_t_21) < 0))) __PYX_ERR(0, 119, __pyx_L1_error)
+        if (unlikely((PyObject_SetItem(((PyObject *)__pyx_v_new_solution), __pyx_t_20, __pyx_t_2) < 0))) __PYX_ERR(0, 120, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_20); __pyx_t_20 = 0;
-        __Pyx_DECREF(__pyx_t_21); __pyx_t_21 = 0;
+        __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-        /* "graph.pyx":120
- *                     #copy from holder to i for some number of chars
- *                     new_solution[rand_seed_index[rand_index_counter]]=fit_base[holder,rand_seed_index[rand_index_counter]]
- *                     rand_index_counter+=1             # <<<<<<<<<<<<<<
- *             if landscape.get_fitness(new_solution)>fit_score[i]:
+        /* "graph.pyx":121
+ *                 #copy from holder to i for some number of chars
+ *                 new_solution[rand_seed_index[rand_index_counter]]=fit_base[holder,rand_seed_index[rand_index_counter]]
+ *                 rand_index_counter+=1             # <<<<<<<<<<<<<<
+ *                 if nk.calculate_performances(new_solution, interaction, landscape, N)>fit_score[i]:
  * 
  */
         __pyx_v_rand_index_counter = (__pyx_v_rand_index_counter + 1);
 
-        /* "graph.pyx":117
- * 
- *         else: #no neighbors, randomly mutate
- *             for k in range(rand_seed_low[i]):             # <<<<<<<<<<<<<<
- *                     #copy from holder to i for some number of chars
- *                     new_solution[rand_seed_index[rand_index_counter]]=fit_base[holder,rand_seed_index[rand_index_counter]]
- */
-      }
-      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-
-      /* "graph.pyx":121
- *                     new_solution[rand_seed_index[rand_index_counter]]=fit_base[holder,rand_seed_index[rand_index_counter]]
- *                     rand_index_counter+=1
- *             if landscape.get_fitness(new_solution)>fit_score[i]:             # <<<<<<<<<<<<<<
+        /* "graph.pyx":122
+ *                 new_solution[rand_seed_index[rand_index_counter]]=fit_base[holder,rand_seed_index[rand_index_counter]]
+ *                 rand_index_counter+=1
+ *                 if nk.calculate_performances(new_solution, interaction, landscape, N)>fit_score[i]:             # <<<<<<<<<<<<<<
  * 
  *                     #print("iso",landscape.get_fitness(new_solution),fit_score[i])
  */
-      __pyx_t_21 = __Pyx_PyObject_GetAttrStr(__pyx_v_landscape, __pyx_n_s_get_fitness); if (unlikely(!__pyx_t_21)) __PYX_ERR(0, 121, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_21);
-      __pyx_t_20 = NULL;
-      __pyx_t_9 = 0;
-      #if CYTHON_UNPACK_METHODS
-      if (likely(PyMethod_Check(__pyx_t_21))) {
-        __pyx_t_20 = PyMethod_GET_SELF(__pyx_t_21);
-        if (likely(__pyx_t_20)) {
-          PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_21);
-          __Pyx_INCREF(__pyx_t_20);
-          __Pyx_INCREF(function);
-          __Pyx_DECREF_SET(__pyx_t_21, function);
-          __pyx_t_9 = 1;
+        __Pyx_GetModuleGlobalName(__pyx_t_20, __pyx_n_s_nk); if (unlikely(!__pyx_t_20)) __PYX_ERR(0, 122, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_20);
+        __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_20, __pyx_n_s_calculate_performances); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 122, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_5);
+        __Pyx_DECREF(__pyx_t_20); __pyx_t_20 = 0;
+        __pyx_t_20 = NULL;
+        __pyx_t_9 = 0;
+        #if CYTHON_UNPACK_METHODS
+        if (unlikely(PyMethod_Check(__pyx_t_5))) {
+          __pyx_t_20 = PyMethod_GET_SELF(__pyx_t_5);
+          if (likely(__pyx_t_20)) {
+            PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_5);
+            __Pyx_INCREF(__pyx_t_20);
+            __Pyx_INCREF(function);
+            __Pyx_DECREF_SET(__pyx_t_5, function);
+            __pyx_t_9 = 1;
+          }
         }
-      }
-      #endif
-      {
-        PyObject *__pyx_callargs[2] = {__pyx_t_20, ((PyObject *)__pyx_v_new_solution)};
-        __pyx_t_2 = __Pyx_PyObject_FastCall(__pyx_t_21, __pyx_callargs+1-__pyx_t_9, 1+__pyx_t_9);
-        __Pyx_XDECREF(__pyx_t_20); __pyx_t_20 = 0;
-        if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 121, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_2);
-        __Pyx_DECREF(__pyx_t_21); __pyx_t_21 = 0;
-      }
-      __pyx_t_16 = __pyx_v_i;
-      __pyx_t_9 = -1;
-      if (__pyx_t_16 < 0) {
-        __pyx_t_16 += __pyx_pybuffernd_fit_score.diminfo[0].shape;
-        if (unlikely(__pyx_t_16 < 0)) __pyx_t_9 = 0;
-      } else if (unlikely(__pyx_t_16 >= __pyx_pybuffernd_fit_score.diminfo[0].shape)) __pyx_t_9 = 0;
-      if (unlikely(__pyx_t_9 != -1)) {
-        __Pyx_RaiseBufferIndexError(__pyx_t_9);
-        __PYX_ERR(0, 121, __pyx_L1_error)
-      }
-      __pyx_t_21 = PyFloat_FromDouble((*__Pyx_BufPtrStrided1d(double *, __pyx_pybuffernd_fit_score.rcbuffer->pybuffer.buf, __pyx_t_16, __pyx_pybuffernd_fit_score.diminfo[0].strides))); if (unlikely(!__pyx_t_21)) __PYX_ERR(0, 121, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_21);
-      __pyx_t_20 = PyObject_RichCompare(__pyx_t_2, __pyx_t_21, Py_GT); __Pyx_XGOTREF(__pyx_t_20); if (unlikely(!__pyx_t_20)) __PYX_ERR(0, 121, __pyx_L1_error)
-      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-      __Pyx_DECREF(__pyx_t_21); __pyx_t_21 = 0;
-      __pyx_t_18 = __Pyx_PyObject_IsTrue(__pyx_t_20); if (unlikely((__pyx_t_18 < 0))) __PYX_ERR(0, 121, __pyx_L1_error)
-      __Pyx_DECREF(__pyx_t_20); __pyx_t_20 = 0;
-      if (__pyx_t_18) {
+        #endif
+        {
+          PyObject *__pyx_callargs[5] = {__pyx_t_20, ((PyObject *)__pyx_v_new_solution), __pyx_v_interaction, __pyx_v_landscape, __pyx_v_N};
+          __pyx_t_2 = __Pyx_PyObject_FastCall(__pyx_t_5, __pyx_callargs+1-__pyx_t_9, 4+__pyx_t_9);
+          __Pyx_XDECREF(__pyx_t_20); __pyx_t_20 = 0;
+          if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 122, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_2);
+          __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+        }
+        __pyx_t_16 = __pyx_v_i;
+        __pyx_t_9 = -1;
+        if (__pyx_t_16 < 0) {
+          __pyx_t_16 += __pyx_pybuffernd_fit_score.diminfo[0].shape;
+          if (unlikely(__pyx_t_16 < 0)) __pyx_t_9 = 0;
+        } else if (unlikely(__pyx_t_16 >= __pyx_pybuffernd_fit_score.diminfo[0].shape)) __pyx_t_9 = 0;
+        if (unlikely(__pyx_t_9 != -1)) {
+          __Pyx_RaiseBufferIndexError(__pyx_t_9);
+          __PYX_ERR(0, 122, __pyx_L1_error)
+        }
+        __pyx_t_5 = PyFloat_FromDouble((*__Pyx_BufPtrStrided1d(double *, __pyx_pybuffernd_fit_score.rcbuffer->pybuffer.buf, __pyx_t_16, __pyx_pybuffernd_fit_score.diminfo[0].strides))); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 122, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_5);
+        __pyx_t_20 = PyObject_RichCompare(__pyx_t_2, __pyx_t_5, Py_GT); __Pyx_XGOTREF(__pyx_t_20); if (unlikely(!__pyx_t_20)) __PYX_ERR(0, 122, __pyx_L1_error)
+        __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+        __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+        __pyx_t_18 = __Pyx_PyObject_IsTrue(__pyx_t_20); if (unlikely((__pyx_t_18 < 0))) __PYX_ERR(0, 122, __pyx_L1_error)
+        __Pyx_DECREF(__pyx_t_20); __pyx_t_20 = 0;
+        if (__pyx_t_18) {
 
-        /* "graph.pyx":124
+          /* "graph.pyx":125
  * 
  *                     #print("iso",landscape.get_fitness(new_solution),fit_score[i])
  *                     fit_base[i]=new_solution             # <<<<<<<<<<<<<<
  *             else:
  *                 #print("iso_fail",landscape.get_fitness(new_solution),fit_score[i])
  */
-        if (unlikely((__Pyx_SetItemInt(((PyObject *)__pyx_v_fit_base), __pyx_v_i, ((PyObject *)__pyx_v_new_solution), int, 1, __Pyx_PyInt_From_int, 0, 1, 1) < 0))) __PYX_ERR(0, 124, __pyx_L1_error)
+          if (unlikely((__Pyx_SetItemInt(((PyObject *)__pyx_v_fit_base), __pyx_v_i, ((PyObject *)__pyx_v_new_solution), int, 1, __Pyx_PyInt_From_int, 0, 1, 1) < 0))) __PYX_ERR(0, 125, __pyx_L1_error)
 
-        /* "graph.pyx":121
- *                     new_solution[rand_seed_index[rand_index_counter]]=fit_base[holder,rand_seed_index[rand_index_counter]]
- *                     rand_index_counter+=1
- *             if landscape.get_fitness(new_solution)>fit_score[i]:             # <<<<<<<<<<<<<<
+          /* "graph.pyx":122
+ *                 new_solution[rand_seed_index[rand_index_counter]]=fit_base[holder,rand_seed_index[rand_index_counter]]
+ *                 rand_index_counter+=1
+ *                 if nk.calculate_performances(new_solution, interaction, landscape, N)>fit_score[i]:             # <<<<<<<<<<<<<<
  * 
  *                     #print("iso",landscape.get_fitness(new_solution),fit_score[i])
  */
-        goto __pyx_L50;
-      }
+        }
 
-      /* "graph.pyx":127
- *             else:
- *                 #print("iso_fail",landscape.get_fitness(new_solution),fit_score[i])
- *                 pass             # <<<<<<<<<<<<<<
- *         #print('i=',i,'fit_base=',fit_base[i])
- *     return fit_base
+        /* "graph.pyx":118
+ * 
+ *         else: #no neighbors, randomly mutate
+ *             for k in range(rand_seed_low[i]):             # <<<<<<<<<<<<<<
+ *                 #copy from holder to i for some number of chars
+ *                 new_solution[rand_seed_index[rand_index_counter]]=fit_base[holder,rand_seed_index[rand_index_counter]]
  */
+      }
+      __Pyx_DECREF(__pyx_t_21); __pyx_t_21 = 0;
       /*else*/ {
       }
-      __pyx_L50:;
     }
     __pyx_L27:;
   }
 
-  /* "graph.pyx":129
+  /* "graph.pyx":130
  *                 pass
  *         #print('i=',i,'fit_base=',fit_base[i])
  *     return fit_base             # <<<<<<<<<<<<<<
@@ -6053,10 +6061,10 @@ static PyObject *__pyx_f_5graph_step(PyArrayObject *__pyx_v_adj_matrix, PyArrayO
   goto __pyx_L0;
 
   /* "graph.pyx":8
- * 
+ * import CythonMods.nk_test as nk
  * 
  * cpdef step(cnp.ndarray[int, ndim=2] adj_matrix,             # <<<<<<<<<<<<<<
- *     cnp.ndarray[int, ndim=2]  fit_base,
+ *     cnp.ndarray[char, ndim=2]  fit_base,
  *     cnp.ndarray[double, ndim=1] fit_score,
  */
 
@@ -6119,12 +6127,13 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   int __pyx_v_nodes;
   PyObject *__pyx_v_N = 0;
   PyObject *__pyx_v_landscape = 0;
+  PyObject *__pyx_v_interaction = 0;
   PyObject *__pyx_v_Neighbors = 0;
   #if !CYTHON_METH_FASTCALL
   CYTHON_UNUSED Py_ssize_t __pyx_nargs;
   #endif
   CYTHON_UNUSED PyObject *const *__pyx_kwvalues;
-  PyObject* values[7] = {0,0,0,0,0,0,0};
+  PyObject* values[8] = {0,0,0,0,0,0,0,0};
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -6140,10 +6149,12 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   #endif
   __pyx_kwvalues = __Pyx_KwValues_FASTCALL(__pyx_args, __pyx_nargs);
   {
-    PyObject **__pyx_pyargnames[] = {&__pyx_n_s_adj_matrix,&__pyx_n_s_fit_base,&__pyx_n_s_fit_score,&__pyx_n_s_nodes,&__pyx_n_s_N,&__pyx_n_s_landscape,&__pyx_n_s_Neighbors,0};
+    PyObject **__pyx_pyargnames[] = {&__pyx_n_s_adj_matrix,&__pyx_n_s_fit_base,&__pyx_n_s_fit_score,&__pyx_n_s_nodes,&__pyx_n_s_N,&__pyx_n_s_landscape,&__pyx_n_s_interaction,&__pyx_n_s_Neighbors,0};
     if (__pyx_kwds) {
       Py_ssize_t kw_args;
       switch (__pyx_nargs) {
+        case  8: values[7] = __Pyx_Arg_FASTCALL(__pyx_args, 7);
+        CYTHON_FALLTHROUGH;
         case  7: values[6] = __Pyx_Arg_FASTCALL(__pyx_args, 6);
         CYTHON_FALLTHROUGH;
         case  6: values[5] = __Pyx_Arg_FASTCALL(__pyx_args, 5);
@@ -6178,7 +6189,7 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
         }
         else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 8, __pyx_L3_error)
         else {
-          __Pyx_RaiseArgtupleInvalid("step", 1, 7, 7, 1); __PYX_ERR(0, 8, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("step", 1, 8, 8, 1); __PYX_ERR(0, 8, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  2:
@@ -6188,7 +6199,7 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
         }
         else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 8, __pyx_L3_error)
         else {
-          __Pyx_RaiseArgtupleInvalid("step", 1, 7, 7, 2); __PYX_ERR(0, 8, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("step", 1, 8, 8, 2); __PYX_ERR(0, 8, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  3:
@@ -6198,7 +6209,7 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
         }
         else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 8, __pyx_L3_error)
         else {
-          __Pyx_RaiseArgtupleInvalid("step", 1, 7, 7, 3); __PYX_ERR(0, 8, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("step", 1, 8, 8, 3); __PYX_ERR(0, 8, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  4:
@@ -6208,7 +6219,7 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
         }
         else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 8, __pyx_L3_error)
         else {
-          __Pyx_RaiseArgtupleInvalid("step", 1, 7, 7, 4); __PYX_ERR(0, 8, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("step", 1, 8, 8, 4); __PYX_ERR(0, 8, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  5:
@@ -6218,24 +6229,34 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
         }
         else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 8, __pyx_L3_error)
         else {
-          __Pyx_RaiseArgtupleInvalid("step", 1, 7, 7, 5); __PYX_ERR(0, 8, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("step", 1, 8, 8, 5); __PYX_ERR(0, 8, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  6:
-        if (likely((values[6] = __Pyx_GetKwValue_FASTCALL(__pyx_kwds, __pyx_kwvalues, __pyx_n_s_Neighbors)) != 0)) {
+        if (likely((values[6] = __Pyx_GetKwValue_FASTCALL(__pyx_kwds, __pyx_kwvalues, __pyx_n_s_interaction)) != 0)) {
           (void)__Pyx_Arg_NewRef_FASTCALL(values[6]);
           kw_args--;
         }
         else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 8, __pyx_L3_error)
         else {
-          __Pyx_RaiseArgtupleInvalid("step", 1, 7, 7, 6); __PYX_ERR(0, 8, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("step", 1, 8, 8, 6); __PYX_ERR(0, 8, __pyx_L3_error)
+        }
+        CYTHON_FALLTHROUGH;
+        case  7:
+        if (likely((values[7] = __Pyx_GetKwValue_FASTCALL(__pyx_kwds, __pyx_kwvalues, __pyx_n_s_Neighbors)) != 0)) {
+          (void)__Pyx_Arg_NewRef_FASTCALL(values[7]);
+          kw_args--;
+        }
+        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 8, __pyx_L3_error)
+        else {
+          __Pyx_RaiseArgtupleInvalid("step", 1, 8, 8, 7); __PYX_ERR(0, 8, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
         const Py_ssize_t kwd_pos_args = __pyx_nargs;
         if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values + 0, kwd_pos_args, "step") < 0)) __PYX_ERR(0, 8, __pyx_L3_error)
       }
-    } else if (unlikely(__pyx_nargs != 7)) {
+    } else if (unlikely(__pyx_nargs != 8)) {
       goto __pyx_L5_argtuple_error;
     } else {
       values[0] = __Pyx_Arg_FASTCALL(__pyx_args, 0);
@@ -6245,6 +6266,7 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
       values[4] = __Pyx_Arg_FASTCALL(__pyx_args, 4);
       values[5] = __Pyx_Arg_FASTCALL(__pyx_args, 5);
       values[6] = __Pyx_Arg_FASTCALL(__pyx_args, 6);
+      values[7] = __Pyx_Arg_FASTCALL(__pyx_args, 7);
     }
     __pyx_v_adj_matrix = ((PyArrayObject *)values[0]);
     __pyx_v_fit_base = ((PyArrayObject *)values[1]);
@@ -6252,11 +6274,12 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
     __pyx_v_nodes = __Pyx_PyInt_As_int(values[3]); if (unlikely((__pyx_v_nodes == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 11, __pyx_L3_error)
     __pyx_v_N = values[4];
     __pyx_v_landscape = values[5];
-    __pyx_v_Neighbors = values[6];
+    __pyx_v_interaction = values[6];
+    __pyx_v_Neighbors = values[7];
   }
   goto __pyx_L6_skip;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("step", 1, 7, 7, __pyx_nargs); __PYX_ERR(0, 8, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("step", 1, 8, 8, __pyx_nargs); __PYX_ERR(0, 8, __pyx_L3_error)
   __pyx_L6_skip:;
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L3_error:;
@@ -6273,7 +6296,7 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_adj_matrix), __pyx_ptype_5numpy_ndarray, 1, "adj_matrix", 0))) __PYX_ERR(0, 8, __pyx_L1_error)
   if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_fit_base), __pyx_ptype_5numpy_ndarray, 1, "fit_base", 0))) __PYX_ERR(0, 9, __pyx_L1_error)
   if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_fit_score), __pyx_ptype_5numpy_ndarray, 1, "fit_score", 0))) __PYX_ERR(0, 10, __pyx_L1_error)
-  __pyx_r = __pyx_pf_5graph_step(__pyx_self, __pyx_v_adj_matrix, __pyx_v_fit_base, __pyx_v_fit_score, __pyx_v_nodes, __pyx_v_N, __pyx_v_landscape, __pyx_v_Neighbors);
+  __pyx_r = __pyx_pf_5graph_step(__pyx_self, __pyx_v_adj_matrix, __pyx_v_fit_base, __pyx_v_fit_score, __pyx_v_nodes, __pyx_v_N, __pyx_v_landscape, __pyx_v_interaction, __pyx_v_Neighbors);
 
   /* function exit code */
   goto __pyx_L0;
@@ -6290,7 +6313,7 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_5graph_step(CYTHON_UNUSED PyObject *__pyx_self, PyArrayObject *__pyx_v_adj_matrix, PyArrayObject *__pyx_v_fit_base, PyArrayObject *__pyx_v_fit_score, int __pyx_v_nodes, PyObject *__pyx_v_N, PyObject *__pyx_v_landscape, PyObject *__pyx_v_Neighbors) {
+static PyObject *__pyx_pf_5graph_step(CYTHON_UNUSED PyObject *__pyx_self, PyArrayObject *__pyx_v_adj_matrix, PyArrayObject *__pyx_v_fit_base, PyArrayObject *__pyx_v_fit_score, int __pyx_v_nodes, PyObject *__pyx_v_N, PyObject *__pyx_v_landscape, PyObject *__pyx_v_interaction, PyObject *__pyx_v_Neighbors) {
   __Pyx_LocalBuf_ND __pyx_pybuffernd_adj_matrix;
   __Pyx_Buffer __pyx_pybuffer_adj_matrix;
   __Pyx_LocalBuf_ND __pyx_pybuffernd_fit_base;
@@ -6323,7 +6346,7 @@ static PyObject *__pyx_pf_5graph_step(CYTHON_UNUSED PyObject *__pyx_self, PyArra
   __pyx_pybuffernd_adj_matrix.diminfo[0].strides = __pyx_pybuffernd_adj_matrix.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_adj_matrix.diminfo[0].shape = __pyx_pybuffernd_adj_matrix.rcbuffer->pybuffer.shape[0]; __pyx_pybuffernd_adj_matrix.diminfo[1].strides = __pyx_pybuffernd_adj_matrix.rcbuffer->pybuffer.strides[1]; __pyx_pybuffernd_adj_matrix.diminfo[1].shape = __pyx_pybuffernd_adj_matrix.rcbuffer->pybuffer.shape[1];
   {
     __Pyx_BufFmt_StackElem __pyx_stack[1];
-    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_fit_base.rcbuffer->pybuffer, (PyObject*)__pyx_v_fit_base, &__Pyx_TypeInfo_int, PyBUF_FORMAT| PyBUF_STRIDES, 2, 0, __pyx_stack) == -1)) __PYX_ERR(0, 8, __pyx_L1_error)
+    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_fit_base.rcbuffer->pybuffer, (PyObject*)__pyx_v_fit_base, &__Pyx_TypeInfo_char, PyBUF_FORMAT| PyBUF_STRIDES, 2, 0, __pyx_stack) == -1)) __PYX_ERR(0, 8, __pyx_L1_error)
   }
   __pyx_pybuffernd_fit_base.diminfo[0].strides = __pyx_pybuffernd_fit_base.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_fit_base.diminfo[0].shape = __pyx_pybuffernd_fit_base.rcbuffer->pybuffer.shape[0]; __pyx_pybuffernd_fit_base.diminfo[1].strides = __pyx_pybuffernd_fit_base.rcbuffer->pybuffer.strides[1]; __pyx_pybuffernd_fit_base.diminfo[1].shape = __pyx_pybuffernd_fit_base.rcbuffer->pybuffer.shape[1];
   {
@@ -6332,7 +6355,7 @@ static PyObject *__pyx_pf_5graph_step(CYTHON_UNUSED PyObject *__pyx_self, PyArra
   }
   __pyx_pybuffernd_fit_score.diminfo[0].strides = __pyx_pybuffernd_fit_score.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_fit_score.diminfo[0].shape = __pyx_pybuffernd_fit_score.rcbuffer->pybuffer.shape[0];
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_f_5graph_step(__pyx_v_adj_matrix, __pyx_v_fit_base, __pyx_v_fit_score, __pyx_v_nodes, __pyx_v_N, __pyx_v_landscape, __pyx_v_Neighbors, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 8, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_5graph_step(__pyx_v_adj_matrix, __pyx_v_fit_base, __pyx_v_fit_score, __pyx_v_nodes, __pyx_v_N, __pyx_v_landscape, __pyx_v_interaction, __pyx_v_Neighbors, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 8, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -6379,15 +6402,15 @@ static PyMethodDef __pyx_methods[] = {
 static int __Pyx_CreateStringTabAndInitStrings(void) {
   __Pyx_StringTabEntry __pyx_string_tab[] = {
     {&__pyx_n_s_CythonMods, __pyx_k_CythonMods, sizeof(__pyx_k_CythonMods), 0, 0, 1, 1},
-    {&__pyx_n_s_CythonMods_NK_landscape, __pyx_k_CythonMods_NK_landscape, sizeof(__pyx_k_CythonMods_NK_landscape), 0, 0, 1, 1},
+    {&__pyx_n_s_CythonMods_nk_test, __pyx_k_CythonMods_nk_test, sizeof(__pyx_k_CythonMods_nk_test), 0, 0, 1, 1},
     {&__pyx_n_s_ImportError, __pyx_k_ImportError, sizeof(__pyx_k_ImportError), 0, 0, 1, 1},
     {&__pyx_n_s_N, __pyx_k_N, sizeof(__pyx_k_N), 0, 0, 1, 1},
-    {&__pyx_n_s_NK_landscape, __pyx_k_NK_landscape, sizeof(__pyx_k_NK_landscape), 0, 0, 1, 1},
     {&__pyx_n_s_Neighbors, __pyx_k_Neighbors, sizeof(__pyx_k_Neighbors), 0, 0, 1, 1},
     {&__pyx_n_s__10, __pyx_k__10, sizeof(__pyx_k__10), 0, 0, 1, 1},
     {&__pyx_n_s__6, __pyx_k__6, sizeof(__pyx_k__6), 0, 0, 1, 1},
     {&__pyx_n_s_adj_matrix, __pyx_k_adj_matrix, sizeof(__pyx_k_adj_matrix), 0, 0, 1, 1},
     {&__pyx_n_s_asyncio_coroutines, __pyx_k_asyncio_coroutines, sizeof(__pyx_k_asyncio_coroutines), 0, 0, 1, 1},
+    {&__pyx_n_s_calculate_performances, __pyx_k_calculate_performances, sizeof(__pyx_k_calculate_performances), 0, 0, 1, 1},
     {&__pyx_n_s_class_getitem, __pyx_k_class_getitem, sizeof(__pyx_k_class_getitem), 0, 0, 1, 1},
     {&__pyx_n_s_cline_in_traceback, __pyx_k_cline_in_traceback, sizeof(__pyx_k_cline_in_traceback), 0, 0, 1, 1},
     {&__pyx_n_s_copy, __pyx_k_copy, sizeof(__pyx_k_copy), 0, 0, 1, 1},
@@ -6397,19 +6420,20 @@ static int __Pyx_CreateStringTabAndInitStrings(void) {
     {&__pyx_kp_s_failed_in_neighbor_count, __pyx_k_failed_in_neighbor_count, sizeof(__pyx_k_failed_in_neighbor_count), 0, 0, 1, 0},
     {&__pyx_n_s_fit_base, __pyx_k_fit_base, sizeof(__pyx_k_fit_base), 0, 0, 1, 1},
     {&__pyx_n_s_fit_score, __pyx_k_fit_score, sizeof(__pyx_k_fit_score), 0, 0, 1, 1},
-    {&__pyx_n_s_get_fitness, __pyx_k_get_fitness, sizeof(__pyx_k_get_fitness), 0, 0, 1, 1},
     {&__pyx_n_s_graph, __pyx_k_graph, sizeof(__pyx_k_graph), 0, 0, 1, 1},
     {&__pyx_kp_s_graph_pyx, __pyx_k_graph_pyx, sizeof(__pyx_k_graph_pyx), 0, 0, 1, 0},
     {&__pyx_n_s_ig, __pyx_k_ig, sizeof(__pyx_k_ig), 0, 0, 1, 1},
     {&__pyx_n_s_igraph, __pyx_k_igraph, sizeof(__pyx_k_igraph), 0, 0, 1, 1},
     {&__pyx_n_s_import, __pyx_k_import, sizeof(__pyx_k_import), 0, 0, 1, 1},
     {&__pyx_n_s_initializing, __pyx_k_initializing, sizeof(__pyx_k_initializing), 0, 0, 1, 1},
+    {&__pyx_n_s_interaction, __pyx_k_interaction, sizeof(__pyx_k_interaction), 0, 0, 1, 1},
     {&__pyx_n_s_is_coroutine, __pyx_k_is_coroutine, sizeof(__pyx_k_is_coroutine), 0, 0, 1, 1},
     {&__pyx_n_s_itertools, __pyx_k_itertools, sizeof(__pyx_k_itertools), 0, 0, 1, 1},
     {&__pyx_n_s_landscape, __pyx_k_landscape, sizeof(__pyx_k_landscape), 0, 0, 1, 1},
     {&__pyx_n_s_main, __pyx_k_main, sizeof(__pyx_k_main), 0, 0, 1, 1},
     {&__pyx_n_s_name, __pyx_k_name, sizeof(__pyx_k_name), 0, 0, 1, 1},
     {&__pyx_n_s_nk, __pyx_k_nk, sizeof(__pyx_k_nk), 0, 0, 1, 1},
+    {&__pyx_n_s_nk_test, __pyx_k_nk_test, sizeof(__pyx_k_nk_test), 0, 0, 1, 1},
     {&__pyx_n_s_nodes, __pyx_k_nodes, sizeof(__pyx_k_nodes), 0, 0, 1, 1},
     {&__pyx_n_s_np, __pyx_k_np, sizeof(__pyx_k_np), 0, 0, 1, 1},
     {&__pyx_n_s_numpy, __pyx_k_numpy, sizeof(__pyx_k_numpy), 0, 0, 1, 1},
@@ -6430,9 +6454,9 @@ static int __Pyx_CreateStringTabAndInitStrings(void) {
 }
 /* #### Code section: cached_builtins ### */
 static CYTHON_SMALL_CODE int __Pyx_InitCachedBuiltins(void) {
-  __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) __PYX_ERR(0, 31, __pyx_L1_error)
-  __pyx_builtin_print = __Pyx_GetBuiltinName(__pyx_n_s_print); if (!__pyx_builtin_print) __PYX_ERR(0, 45, __pyx_L1_error)
-  __pyx_builtin_exit = __Pyx_GetBuiltinName(__pyx_n_s_exit); if (!__pyx_builtin_exit) __PYX_ERR(0, 52, __pyx_L1_error)
+  __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) __PYX_ERR(0, 33, __pyx_L1_error)
+  __pyx_builtin_print = __Pyx_GetBuiltinName(__pyx_n_s_print); if (!__pyx_builtin_print) __PYX_ERR(0, 47, __pyx_L1_error)
+  __pyx_builtin_exit = __Pyx_GetBuiltinName(__pyx_n_s_exit); if (!__pyx_builtin_exit) __PYX_ERR(0, 54, __pyx_L1_error)
   __pyx_builtin_ImportError = __Pyx_GetBuiltinName(__pyx_n_s_ImportError); if (!__pyx_builtin_ImportError) __PYX_ERR(1, 986, __pyx_L1_error)
   return 0;
   __pyx_L1_error:;
@@ -6466,61 +6490,61 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __Pyx_GOTREF(__pyx_tuple__2);
   __Pyx_GIVEREF(__pyx_tuple__2);
 
-  /* "graph.pyx":21
- *     cdef int j
+  /* "graph.pyx":22
  *     cdef int choosen_neighbor
- *     cdef cnp.ndarray rand_seed_low=np.random.randint(4,9,size=nodes+2)             # <<<<<<<<<<<<<<
+ *     #cdef cnp.ndarray rand_seed_low=np.random.randint(4,9,size=nodes+2)
+ *     cdef cnp.ndarray rand_seed_low=np.random.randint(2,5,size=nodes+2)             # <<<<<<<<<<<<<<
+ * 
  *     #cdef cnp.ndarray rand_seed_high=np.random.randint(N//2,N,size=nodes+2)
- *     cdef cnp.ndarray rand_seed_index=np.random.randint(0,N-1,size=N*nodes)
  */
-  __pyx_tuple__3 = PyTuple_Pack(2, __pyx_int_4, __pyx_int_9); if (unlikely(!__pyx_tuple__3)) __PYX_ERR(0, 21, __pyx_L1_error)
+  __pyx_tuple__3 = PyTuple_Pack(2, __pyx_int_2, __pyx_int_5); if (unlikely(!__pyx_tuple__3)) __PYX_ERR(0, 22, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__3);
   __Pyx_GIVEREF(__pyx_tuple__3);
 
-  /* "graph.pyx":45
+  /* "graph.pyx":47
  *                     neighbors[neighbor_count-1]=j
  *             except Exception as e:
  *                 print("failed in neighbor count")             # <<<<<<<<<<<<<<
  *                 print(e)
  *                 print(i,j,nodes)
  */
-  __pyx_tuple__4 = PyTuple_Pack(1, __pyx_kp_s_failed_in_neighbor_count); if (unlikely(!__pyx_tuple__4)) __PYX_ERR(0, 45, __pyx_L1_error)
+  __pyx_tuple__4 = PyTuple_Pack(1, __pyx_kp_s_failed_in_neighbor_count); if (unlikely(!__pyx_tuple__4)) __PYX_ERR(0, 47, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__4);
   __Pyx_GIVEREF(__pyx_tuple__4);
 
-  /* "graph.pyx":96
+  /* "graph.pyx":97
  *                             pass
  *                 except:
  *                     print("failed")             # <<<<<<<<<<<<<<
  *                     print(new_solution)
  *                     print(i,nodes)
  */
-  __pyx_tuple__5 = PyTuple_Pack(1, __pyx_n_s_failed); if (unlikely(!__pyx_tuple__5)) __PYX_ERR(0, 96, __pyx_L1_error)
+  __pyx_tuple__5 = PyTuple_Pack(1, __pyx_n_s_failed); if (unlikely(!__pyx_tuple__5)) __PYX_ERR(0, 97, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__5);
   __Pyx_GIVEREF(__pyx_tuple__5);
 
-  /* "graph.pyx":5
- * import itertools
+  /* "graph.pyx":6
  * import igraph as ig
- * import CythonMods.NK_landscape as nk             # <<<<<<<<<<<<<<
+ * #import CythonMods.NK_landscape as nk
+ * import CythonMods.nk_test as nk             # <<<<<<<<<<<<<<
  * 
- * 
+ * cpdef step(cnp.ndarray[int, ndim=2] adj_matrix,
  */
-  __pyx_tuple__7 = PyTuple_Pack(2, __pyx_n_s_CythonMods, __pyx_n_s_NK_landscape); if (unlikely(!__pyx_tuple__7)) __PYX_ERR(0, 5, __pyx_L1_error)
+  __pyx_tuple__7 = PyTuple_Pack(2, __pyx_n_s_CythonMods, __pyx_n_s_nk_test); if (unlikely(!__pyx_tuple__7)) __PYX_ERR(0, 6, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__7);
   __Pyx_GIVEREF(__pyx_tuple__7);
 
   /* "graph.pyx":8
- * 
+ * import CythonMods.nk_test as nk
  * 
  * cpdef step(cnp.ndarray[int, ndim=2] adj_matrix,             # <<<<<<<<<<<<<<
- *     cnp.ndarray[int, ndim=2]  fit_base,
+ *     cnp.ndarray[char, ndim=2]  fit_base,
  *     cnp.ndarray[double, ndim=1] fit_score,
  */
-  __pyx_tuple__8 = PyTuple_Pack(7, __pyx_n_s_adj_matrix, __pyx_n_s_fit_base, __pyx_n_s_fit_score, __pyx_n_s_nodes, __pyx_n_s_N, __pyx_n_s_landscape, __pyx_n_s_Neighbors); if (unlikely(!__pyx_tuple__8)) __PYX_ERR(0, 8, __pyx_L1_error)
+  __pyx_tuple__8 = PyTuple_Pack(8, __pyx_n_s_adj_matrix, __pyx_n_s_fit_base, __pyx_n_s_fit_score, __pyx_n_s_nodes, __pyx_n_s_N, __pyx_n_s_landscape, __pyx_n_s_interaction, __pyx_n_s_Neighbors); if (unlikely(!__pyx_tuple__8)) __PYX_ERR(0, 8, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__8);
   __Pyx_GIVEREF(__pyx_tuple__8);
-  __pyx_codeobj__9 = (PyObject*)__Pyx_PyCode_New(7, 0, 0, 7, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__8, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_graph_pyx, __pyx_n_s_step, 8, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__9)) __PYX_ERR(0, 8, __pyx_L1_error)
+  __pyx_codeobj__9 = (PyObject*)__Pyx_PyCode_New(8, 0, 0, 8, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__8, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_graph_pyx, __pyx_n_s_step, 8, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__9)) __PYX_ERR(0, 8, __pyx_L1_error)
   __Pyx_RefNannyFinishContext();
   return 0;
   __pyx_L1_error:;
@@ -6533,8 +6557,8 @@ static CYTHON_SMALL_CODE int __Pyx_InitConstants(void) {
   if (__Pyx_CreateStringTabAndInitStrings() < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   __pyx_int_0 = PyInt_FromLong(0); if (unlikely(!__pyx_int_0)) __PYX_ERR(0, 1, __pyx_L1_error)
   __pyx_int_1 = PyInt_FromLong(1); if (unlikely(!__pyx_int_1)) __PYX_ERR(0, 1, __pyx_L1_error)
-  __pyx_int_4 = PyInt_FromLong(4); if (unlikely(!__pyx_int_4)) __PYX_ERR(0, 1, __pyx_L1_error)
-  __pyx_int_9 = PyInt_FromLong(9); if (unlikely(!__pyx_int_9)) __PYX_ERR(0, 1, __pyx_L1_error)
+  __pyx_int_2 = PyInt_FromLong(2); if (unlikely(!__pyx_int_2)) __PYX_ERR(0, 1, __pyx_L1_error)
+  __pyx_int_5 = PyInt_FromLong(5); if (unlikely(!__pyx_int_5)) __PYX_ERR(0, 1, __pyx_L1_error)
   return 0;
   __pyx_L1_error:;
   return -1;
@@ -6964,7 +6988,7 @@ if (!__Pyx_RefNanny) {
  * cimport numpy as cnp
  * import itertools             # <<<<<<<<<<<<<<
  * import igraph as ig
- * import CythonMods.NK_landscape as nk
+ * #import CythonMods.NK_landscape as nk
  */
   __pyx_t_2 = __Pyx_ImportDottedModule(__pyx_n_s_itertools, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 3, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
@@ -6975,31 +6999,31 @@ if (!__Pyx_RefNanny) {
  * cimport numpy as cnp
  * import itertools
  * import igraph as ig             # <<<<<<<<<<<<<<
- * import CythonMods.NK_landscape as nk
- * 
+ * #import CythonMods.NK_landscape as nk
+ * import CythonMods.nk_test as nk
  */
   __pyx_t_2 = __Pyx_ImportDottedModule(__pyx_n_s_igraph, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 4, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_ig, __pyx_t_2) < 0) __PYX_ERR(0, 4, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "graph.pyx":5
- * import itertools
+  /* "graph.pyx":6
  * import igraph as ig
- * import CythonMods.NK_landscape as nk             # <<<<<<<<<<<<<<
+ * #import CythonMods.NK_landscape as nk
+ * import CythonMods.nk_test as nk             # <<<<<<<<<<<<<<
  * 
- * 
+ * cpdef step(cnp.ndarray[int, ndim=2] adj_matrix,
  */
-  __pyx_t_2 = __Pyx_ImportDottedModule(__pyx_n_s_CythonMods_NK_landscape, __pyx_tuple__7); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 5, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_ImportDottedModule(__pyx_n_s_CythonMods_nk_test, __pyx_tuple__7); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 6, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_nk, __pyx_t_2) < 0) __PYX_ERR(0, 5, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_nk, __pyx_t_2) < 0) __PYX_ERR(0, 6, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "graph.pyx":8
- * 
+ * import CythonMods.nk_test as nk
  * 
  * cpdef step(cnp.ndarray[int, ndim=2] adj_matrix,             # <<<<<<<<<<<<<<
- *     cnp.ndarray[int, ndim=2]  fit_base,
+ *     cnp.ndarray[char, ndim=2]  fit_base,
  *     cnp.ndarray[double, ndim=1] fit_score,
  */
   __pyx_t_2 = __Pyx_CyFunction_New(&__pyx_mdef_5graph_1step, 0, __pyx_n_s_step, NULL, __pyx_n_s_graph, __pyx_d, ((PyObject *)__pyx_codeobj__9)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 8, __pyx_L1_error)

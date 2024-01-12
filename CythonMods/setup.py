@@ -5,7 +5,7 @@ import numpy
 #Cython conflicts with __init__.py files
 extension = [Extension("NK_landscape", ["NK_landscape.pyx"]),
               Extension("graph", ["graph.pyx"]),
-              Extension("nk_test", ["nk_test.pyx"])]
+              Extension("direct_nk", ["direct_nk.pyx"])]
 
 setup(
     ext_modules=cythonize(extension), 

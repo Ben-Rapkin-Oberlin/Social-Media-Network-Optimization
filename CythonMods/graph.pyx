@@ -2,12 +2,13 @@ import numpy as np
 cimport numpy as cnp
 import itertools
 import igraph as ig
-
+import CythonMods.NK_landscape as nk
 
 
 cpdef step(cnp.ndarray[int, ndim=2] adj_matrix,
     cnp.ndarray[int, ndim=2]  fit_base,
-    cnp.ndarray[double, ndim=1] fit_score, int nodes, N):
+    cnp.ndarray[double, ndim=1] fit_score, 
+    int nodes, N,landscape,Neighbors):
     #look at surrounding utility, use that to determine how much your opinion changes, randomly copy
     #opinion of one of your neighbors
 
@@ -17,58 +18,112 @@ cpdef step(cnp.ndarray[int, ndim=2] adj_matrix,
     cdef int i
     cdef int j
     cdef int choosen_neighbor
-    cdef cnp.ndarray rand_seed_low=np.random.randint(1,N//2,size=nodes+2)
-    cdef cnp.ndarray rand_seed_high=np.random.randint(N//2,N,size=nodes+2)
+    cdef cnp.ndarray rand_seed_low=np.random.randint(4,9,size=nodes+2)
+    #cdef cnp.ndarray rand_seed_high=np.random.randint(N//2,N,size=nodes+2)
     cdef cnp.ndarray rand_seed_index=np.random.randint(0,N-1,size=N*nodes)
-    cdef cnp.ndarray rand_neighbor=np.random.randint(0,100,size=nodes+2)
+    cdef cnp.ndarray rand_neighbor=np.random.randint(0,Neighbors,size=nodes+2)
     cdef int holder
     cdef int rand_neighbor_index = 0
     cdef int rand_index_counter = 0
-    cdef cnp.ndarray neighbors=np.zeros(4, dtype=int)
+    cdef cnp.ndarray neighbors=np.zeros(Neighbors, dtype=int)
     cdef double temp
+    cdef cnp.ndarray new_solution = np.zeros(N, dtype=int)
     for i in range(0,nodes):
+        #print('i=',i,'fit_base=',fit_base[i])
         avg=0
         neighbor_count=0
-        neighbors=np.zeros(4,dtype=int)
+        neighbors=np.zeros(Neighbors,dtype=int)
+        new_solution=np.copy(fit_base[i])
         for j in range(0,nodes):
-            if adj_matrix[i,j] == 1:
+            try:
+                if adj_matrix[i,j] == 1:
+                    
+                    avg+=fit_score[j]
+                    neighbor_count+=1
+                    neighbors[neighbor_count-1]=j
+            except Exception as e:
+                print("failed in neighbor count")
+                print(e)
+                print(i,j,nodes)
+                print(len(neighbors))
+                print(neighbor_count)
+                print(len(fit_score))
                 
-                avg+=fit_score[j]
-                neighbor_count+=1
-                neighbors[neighbor_count-1]=j
+                exit()
 
         if neighbor_count>0:
-            avg=avg/neighbor_count
+            #look at average of neighbors
+            #avg=avg/neighbor_count
             #now select the neighbor to copy from:
+
+
+            #choose index between 0 and neighbor_count-1
             choosen_neighbor=rand_neighbor[rand_neighbor_index]
             rand_neighbor_index+=1
-            #roulett wheel selection
-            temp = 100/neighbor_count
-            if choosen_neighbor<=temp:
-                holder=neighbors[0]
-            elif choosen_neighbor<=temp*2:
-                holder=neighbors[1]
-            elif choosen_neighbor<=temp*3:
-                holder=neighbors[2]
-            else:
-                holder=neighbors[3]
+            while choosen_neighbor>neighbor_count-1:
+                choosen_neighbor=choosen_neighbor-neighbor_count
 
+            #look at random neighbor
+            holder=neighbors[choosen_neighbor]
+            avg=fit_score[holder]
             if avg>fit_score[i]:
-                for i in range(rand_seed_low[i]):
-                    #copy from holder to i
-                    fit_base[i,rand_seed_index[rand_index_counter]]=fit_base[holder,rand_seed_index[rand_index_counter]]
+                # below avg 
+                
+                for k in range(rand_seed_low[i]):
+                    #copy from holder to i for some number of chars
+                    new_solution[rand_seed_index[rand_index_counter]]=fit_base[holder,rand_seed_index[rand_index_counter]]
                     rand_index_counter+=1
                 
-            else:   
-                for i in range(rand_seed_high[i]):
-                    #copy from holder to i
-                    fit_base[i,rand_seed_index[rand_index_counter]]=fit_base[holder,rand_seed_index[rand_index_counter]]
-                    rand_index_counter+=1
-
-        
-        else: #no neighbors, randomly mutate
-            for i in range(rand_seed_high[i]):
-                fit_base[i,rand_seed_index[rand_index_counter]]=1-fit_base[i,rand_seed_index[rand_index_counter]]
-                rand_index_counter+=1
+                try:
+                    if landscape.get_fitness(new_solution)>fit_score[i]:
                         
+                        #print("below",landscape.get_fitness(new_solution),fit_score[i])
+                        fit_base[i]=new_solution
+
+                    else:
+                        #try self learning
+                        new_solution=np.copy(fit_base[i])
+                        new_solution[rand_seed_index[rand_index_counter]]=1-new_solution[rand_seed_index[rand_index_counter]]
+                        rand_index_counter+=1
+                        if landscape.get_fitness(new_solution)>fit_score[i]:
+                            
+                            #print("below_self",landscape.get_fitness(new_solution),fit_score[i]) 
+                            fit_base[i]=new_solution
+                        else:
+                            #print("below_self_fail",landscape.get_fitness(new_solution),fit_score[i]) 
+                            pass
+                except:
+                    print("failed")
+                    print(new_solution)
+                    print(i,nodes)
+                    print(fit_score)
+                    exit()
+
+              
+            else: 
+                #if better than average, try to flip one bit
+                new_solution[rand_seed_index[rand_index_counter]]=1-new_solution[rand_seed_index[rand_index_counter]]
+                rand_index_counter+=1
+                if landscape.get_fitness(new_solution)>fit_score[i]:
+                    
+                    #print("above_self",landscape.get_fitness(new_solution),fit_score[i])
+                    fit_base[i]=new_solution
+
+                else:
+                    #print("above_self_fail",landscape.get_fitness(new_solution),fit_score[i])
+                    pass
+
+        else: #no neighbors, randomly mutate
+            for k in range(rand_seed_low[i]):
+                    #copy from holder to i for some number of chars
+                    new_solution[rand_seed_index[rand_index_counter]]=fit_base[holder,rand_seed_index[rand_index_counter]]
+                    rand_index_counter+=1
+            if landscape.get_fitness(new_solution)>fit_score[i]:
+                    
+                    #print("iso",landscape.get_fitness(new_solution),fit_score[i]) 
+                    fit_base[i]=new_solution
+            else:
+                #print("iso_fail",landscape.get_fitness(new_solution),fit_score[i])
+                pass
+        #print('i=',i,'fit_base=',fit_base[i])
     return fit_base

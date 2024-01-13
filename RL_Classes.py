@@ -7,25 +7,30 @@ import igraph as ig
 import matplotlib.pyplot as plt
 import numpy as np
 #import math.sigmoid as sigmoid
-
+import random
 import torch
 import torch.nn as nn
 import torch.optim as optim
 from torch_geometric.data import Data
 from torch_geometric.nn import GCNConv
 import torch.nn.functional as F
-
+from torch_geometric.nn import aggr
 class Environment:
-    def __init__(self,Nodes, N, K):
+    def __init__(self,Nodes, N, K,seed):
         #base parameters
         self.N = N
         self.K = K
         self.Nodes = Nodes
-
+        random.seed(seed)
         #initialize the landscape, graph, and fitness
         self.land = nk.NKLandscape(self.N, self.K)
-        self.g = ig.Graph.SBM(self.Nodes, [[.8,.05,.05,.05,.05],[.05,.8,.05,.05,.05],[.05,.05,.8,.05,.05],[.05,.05,.05,.8,.05],[.05,.05,.05,.05,.8]],
-                                [20,20,20,20,20], directed=False, loops=False)
+        #self.g = ig.Graph.SBM(self.Nodes, [[.8,.05,.05,.05,.05],[.05,.8,.05,.05,.05],[.05,.05,.8,.05,.05],[.05,.05,.05,.8,.05],[.05,.05,.05,.05,.8]],
+        #                        [20,20,20,20,20], directed=False, loops=False)
+        #do above for 40 nodes
+        self.g = ig.Graph.SBM(self.Nodes*2, [[.85,.05,.05,.05],[.05,.85,.05,.05],[.05,.05,.85,.05],[.05,.05,.05,.85]],
+                                [20,20,20,20], directed=False, loops=False)
+        #get hightest degree node
+        print(list(self.g.degree()).sort())
         self.adj=np.array(list(self.g.get_adjacency()),dtype=np.int32)
         self.fit_base=np.random.randint(0,2,size=(Nodes,N),dtype=np.int8)
         self.fit_score=np.array([self.land.fitness(x) for x in self.fit_base])
@@ -41,9 +46,9 @@ class Environment:
 
         #print(self.edge_list.shape)
         # Node features - using identity features here
-        num_nodes = len(self.g.vs)
+        num_nodes = Nodes #len(self.g.vs)
         node_features = torch.eye(num_nodes)
-
+        #print
         # Create torch_geometric data
         self.data = Data(x=node_features, edge_index=self.edge_list)
 
@@ -93,10 +98,10 @@ class Environment:
 
         return self.matrix
 
-    def step(self, actions):
+    def step(self):
         #blind step, no knowledge of own/surrounding fitness
-        Neighbors = self.Nodes//4 #max num of edges a node may have
-        rand_seed_index=np.random.randint(0,N-1,size=self.N*self.Nodes)
+        Neighbors = self.Nodes #max num of edges a node may have
+        rand_seed_index=np.random.randint(0,self.N-1,size=self.N*self.Nodes)
         rand_neighbor=np.random.randint(0,20,size=self.Nodes+2)
         holder=0
         rand_neighbor_index = 0
@@ -159,39 +164,57 @@ class GNNActorCritic(nn.Module):
         #Not sure if next is correct
         num_node_features=N
         # Common GNN layers
-        self.conv1 = GCNConv(num_node_features, 16)
-        self.conv2 = GCNConv(16, 16)
-
-        self.conv1 = GCNConv(num_node_features, 16)
-        self.conv2 = GCNConv(16, 16)
+        self.conv1 = GCNConv(num_node_features, 32)
+        self.conv2 = GCNConv(32, 20)
+        
 
         # Actor layers
-        self.fc = nn.Linear(16, X * 2)  # Adjust the input features accordingly
+        self.actor_fc = nn.Linear(20, N*N)
 
         # Critic layers
-        self.critic_fc = nn.Linear(16, 1)
+        self.critic_fc = nn.Linear(20, 1)
+        #self.softmax_aggr = aggr.SoftmaxAggregation(learn=True)
 
     def forward(self, data):
         x, edge_index = data.x, data.edge_index
-
+        print(x.shape)  
+        print(edge_index.shape)
         # Common GNN layers
         x = torch.relu(self.conv1(x, edge_index))
         x = torch.relu(self.conv2(x, edge_index))
+        #print(x.shape)
 
         # Critic
         critic_output = self.critic_fc(x)
-
+        critic_output = critic_output.mean(dim=0)
+        #print('co',critic_output.shape)
         # Actor
         # Global pooling (e.g., mean pooling)
-        x = torch.mean(x, dim=0)
+        x_actor = torch.mean(x, dim=0)
+        # Apply fully connected layer to get probabilities over node pairs
+        logits = self.actor_fc(x_actor) 
+        logits = logits.view(self.N, self.N)
 
-        # Apply fully connected layer to get 2*X outputs
-        output = self.fc(x)
+        # Apply softmax to get probabilities
+        maxx,mi,mj=0,0,0
+        smax,si,sj=0,0,0
+        probabilities = F.softmax(logits, dim=1)
+        for i in range(0,self.N):
+            for j in range (0,self.N):
+                #if i==j:
+                    #probabilities[i,j]=0
+                if probabilities[i,j]>maxx:
+                    smax=maxx
+                    si, sj = mi, mj
+                    mi, mj = i, j
+                    maxx=probabilities[i,j]
+        actions=torch.tensor([[mi,mj],[si,sj]])                    
 
-        # Reshape and process to get X node pairs
-        node_pairs = output.view(self.X, 2)
-        node_pairs = F.softmax(node_pairs, dim=1) * (self.N - 1)
-        nodes_chosen = node_pairs.round().long()
+        # Calculate log probabilities of the chosen actions
+        log_probs = -1*torch.log(probabilities.view(-1)[actions])
 
-        return nodes_chosen, critic_output
+        #print('actions:',actions.shape)
+        #print('log_probs:',log_probs.shape)
+        
+        return actions,log_probs, critic_output
     

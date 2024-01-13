@@ -127,3 +127,52 @@ cpdef step(cnp.ndarray[int, ndim=2] adj_matrix,
                 pass
         #print('i=',i,'fit_base=',fit_base[i])
     return fit_base
+
+
+
+cpdef blind_step(cnp.ndarray[int, ndim=2] adj_matrix,
+    cnp.ndarray[char, ndim=2]  fit_base,
+    cnp.ndarray[double, ndim=1] fit_score, 
+    int nodes, N,landscape,Neighbors):
+
+
+    cdef cnp.ndarray rand_seed_index=np.random.randint(0,N-1,size=N*nodes)
+    cdef cnp.ndarray rand_neighbor=np.random.randint(0,Neighbors,size=nodes+2)
+    cdef int holder
+    cdef int rand_neighbor_index = 0
+    cdef int rand_index_counter = 0
+
+    solo_mutations=2
+    social_mutations=4
+    #all nodes copy from a random neighbor
+    #in the future might use hamming distance to determine probs of which neighbor to copy from
+    for i in range(0,nodes):
+        #print('i=',i,'fit_base=',fit_base[i])
+        neighbor_count=0
+        neighbors=np.zeros(Neighbors,dtype=int)
+        new_solution=np.copy(fit_base[i])
+        for j in range(0,nodes):
+
+            if adj_matrix[i,j] == 1:
+                neighbor_count+=1
+                neighbors[neighbor_count-1]=j
+        
+        if neighbor_count>0:
+            #select the neighbor to copy from:
+            #choose index between 0 and neighbor_count-1
+            choosen_neighbor=rand_neighbor[rand_neighbor_index]
+            rand_neighbor_index+=1
+            while choosen_neighbor>neighbor_count-1:
+                choosen_neighbor=choosen_neighbor-neighbor_count
+            #look at random neighbor
+            holder=neighbors[choosen_neighbor]
+            for k in range(social_mutations):
+                fit_base[i,rand_seed_index[rand_index_counter]]=fit_base[holder,rand_seed_index[rand_index_counter]]
+                rand_index_counter+=1
+        else:
+            #no neighbors, randomly mutate
+            #could possible mutate a char twice, but probably not a big deal
+            for k in range(solo_mutations):
+                fit_base[i,rand_seed_index[rand_index_counter]]=1-fit_base[i,rand_seed_index[rand_index_counter]]
+                rand_index_counter+=1
+    return fit_base

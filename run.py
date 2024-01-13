@@ -1,4 +1,3 @@
-#!/usr/bin/env python2
 import igraph as ig
 import CythonMods.graph as graph
 import CythonMods.direct_nk as nk

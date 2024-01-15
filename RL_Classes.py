@@ -26,15 +26,15 @@ class Environment:
         torch.manual_seed(seed)
         #initialize the landscape, graph, and fitness
         self.land = nk.NKLandscape(self.N, self.K)
-        #self.g = ig.Graph.SBM(self.Nodes, [[.8,.05,.05,.05,.05],[.05,.8,.05,.05,.05],[.05,.05,.8,.05,.05],[.05,.05,.05,.8,.05],[.05,.05,.05,.05,.8]],
-        #                        [20,20,20,20,20], directed=False, loops=False)
+        self.g = ig.Graph.SBM(self.Nodes, [[.8,.05,.05,.05,.05],[.05,.8,.05,.05,.05],[.05,.05,.8,.05,.05],[.05,.05,.05,.8,.05],[.05,.05,.05,.05,.8]],
+                                [20,20,20,20,20], directed=False, loops=False)
         #do above for 40 nodes
         #self.g = ig.Graph.SBM(self.Nodes, [[.85,.05,.05,.05],[.05,.85,.05,.05],[.05,.05,.85,.05],[.05,.05,.05,.85]],
          #                       [10,10,10,10], directed=False, loops=False)
         #self.g = ig.Graph.SBM(self.Nodes, [[.7,.1,.1],[.1,.7,.1],[.1,.1,.7]],
         #                        [5,5,5], directed=False, loops=False)
         #generate a random graph of Nodes nodes
-        self.g = ig.Graph.Erdos_Renyi(n=self.Nodes, m=2*self.Nodes, directed=False, loops=False)
+        #self.g = ig.Graph.Erdos_Renyi(n=self.Nodes, m=2*self.Nodes, directed=False, loops=False)
         #get hightest degree node
         #print(list(self.g.degree()).sort())
         self.adj=np.array(list(self.g.get_adjacency()),dtype=np.int32)
@@ -106,7 +106,7 @@ class Environment:
 
         return self.matrix
 
-    def step(self):
+    def step(self,mat):
         #blind step, no knowledge of own/surrounding fitness
         Neighbors = self.Nodes #max num of edges a node may have
         rand_seed_index=np.random.randint(0,self.N-1,size=self.N*self.Nodes)
@@ -116,7 +116,7 @@ class Environment:
         rand_index_counter = 0
 
         solo_mutations=1
-        social_mutations=2
+        social_mutations=4
         #all nodes copy from a random neighbor
         #in the future might use hamming distance to determine probs of which neighbor to copy from
         for i in range(0,self.Nodes):
@@ -126,7 +126,8 @@ class Environment:
             new_solution=np.copy(self.fit_base[i])
             for j in range(0,self.Nodes):
 
-                if self.adj[i,j] == 1:
+                #if self.adj[i,j] == 1:
+                if mat[i,j] == 1:
                     neighbor_count+=1
                     neighbors[neighbor_count-1]=j
             
@@ -170,6 +171,10 @@ class Environment:
             starter.append(tempA)
 
         return np.array(starter)
+    
+    def smart_step(mat):
+        pass
+        
 
 
 

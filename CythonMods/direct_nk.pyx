@@ -65,7 +65,7 @@ class NKLandscape:
         self.fit_table = (self.fit_table - self.minfit) / (
             self.maxfit - self.minfit
         )  # Normalize
-        self.fit_table = self.fit_table ** 8  # Scale
+        self.fit_table = self.fit_table# ** 8  # Scale
 
     def fitness(self, genotype):
         """Return the fitness of a solution."""

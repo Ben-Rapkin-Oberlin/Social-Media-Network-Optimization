@@ -2320,7 +2320,6 @@ typedef struct {
   PyObject *__pyx_int_0;
   PyObject *__pyx_int_1;
   PyObject *__pyx_int_2;
-  PyObject *__pyx_int_8;
   PyObject *__pyx_int_1000000;
   PyObject *__pyx_tuple_;
   PyObject *__pyx_tuple__3;
@@ -2436,7 +2435,6 @@ static int __pyx_m_clear(PyObject *m) {
   Py_CLEAR(clear_module_state->__pyx_int_0);
   Py_CLEAR(clear_module_state->__pyx_int_1);
   Py_CLEAR(clear_module_state->__pyx_int_2);
-  Py_CLEAR(clear_module_state->__pyx_int_8);
   Py_CLEAR(clear_module_state->__pyx_int_1000000);
   Py_CLEAR(clear_module_state->__pyx_tuple_);
   Py_CLEAR(clear_module_state->__pyx_tuple__3);
@@ -2530,7 +2528,6 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
   Py_VISIT(traverse_module_state->__pyx_int_0);
   Py_VISIT(traverse_module_state->__pyx_int_1);
   Py_VISIT(traverse_module_state->__pyx_int_2);
-  Py_VISIT(traverse_module_state->__pyx_int_8);
   Py_VISIT(traverse_module_state->__pyx_int_1000000);
   Py_VISIT(traverse_module_state->__pyx_tuple_);
   Py_VISIT(traverse_module_state->__pyx_tuple__3);
@@ -2634,7 +2631,6 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
 #define __pyx_int_0 __pyx_mstate_global->__pyx_int_0
 #define __pyx_int_1 __pyx_mstate_global->__pyx_int_1
 #define __pyx_int_2 __pyx_mstate_global->__pyx_int_2
-#define __pyx_int_8 __pyx_mstate_global->__pyx_int_8
 #define __pyx_int_1000000 __pyx_mstate_global->__pyx_int_1000000
 #define __pyx_tuple_ __pyx_mstate_global->__pyx_tuple_
 #define __pyx_tuple__3 __pyx_mstate_global->__pyx_tuple__3
@@ -3811,7 +3807,7 @@ static PyObject *__pyx_pf_9direct_nk_11NKLandscape___init__(CYTHON_UNUSED PyObje
  *         self.fit_table = (self.fit_table - self.minfit) / (
  *             self.maxfit - self.minfit             # <<<<<<<<<<<<<<
  *         )  # Normalize
- *         self.fit_table = self.fit_table ** 8  # Scale
+ *         self.fit_table = self.fit_table# ** 8  # Scale
  */
   __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_maxfit); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 66, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
@@ -3839,17 +3835,14 @@ static PyObject *__pyx_pf_9direct_nk_11NKLandscape___init__(CYTHON_UNUSED PyObje
   /* "direct_nk.pyx":68
  *             self.maxfit - self.minfit
  *         )  # Normalize
- *         self.fit_table = self.fit_table ** 8  # Scale             # <<<<<<<<<<<<<<
+ *         self.fit_table = self.fit_table# ** 8  # Scale             # <<<<<<<<<<<<<<
  * 
  *     def fitness(self, genotype):
  */
   __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_fit_table); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 68, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_3 = PyNumber_Power(__pyx_t_1, __pyx_int_8, Py_None); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 68, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_fit_table, __pyx_t_1) < 0) __PYX_ERR(0, 68, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_fit_table, __pyx_t_3) < 0) __PYX_ERR(0, 68, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
   /* "direct_nk.pyx":34
  *     """Create a tunably rugged landscape with N dimensions and K epistatic interactions"""
@@ -3885,7 +3878,7 @@ static PyObject *__pyx_pf_9direct_nk_11NKLandscape___init__(CYTHON_UNUSED PyObje
 }
 
 /* "direct_nk.pyx":70
- *         self.fit_table = self.fit_table ** 8  # Scale
+ *         self.fit_table = self.fit_table# ** 8  # Scale
  * 
  *     def fitness(self, genotype):             # <<<<<<<<<<<<<<
  *         """Return the fitness of a solution."""
@@ -4045,7 +4038,7 @@ static PyObject *__pyx_pf_9direct_nk_11NKLandscape_2fitness(CYTHON_UNUSED PyObje
   goto __pyx_L0;
 
   /* "direct_nk.pyx":70
- *         self.fit_table = self.fit_table ** 8  # Scale
+ *         self.fit_table = self.fit_table# ** 8  # Scale
  * 
  *     def fitness(self, genotype):             # <<<<<<<<<<<<<<
  *         """Return the fitness of a solution."""
@@ -4542,7 +4535,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __pyx_codeobj__4 = (PyObject*)__Pyx_PyCode_New(3, 0, 0, 11, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__3, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_direct_nk_pyx, __pyx_n_s_init, 34, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__4)) __PYX_ERR(0, 34, __pyx_L1_error)
 
   /* "direct_nk.pyx":70
- *         self.fit_table = self.fit_table ** 8  # Scale
+ *         self.fit_table = self.fit_table# ** 8  # Scale
  * 
  *     def fitness(self, genotype):             # <<<<<<<<<<<<<<
  *         """Return the fitness of a solution."""
@@ -4587,7 +4580,6 @@ static CYTHON_SMALL_CODE int __Pyx_InitConstants(void) {
   __pyx_int_0 = PyInt_FromLong(0); if (unlikely(!__pyx_int_0)) __PYX_ERR(0, 1, __pyx_L1_error)
   __pyx_int_1 = PyInt_FromLong(1); if (unlikely(!__pyx_int_1)) __PYX_ERR(0, 1, __pyx_L1_error)
   __pyx_int_2 = PyInt_FromLong(2); if (unlikely(!__pyx_int_2)) __PYX_ERR(0, 1, __pyx_L1_error)
-  __pyx_int_8 = PyInt_FromLong(8); if (unlikely(!__pyx_int_8)) __PYX_ERR(0, 1, __pyx_L1_error)
   __pyx_int_1000000 = PyInt_FromLong(1000000L); if (unlikely(!__pyx_int_1000000)) __PYX_ERR(0, 1, __pyx_L1_error)
   return 0;
   __pyx_L1_error:;
@@ -4978,7 +4970,7 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
   /* "direct_nk.pyx":70
- *         self.fit_table = self.fit_table ** 8  # Scale
+ *         self.fit_table = self.fit_table# ** 8  # Scale
  * 
  *     def fitness(self, genotype):             # <<<<<<<<<<<<<<
  *         """Return the fitness of a solution."""

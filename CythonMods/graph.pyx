@@ -30,6 +30,7 @@ cpdef step(cnp.ndarray[int, ndim=2] adj_matrix,
     cdef cnp.ndarray neighbors=np.zeros(Neighbors, dtype=int)
     cdef double temp
     cdef cnp.ndarray new_solution = np.zeros(N, dtype=int)
+    
     for i in range(0,nodes):
         #print('i=',i,'fit_base=',fit_base[i])
         avg=0
@@ -126,7 +127,12 @@ cpdef step(cnp.ndarray[int, ndim=2] adj_matrix,
                 #print("iso_fail",landscape.get_fitness(new_solution),fit_score[i])
                 pass
         #print('i=',i,'fit_base=',fit_base[i])
-    return fit_base
+        s=0.0
+        for i in range(0,nodes):
+            s+=landscape.fitness(fit_base[i])
+        s=s/nodes
+    
+    return fit_base, s
 
 
 

@@ -2,7 +2,7 @@ import torch
 import torch.optim as optim
 import torch.nn.functional as F
 from torch.distributions import Categorical
-from NN_models.RL_Classes import Environment, GNNActorCritic
+from RL_Classes import Environment, GNNActorCritic
 import matplotlib.pyplot as plt
 import math
 #import torch.nn.functional as F

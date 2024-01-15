@@ -22,15 +22,21 @@ class Environment:
         self.K = K
         self.Nodes = Nodes
         random.seed(seed)
+        np.random.seed(seed)
+        torch.manual_seed(seed)
         #initialize the landscape, graph, and fitness
         self.land = nk.NKLandscape(self.N, self.K)
         #self.g = ig.Graph.SBM(self.Nodes, [[.8,.05,.05,.05,.05],[.05,.8,.05,.05,.05],[.05,.05,.8,.05,.05],[.05,.05,.05,.8,.05],[.05,.05,.05,.05,.8]],
         #                        [20,20,20,20,20], directed=False, loops=False)
         #do above for 40 nodes
-        self.g = ig.Graph.SBM(self.Nodes*2, [[.85,.05,.05,.05],[.05,.85,.05,.05],[.05,.05,.85,.05],[.05,.05,.05,.85]],
-                                [20,20,20,20], directed=False, loops=False)
+        #self.g = ig.Graph.SBM(self.Nodes, [[.85,.05,.05,.05],[.05,.85,.05,.05],[.05,.05,.85,.05],[.05,.05,.05,.85]],
+         #                       [10,10,10,10], directed=False, loops=False)
+        #self.g = ig.Graph.SBM(self.Nodes, [[.7,.1,.1],[.1,.7,.1],[.1,.1,.7]],
+        #                        [5,5,5], directed=False, loops=False)
+        #generate a random graph of Nodes nodes
+        self.g = ig.Graph.Erdos_Renyi(n=self.Nodes, m=2*self.Nodes, directed=False, loops=False)
         #get hightest degree node
-        print(list(self.g.degree()).sort())
+        #print(list(self.g.degree()).sort())
         self.adj=np.array(list(self.g.get_adjacency()),dtype=np.int32)
         self.fit_base=np.random.randint(0,2,size=(Nodes,N),dtype=np.int8)
         self.fit_score=np.array([self.land.fitness(x) for x in self.fit_base])
@@ -40,11 +46,11 @@ class Environment:
         self.edge_map ={} # so we do not need to search for the edge index to remove the edge
         for i in range (self.edge_list.shape[1]):
             self.edge_map[self.edge_list[0,i].item(),self.edge_list[1,i].item()]=i
-           
+        
         #print('map',len(self.edge_map.keys()))
         #print('adj',int(sum([x.sum() for x in self.adj])/2))
 
-        #print(self.edge_list.shape)
+        #print(self.edge_list)
         # Node features - using identity features here
         num_nodes = Nodes #len(self.g.vs)
         node_features = torch.eye(num_nodes)
@@ -54,6 +60,8 @@ class Environment:
 
     def update(self, actions):
         #update the adj and graph object
+        #if self.data.edge_index.shape[1]>=self.Nodes*5:
+         #   return
         for edge in actions:         
             #print('map',len(self.edge_map.keys()))
             #print('adj',int(sum([x.sum() for x in self.adj])/2))
@@ -141,12 +149,27 @@ class Environment:
                     self.fit_base[i,rand_seed_index[rand_index_counter]]=1-self.fit_base[i,rand_seed_index[rand_index_counter]]
                     rand_index_counter+=1
         self.fit_score=np.array([self.land.fitness(x) for x in self.fit_base])
-        total_score = self.fit_score.sum()
+        #total_score = self.fit_score.sum()#
+        total_score = self.fit_score.mean()
         return total_score
 
 
 
+    def prime(self,time_steps):
+        #prime the graph with a few steps
+        starter=[]
+        for i in range(time_steps):
+            tempA=self.adj
+            score=self.step() #this is the score
+            tempB = np.full((1, self.Nodes), score)  # Create a 1xN array filled with 'score'
+        
+            # Stack tempB below tempA
+            tempA = np.vstack((tempA, tempB))
+            
+            #tempA=np.append(tempA,tempB,axis=1)
+            starter.append(tempA)
 
+        return np.array(starter)
 
 
 
@@ -157,10 +180,11 @@ class Environment:
 ####################################################################
 
 class GNNActorCritic(nn.Module):
-    def __init__(self, N,X):
+    def __init__(self, N,X,seed):
         super(GNNActorCritic, self).__init__()
         self.N = N
         self.X = X
+        torch.manual_seed(seed)
         #Not sure if next is correct
         num_node_features=N
         # Common GNN layers
@@ -175,10 +199,14 @@ class GNNActorCritic(nn.Module):
         self.critic_fc = nn.Linear(20, 1)
         #self.softmax_aggr = aggr.SoftmaxAggregation(learn=True)
 
+        self.saved_actions = []
+        self.rewards = []
+
     def forward(self, data):
         x, edge_index = data.x, data.edge_index
-        print(x.shape)  
-        print(edge_index.shape)
+        
+        #print(x.shape)  
+        #print(edge_index.shape)
         # Common GNN layers
         x = torch.relu(self.conv1(x, edge_index))
         x = torch.relu(self.conv2(x, edge_index))

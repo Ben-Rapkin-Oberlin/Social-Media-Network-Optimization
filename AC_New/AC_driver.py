@@ -1,3 +1,4 @@
+import Original_NK as NK
 
 #TODO
 #Make NK_landscape
@@ -18,7 +19,7 @@ Clusters=Nodes**(1/2) #number of clusters
 Epochs=1000           #number of training epochs, may replace with episode scores
 hidden_dim=(1,1,1)       #hidden dimension of ConvLSTM
 
-
+landscape=NK.NKLandscape(N,K)   #make NK landscape
 
 
 #start training loop

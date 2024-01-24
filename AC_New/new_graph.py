@@ -2,7 +2,7 @@
 import numpy as np
 import networkx as nx
 import matplotlib.pyplot as plt
-
+import random
 
 
 """
@@ -48,6 +48,21 @@ class Population:
                 self.node_edge_max[i]=sample
                 i+=1           
 
+    def clean_edge_count(self):
+        #take the SBM graph and apply the dict of normally dist max_neighbor_count for each node
+        for i in range(self.popsize):
+            while self.adj_matrix[i].sum()>self.node_edge_max[i]:
+
+                #randomly select an edge to remove
+                ones_indices = np.where(self.adj_matrix[i] == 1)[0]
+                index_to_flip = random.choice(ones_indices)
+
+                #symmetrically remove the edge
+                self.adj_matrix[i,index_to_flip]=0
+                self.adj_matrix[index_to_flip,i]=0
+
+                #in future maybe pick the ones with greatest hamming distance
+                            
 
     def set_community(self, in_group, out_group):
         #seed maybe?
@@ -79,15 +94,13 @@ class Population:
                 count+=1
             cluster+=1
         
-
+        clean_edge_count()
         # print(np.sum(self.adj_matrix)
         # plt.clf()
         # plt.imshow(self.adj_matrix)
         # plt.show()
     
-    def clean_edge_count(self):
-        #take the SBM graph and apply the dict of normally dist max_neighbor_count for each node
-        pass
+   
 
 
     def recluster(self, cluster_matrix):

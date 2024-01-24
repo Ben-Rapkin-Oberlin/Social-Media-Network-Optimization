@@ -94,7 +94,7 @@ class Population:
                 count+=1
             cluster+=1
         
-        clean_edge_count()
+        self.clean_edge_count()
         # print(np.sum(self.adj_matrix)
         # plt.clf()
         # plt.imshow(self.adj_matrix)
@@ -104,6 +104,10 @@ class Population:
 
 
     def recluster(self, cluster_matrix):
+
+        #we need a way to remeber the which cluster/sudoblock each node is in
+        #i.e. which leader it has. 
+
         for i in range(self.adj_matrix.shape[0]):
            # i is now a the node index
             node_cluster=self.label[i]
@@ -111,6 +115,7 @@ class Population:
             #use roulete selection to pick a cluster
             #randomly select a node from that cluster
 
+            
             #if that node is not already a neighbor 
                 #if the node has less than max neighbors
                     #add the edge

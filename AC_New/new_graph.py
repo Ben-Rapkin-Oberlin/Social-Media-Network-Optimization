@@ -5,11 +5,19 @@ import matplotlib.pyplot as plt
 
 
 
+"""
+First Prime the graph with a random graph of Cluster blocks each of size Nodes/Clusters
 
+Next take in clustering matrix and rewire edges to match clustering matrix
+
+Then update nodes by belives of neighbors
+
+
+"""
 class Population:
     """"""
 
-    def __init__(self, popsize, n, landscape, community=False):
+    def __init__(self, popsize, n, landscape, max_edge_count, community=False):
         self.popsize = popsize  # population size
         self.ng = n  # number of genes
         self.share_rate = 1.0  # recombination rate
@@ -23,11 +31,16 @@ class Population:
         self.shared = np.zeros(popsize, dtype=int)  # and who just shared
         self.dist_list = np.zeros(int(((popsize * popsize) - popsize) / 2))
         self.community = community
+        self.max_edge_count = max_edge_count
+
+        self.label={}
 
     def set_community(self, in_group, out_group):
+        #seed maybe?
         # sizes = np.ones(communities)*(self.popsize/communities)
+        block_sizes=[25, 25, 25, 25]
         graph = nx.stochastic_block_model(
-            sizes=[25, 25, 25, 25],
+            sizes=block_sizes,
             p=[
                 [in_group, out_group, out_group, out_group],
                 [out_group, in_group, out_group, out_group],
@@ -36,10 +49,40 @@ class Population:
             ],
         )
         self.adj_matrix = nx.to_numpy_array(graph)
+
+        """
+        #label each node with its cluster, so we can find cluster probabilities later
+        #maybe add dict of normally dist max_neighbor_count for each node, so we don't 
+        #end up with all nodes having the same number of neighbors   
+
+        """
+
+        count=0
+        cluster=0
+        for i in block_sizes:
+            for j in range(i):
+                self.label[count]=cluster
+                count+=1
+            cluster+=1
+        
+
         # print(np.sum(self.adj_matrix)
         # plt.clf()
         # plt.imshow(self.adj_matrix)
         # plt.show()
+    
+    def clean_edge_count(self):
+        #take the SBM graph and apply the dict of normally dist max_neighbor_count for each node
+        
+
+
+    def recluster(self, cluster_matrix):
+        for i in range()
+        # rewrire graph
+        # if node has too many edges, compare hamming distance and keep the top mnc/(mnc+1) edges
+        
+        
+
 
     def set_pop(self, genotypes):
         """Set the population genotypes to the given genotypes"""

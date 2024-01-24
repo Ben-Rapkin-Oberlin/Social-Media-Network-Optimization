@@ -17,7 +17,7 @@ Then update nodes by belives of neighbors
 class Population:
     """"""
 
-    def __init__(self, popsize, n, landscape, max_edge_count, community=False):
+    def __init__(self, popsize, n, landscape, max_edge_mean, community=False):
         self.popsize = popsize  # population size
         self.ng = n  # number of genes
         self.share_rate = 1.0  # recombination rate
@@ -31,9 +31,23 @@ class Population:
         self.shared = np.zeros(popsize, dtype=int)  # and who just shared
         self.dist_list = np.zeros(int(((popsize * popsize) - popsize) / 2))
         self.community = community
-        self.max_edge_count = max_edge_count
-
+        
         self.label={}
+        self.node_edge_max={}
+
+        # Generate a dict of normally dist max_neighbor_count for each node
+        # May need to update scale
+        samples = np.random.normal(loc=max_edge_mean, scale=1.5, size=3*popsize)
+
+        # Round the samples to get integers
+        int_samples = np.round(samples).astype(int)
+        
+        i=0
+        for sample in int_samples:
+            if sample > 0:
+                self.node_edge_max[i]=sample
+                i+=1           
+
 
     def set_community(self, in_group, out_group):
         #seed maybe?
@@ -73,11 +87,28 @@ class Population:
     
     def clean_edge_count(self):
         #take the SBM graph and apply the dict of normally dist max_neighbor_count for each node
-        
+        pass
 
 
     def recluster(self, cluster_matrix):
-        for i in range()
+        for i in range(self.adj_matrix.shape[0]):
+           # i is now a the node index
+            node_cluster=self.label[i]
+            #we will change one edge each time step
+            #use roulete selection to pick a cluster
+            #randomly select a node from that cluster
+
+            #if that node is not already a neighbor 
+                #if the node has less than max neighbors
+                    #add the edge
+                #if the original node is now over max neighbors
+                    #randomly remove an edge
+                    #in future we will pick the ones with greatest hamming distance
+
+                #else    
+                    #in the future figure out how to doing two way wethere
+
+
         # rewrire graph
         # if node has too many edges, compare hamming distance and keep the top mnc/(mnc+1) edges
         

@@ -43,22 +43,56 @@ def prime_episode(loops,info):
 
 
 def update_instance(instance,act_out,avg,info):
-
-
-
     new=torch.zeros(1,info[4],1,info[5]+1,info[5]) 
-    new[:,0:info[4]-1,:,:,:]=instance[:,1:,:,:,:]
 
+    new[:,0:info[4]-1,:,:,:]=instance[:,1:,:,:,:]
     new[:,-1,:,0:-1,:]=act_out
-    #print(avg)
-    #print(new[0,-1,0,-1,:])
-    #print(torch.full((4,1), avg))
-    new[0,-1,0,-1,:]=avg#torch.full((1,4), avg)
-    #print(updated_info)
-    print(new[0,-1,0,:,:])
-    print(new[0,-2,0,:,:])
-    print(new[0,-3,0,:,:])
+    new[0,-1,0,-1,:]=avg
+
     return new
 
 
 
+
+
+def finish_episode():
+    """
+    Training code. Calculates actor and critic loss and performs backprop.
+    """
+    R = 0
+    saved_actions = model.saved_actions
+    policy_losses = [] # list to save actor (policy) loss
+    value_losses = [] # list to save critic (value) loss
+    returns = [] # list to save the true values
+
+    # calculate the true value using rewards returned from the environment
+    for r in model.rewards[::-1]:
+        # calculate the discounted value
+        R = r + args.gamma * R
+        returns.insert(0, R)
+
+    returns = torch.tensor(returns)
+    returns = (returns - returns.mean()) / (returns.std() + eps)
+
+    for (log_prob, value), R in zip(saved_actions, returns):
+        advantage = R - value.item()
+
+        # calculate actor (policy) loss
+        policy_losses.append(-log_prob * advantage)
+
+        # calculate critic (value) loss using L1 smooth loss
+        value_losses.append(F.smooth_l1_loss(value, torch.tensor([R])))
+
+    # reset gradients
+    optimizer.zero_grad()
+
+    # sum up all the values of policy_losses and value_losses
+    loss = torch.stack(policy_losses).sum() + torch.stack(value_losses).sum()
+
+    # perform backprop
+    loss.backward()
+    optimizer.step()
+
+    # reset rewards and action buffer
+    del model.rewards[:]
+    del model.saved_actions[:]

@@ -108,12 +108,29 @@ class Population:
         #we need a way to remeber the which cluster/sudoblock each node is in
         #i.e. which leader it has. 
 
+        #check the number of possible clusters, i.e. the sudo-stochastic blocks, can change each time step.
+        #For now we will define it as the var 'groups'
+
+        num_groups=5 #TODO change this
+        groups=[i for i in range(0,num_groups)]
+        #we will for now let ingroup selection probability be .8 and the rest as .2/groups
+        probs=[.8]+[.05]*4
+        #TODO if we keep the names of the groups constant each iter, we need to shift the prob each time based on which
+        #option is the 'in_group'
+
         for i in range(self.adj_matrix.shape[0]):
            # i is now a the node index
             node_cluster=self.label[i]
+
             #we will change one edge each time step
+
+
             #use roulete selection to pick a cluster
             #randomly select a node from that cluster
+
+            #this returns the name of the group to choose
+            selected_option = random.choices(groups, weights=probs, k=1)[0]
+            
 
             
             #if that node is not already a neighbor 

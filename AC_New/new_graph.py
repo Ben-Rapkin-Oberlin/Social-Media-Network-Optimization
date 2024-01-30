@@ -321,7 +321,7 @@ class Population:
         self.share(1)
         self.learn(0)
         a,mh,sp=self.stats()
-        return aa
+        return a,mh,sp
             
 
 

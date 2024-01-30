@@ -75,6 +75,7 @@ def step(action,instance,pop):
     #run pop on action
     avg,new_state=pop.step(action)
 
+    
     instance=update_instance(instance,action,avg)
 
     return instance, avg

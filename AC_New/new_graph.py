@@ -115,8 +115,11 @@ class Population:
            a node to connect with. If this violates their max, then just pass. If it 
            violates your max, randomly drop one neighbor, the new node is included in 
            this selection
+
+           TODO implement dropping via hamming distance and another protical for if a node is full of edges
         """
-        
+        IN_GROUP_PROB=.7
+        OUT_GROUP_PROB=1-IN_GROUP_PROB
         mapping={}
         #loop overall all sudo-blocks to find clusters included
         for i in range(self.clusters):
@@ -140,50 +143,38 @@ class Population:
 
         #may be biased as groups in lower numbers will always go first
         for block in sudo:  
-            for node_num in block
-                g=random.choices(['in','out'], weights=[.7,.3], k=1)[0]
+            for current_node in block:
+                g=random.choices(['in','out'], weights=[IN_GROUP_PROB,OUT_GROUP_PROB], k=1)[0]
                 if g=='in':
                     new_neighbor=random.choice(block)
-                    if new
+                    if new != current_node:
+                        if sum(self.get_neighbors(new_neighbor))<=self.node_edge_max[new_neighbor]:
+                            if sum(self.get_neighbors(current_node))<=self.node_edge_max[current_node]:
+                                neighbors=self.get_neighbors(current_node)
+                                dropped=random.choice(neighbors)
+                                self.adj_matrix[current_node,dropped]=0
+                                self.adj_matrix[dropped,current_node]=0
+                                
+                            self.adj_matrix[new_neighbor,current_node]==1
+                            self.adj_matrix[current_node,new_neighbor]==1
 
+                else:
+                    g=random.choices(sudo)
+                    #make sure it is an out group
+                    while g==block:
+                        g=random.choices(sudo)
+                    new_neighbor=random.choice(g)
+                    if sum(self.get_neighbors(new_neighbor))<=self.node_edge_max[new_neighbor]:
+                        if sum(self.get_neighbors(current_node))<=self.node_edge_max[current_node]:
+                            neighbors=self.get_neighbors(current_node)
+                            dropped=random.choice(neighbors)
+                            self.adj_matrix[current_node,dropped]=0
+                            self.adj_matrix[dropped,current_node]=0
 
-        #now iterate over all nodes and add edges
-        groups=[i for i in range(self.clusters)]
-        prob=[]
-        for i in range(self.clusters):
-            a=[out_group]*i+[in_group]+[out_group]*(self.clusters-1-i)
-            prob.append(a)
+                        self.adj_matrix[new_neighbor,current_node]==1
+                        self.adj_matrix[current_node,new_neighbor]==1
 
-
-        for i in range(self.adj_matrix.shape[0]):
-           # i is now a the node index
-            node_cluster=self.label[i]
-
-            #we will change one edge each time step
-
-
-            #use roulete selection to pick a cluster
-            #randomly select a node from that cluster
-
-            #this returns the name of the group to choose
-            selected_option = random.choices(groups, weights=probs, k=1)[0]
-            
-
-            
-            #if that node is not already a neighbor 
-                #if the node has less than max neighbors
-                    #add the edge
-                #if the original node is now over max neighbors
-                    #randomly remove an edge
-                    #in future we will pick the ones with greatest hamming distance
-
-                #else    
-                    #in the future figure out how to doing two way wethere
-
-
-        # rewrire graph
-        # if node has too many edges, compare hamming distance and keep the top mnc/(mnc+1) edges
-        
+        return    
         
     def set_pop(self, genotypes):
         """Set the population genotypes to the given genotypes"""

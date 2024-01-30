@@ -70,7 +70,7 @@ while True:
         #update actor and critic inputs
 
         #update instance
-        instance=hp.update_instance(instance,avg,act_out,info)
+        instance=hp.update_instance(instance,avg,act_out)
 
         #loop  
 
@@ -80,7 +80,7 @@ while True:
     for i_episode in count(1):
 
         # reset environment and episode reward
-        pop,state=hp.prime_episode(loops,info) 
+        pop,state=hp.prime_episode(loops) 
         ep_reward = 0
 
         # for each episode, only run 9999 steps so that we don't
@@ -92,7 +92,7 @@ while True:
 
             # take the action
             hp.step(instance,pop)
-            hp.update_instance(instance,avg,act_out,info)
+            hp.update_instance(instance,avg,act_out)
 
             state, reward, done, _, _ = pop.step(action)
 

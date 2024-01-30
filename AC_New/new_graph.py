@@ -30,7 +30,7 @@ class Population:
         )  # Keeps track of individuals who just learned
         self.shared = np.zeros(popsize, dtype=int)  # and who just shared
         self.dist_list = np.zeros(int(((popsize * popsize) - popsize) / 2))
-        self.community =
+        self.community = community
         self.clusters=clusters
         
         self.label={}
@@ -48,7 +48,7 @@ class Population:
             if sample > 0:
                 self.node_edge_max[i]=sample
                 i+=1          
-            if i>=popsize
+            if i>=popsize:
                 break 
 
 
@@ -78,8 +78,8 @@ class Population:
             a=[out_group]*i+[in_group]+[out_group]*(self.clusters-1-i)
             prob.append(a)
 
-        block_sizes=[popsize/self.clusters for i in range(self.clusters)]
-        
+        block_sizes=[int(self.popsize / self.clusters) for i in range(self.clusters)]
+        #print(block_sizes)
         graph = nx.stochastic_block_model(
             sizes=block_sizes,
             p=prob    
@@ -122,20 +122,24 @@ class Population:
         OUT_GROUP_PROB=1-IN_GROUP_PROB
         mapping={}
         #loop overall all sudo-blocks to find clusters included
+        #check=[[0]*self.popsize]*self.popsize
+        #check=np.array(check)
+        #print(check)
         for i in range(self.clusters):
             mapping[i]=[]
             for j in range(self.clusters):
-                if action[i,j]==1
-                    mapping[i]=mapping[i].append(j)
-
+                if action[i,j]==1:
+                    mapping[i]=mapping[i]+[j]
+        
         #remove any empty sudoblocks
         for i in list(mapping.keys()):
-            if mapping[i]==[]
-            mapping.pop(i)
+            if mapping[i]==[]:
+                mapping.pop(i)
 
         #now sort nodes by their sudoclusters
-        k=list(label.keys())
-        v=list(label.values())
+        k=list(self.label.keys())
+        v=list(self.label.values())
+        
         sudo=[]
         for i in range(self.clusters):
             temp=[key for key,val in zip(k,v) if val in mapping[i]]
@@ -144,37 +148,75 @@ class Population:
         #may be biased as groups in lower numbers will always go first
         for block in sudo:  
             for current_node in block:
-                g=random.choices(['in','out'], weights=[IN_GROUP_PROB,OUT_GROUP_PROB], k=1)[0]
+                g=random.choices(['in','out'], weights=[IN_GROUP_PROB,OUT_GROUP_PROB],k=1)[0]
                 if g=='in':
                     new_neighbor=random.choice(block)
-                    if new != current_node:
-                        if sum(self.get_neighbors(new_neighbor))<=self.node_edge_max[new_neighbor]:
-                            if sum(self.get_neighbors(current_node))<=self.node_edge_max[current_node]:
-                                neighbors=self.get_neighbors(current_node)
-                                dropped=random.choice(neighbors)
-                                self.adj_matrix[current_node,dropped]=0
-                                self.adj_matrix[dropped,current_node]=0
-                                
-                            self.adj_matrix[new_neighbor,current_node]==1
-                            self.adj_matrix[current_node,new_neighbor]==1
-
-                else:
-                    g=random.choices(sudo)
-                    #make sure it is an out group
-                    while g==block:
-                        g=random.choices(sudo)
-                    new_neighbor=random.choice(g)
-                    if sum(self.get_neighbors(new_neighbor))<=self.node_edge_max[new_neighbor]:
-                        if sum(self.get_neighbors(current_node))<=self.node_edge_max[current_node]:
+                    while new_neighbor in self.get_neighbors(current_node):
+                        new_neighbor=random.choice(block)
+                    if new_neighbor!=current_node:
+                        if sum(self.get_neighbors(new_neighbor))>=self.node_edge_max[new_neighbor]:
+                            neighbors=self.get_neighbors(new_neighbor)
+                            dropped=random.choice(neighbors)
+                            self.adj_matrix[new_neighbor,dropped]=0
+                            self.adj_matrix[dropped,new_neighbor]=0
+                            #print('3 dropped connection between ', dropped,new_neighbor)
+                            #check[new_neighbor,dropped]+=1###
+                            #check[dropped,new_neighbor]+=1###
+                        if sum(self.get_neighbors(current_node))>=self.node_edge_max[current_node]:
                             neighbors=self.get_neighbors(current_node)
                             dropped=random.choice(neighbors)
                             self.adj_matrix[current_node,dropped]=0
                             self.adj_matrix[dropped,current_node]=0
+                            #print('4 dropped connection between ', dropped,current_node)
+                            #check[current_node,dropped]+=1###
+                            #check[dropped,current_node]+=1###
 
-                        self.adj_matrix[new_neighbor,current_node]==1
-                        self.adj_matrix[current_node,new_neighbor]==1
+                        self.adj_matrix[new_neighbor,current_node]=1
+                        self.adj_matrix[current_node,new_neighbor]=1
+                        #print('new connection between ', new_neighbor,current_node)
+                        #check[current_node,new_neighbor]-=1###
+                        #check[new_neighbor,current_node]-=1###
+                        
 
-        return    
+
+                else:
+                    #print(sudo)
+                    g=random.choice(sudo)
+                    #make sure it is an out group
+                    while g==block:
+                        g=random.choice(sudo)
+                    #print(g)
+                    new_neighbor=random.choice(g)
+                    while new_neighbor in self.get_neighbors(current_node):
+                        new_neighbor=random.choice(g)
+                    #print('nn: ', new_neighbor)
+                    #print(self.get_neighbors(new_neighbor))
+                    #print(sum(self.get_neighbors(new_neighbor)))
+
+                    if sum(self.get_neighbors(new_neighbor))>=self.node_edge_max[new_neighbor]:
+                        neighbors=self.get_neighbors(new_neighbor)
+                        dropped=random.choice(neighbors)
+                        self.adj_matrix[new_neighbor,dropped]=0
+                        self.adj_matrix[dropped,new_neighbor]=0
+                        #print('3 dropped connection between ', dropped,new_neighbor)
+                        #check[new_neighbor,dropped]+=1###
+                        #check[dropped,new_neighbor]+=1###
+                    if sum(self.get_neighbors(current_node))>=self.node_edge_max[current_node]:
+                        neighbors=self.get_neighbors(current_node)
+                        dropped=random.choice(neighbors)
+                        self.adj_matrix[current_node,dropped]=0
+                        self.adj_matrix[dropped,current_node]=0
+                        #print('4 dropped connection between ', dropped,current_node)
+                        #check[current_node,dropped]+=1###
+                        #check[dropped,current_node]+=1###
+
+                    self.adj_matrix[new_neighbor,current_node]=1
+                    self.adj_matrix[current_node,new_neighbor]=1
+                    #print('new connection between ', new_neighbor,current_node)
+                    #check[current_node,new_neighbor]-=1###
+                    #check[new_neighbor,current_node]-=1###
+        return #check
+         
         
     def set_pop(self, genotypes):
         """Set the population genotypes to the given genotypes"""
@@ -271,7 +313,7 @@ class Population:
         #update connections based on model actions
         #action is a CLUSTERxCLUSTER matrix where each column represents a block/leader and each row represents the
         #sudo-block they've been placed into
-        self.recluster(action)
+        aa=self.recluster(action)
 
 
         #run simulation
@@ -279,6 +321,7 @@ class Population:
         self.share(1)
         self.learn(0)
         a,mh,sp=self.stats()
+        return aa
             
 
 

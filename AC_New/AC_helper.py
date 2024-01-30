@@ -7,18 +7,17 @@ import new_graph as graph
 import torch
 from torch.distributions import Categorical
 import torch.optim as optim
+import torch.nn.functional as F
 
 info=[]
-model
-optimizer
-eps
+#model=F.conv1d((1,1), (1,1))
+#optimizer = optim.Adam(model.parameters(), lr=3e-2)
+eps= np.finfo(np.float32).eps.item()
+
 
 def initialize(setup):
-    global info = setup
-    global model=object #for now, will need to definie it later
-    global optimizer = optim.Adam(model.parameters(), lr=3e-2)
-    global eps = np.finfo(np.float32).eps.item()
-
+    global info 
+    info = setup
     return
 
 def prime_episode(loops):

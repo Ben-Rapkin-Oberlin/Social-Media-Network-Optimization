@@ -8,7 +8,7 @@ import torch
 
 #make actor crtitc
 FRAME_COUNT=10              #number of timesteps/frames the Actor/Critic will recieve
-NODES=50                   #number of nodes
+NODES=16                   #number of nodes
 NEIGHBORS=5                 #mean number of connections per node
 N=15                        #number of bits in our NK landscape
 K=2                         #number of bits each bit interacts with
@@ -49,6 +49,10 @@ while True:
     """
     #generates new landscape and graph, seeds with loop
     pop,instance=hp.prime_episode(loops,info) 
+    a=torch.ones(CLUSTERS,CLUSTERS)
+    avg=4.7
+    instance=hp.update_instance(instance,a,avg,info)
+
     exit()
 
     for i in range(0,2500): #initially using paper's times steps instead of convergence
@@ -58,14 +62,22 @@ while True:
         #run actor
         #run critic
 
+        act_out,crit_out=model(instance)
+
         #update graph/get new score
+        avg=pop.step(act_out)
 
         #update actor
         #update critic
 
         #update actor and critic inputs
 
+
+
+        instance=hp.update_instance(instance,avg,act_out,info)
+
         #loop  
+
     #check if training stopping critearia is met, conditionally loop
     loops+=1
     #for now using num of episodes, in future will look at loss rates

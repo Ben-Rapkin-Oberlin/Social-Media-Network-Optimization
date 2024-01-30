@@ -17,8 +17,11 @@ EPOCHS=1000                 #number of training epochs, may replace with episode
 #hidden_dim=(1,1,1)          #hidden dimension of ConvLSTM
 
 
+#way blocks are set up we need Sqrt(N) to be a whole number
+
 loops=0
 info=[NODES,NEIGHBORS,N,K,FRAME_COUNT,CLUSTERS]
+hp.initialize(info) 
 #start training loop
 """
     self.run(pop,nk,condition,rep,avg,meanhamm,spread,k)
@@ -36,8 +39,7 @@ info=[NODES,NEIGHBORS,N,K,FRAME_COUNT,CLUSTERS]
         spread[condition,rep,trial_num]=sp
 """
 
-model=object #TEMP
-
+SavedAction = namedtuple('SavedAction', ['log_prob', 'value'])
 while True:
     #run episodes:
     """
@@ -78,7 +80,7 @@ while True:
     for i_episode in count(1):
 
         # reset environment and episode reward
-        state, _ = env.reset()
+        pop,state=hp.prime_episode(loops,info) 
         ep_reward = 0
 
         # for each episode, only run 9999 steps so that we don't
@@ -86,13 +88,13 @@ while True:
         for t in range(1, 10000):
 
             # select action from policy
-            action = select_action(state)
+            action = hp.select_action(state)
 
             # take the action
-            state, reward, done, _, _ = env.step(action)
+            hp.step(instance,pop)
+            hp.update_instance(instance,avg,act_out,info)
 
-            if args.render:
-                env.render()
+            state, reward, done, _, _ = pop.step(action)
 
             model.rewards.append(reward)
             ep_reward += reward

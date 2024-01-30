@@ -17,7 +17,7 @@ Then update nodes by belives of neighbors
 class Population:
     """"""
 
-    def __init__(self, popsize, n, landscape, max_edge_mean, community=False):
+    def __init__(self, popsize, n, landscape, max_edge_mean, clusters, community=False):
         self.popsize = popsize  # population size
         self.ng = n  # number of genes
         self.share_rate = 1.0  # recombination rate
@@ -30,7 +30,8 @@ class Population:
         )  # Keeps track of individuals who just learned
         self.shared = np.zeros(popsize, dtype=int)  # and who just shared
         self.dist_list = np.zeros(int(((popsize * popsize) - popsize) / 2))
-        self.community = community
+        self.community =
+        self.clusters=clusters
         
         self.label={}
         self.node_edge_max={}
@@ -46,7 +47,9 @@ class Population:
         for sample in int_samples:
             if sample > 0:
                 self.node_edge_max[i]=sample
-                i+=1           
+                i+=1          
+            if i>=popsize
+                break 
 
 
     def clean_edge_count(self):
@@ -68,16 +71,20 @@ class Population:
     def set_community(self, in_group, out_group):
         #seed maybe?
         # sizes = np.ones(communities)*(self.popsize/communities)
-        block_sizes=[25, 25, 25, 25]
+
+        #we want sqrt(Nodes) communities
+        prob=[]
+        for i in range(self.clusters):
+            a=[out_group]*i+[in_group]+[out_group]*(self.clusters-1-i)
+            prob.append(a)
+
+        block_sizes=[popsize/self.clusters for i in range(self.clusters)]
+        
         graph = nx.stochastic_block_model(
             sizes=block_sizes,
-            p=[
-                [in_group, out_group, out_group, out_group],
-                [out_group, in_group, out_group, out_group],
-                [out_group, out_group, in_group, out_group],
-                [out_group, out_group, out_group, in_group],
-            ],
+            p=prob    
         )
+
         self.adj_matrix = nx.to_numpy_array(graph)
 
         """
@@ -102,20 +109,51 @@ class Population:
         # plt.show()
     
    
-    def recluster(self, cluster_matrix):
+    def recluster(self, action):
+        """go through each node, each it's real group, assign it a sudo-group according
+           to the action key. Then randomly select a group to connect with. Next select
+           a node to connect with. If this violates their max, then just pass. If it 
+           violates your max, randomly drop one neighbor, the new node is included in 
+           this selection
+        """
+        
+        mapping={}
+        #loop overall all sudo-blocks to find clusters included
+        for i in range(self.clusters):
+            mapping[i]=[]
+            for j in range(self.clusters):
+                if action[i,j]==1
+                    mapping[i]=mapping[i].append(j)
 
-        #we need a way to remeber the which cluster/sudoblock each node is in
-        #i.e. which leader it has. 
+        #remove any empty sudoblocks
+        for i in list(mapping.keys()):
+            if mapping[i]==[]
+            mapping.pop(i)
 
-        #check the number of possible clusters, i.e. the sudo-stochastic blocks, can change each time step.
-        #For now we will define it as the var 'groups'
+        #now sort nodes by their sudoclusters
+        k=list(label.keys())
+        v=list(label.values())
+        sudo=[]
+        for i in range(self.clusters):
+            temp=[key for key,val in zip(k,v) if val in mapping[i]]
+            sudo.append(temp)
 
-        num_groups=5 #TODO change this
-        groups=[i for i in range(0,num_groups)]
-        #we will for now let ingroup selection probability be .8 and the rest as .2/groups
-        probs=[.8]+[.05]*4
-        #TODO if we keep the names of the groups constant each iter, we need to shift the prob each time based on which
-        #option is the 'in_group'
+        #may be biased as groups in lower numbers will always go first
+        for block in sudo:  
+            for node_num in block
+                g=random.choices(['in','out'], weights=[.7,.3], k=1)[0]
+                if g=='in':
+                    new_neighbor=random.choice(block)
+                    if new
+
+
+        #now iterate over all nodes and add edges
+        groups=[i for i in range(self.clusters)]
+        prob=[]
+        for i in range(self.clusters):
+            a=[out_group]*i+[in_group]+[out_group]*(self.clusters-1-i)
+            prob.append(a)
+
 
         for i in range(self.adj_matrix.shape[0]):
            # i is now a the node index
@@ -238,7 +276,19 @@ class Population:
                                 new_genotypes[i][g] = np.random.randint(2)
         self.genotypes = new_genotypes.copy()
 
+    def step(self,action):
+        #update connections based on model actions
+        #action is a CLUSTERxCLUSTER matrix where each column represents a block/leader and each row represents the
+        #sudo-block they've been placed into
+        self.recluster(action)
 
+
+        #run simulation
+
+        self.share(1)
+        self.learn(0)
+        a,mh,sp=self.stats()
+            
 
 
 

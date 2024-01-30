@@ -5,9 +5,9 @@
 Currently work is being done on implementing an actor critic model with the clustering action space. Recluster needs testing on non-diagonal matrices, the training loop needs some edits, and the models need taloring. Currently on track. Development can befound in the AC_New (Actor_Critic) directory. 
 
 To run
-'''
+```
 $ python AC_driver.py
-'''
+```
 
 ### Important Files
 **AC_Driver** outlines the training loop and calls high level functions

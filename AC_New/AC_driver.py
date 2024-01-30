@@ -23,16 +23,26 @@ landscape=NK.NKLandscape(N,K)   #make NK landscape
 
 
 #start training loop
-    #run actor
-    #run critic
+    #run episodes:
+    """
+    Each episode will initialize a new random graph, then the RL process is run until we reach some terminating state.
+    Possible terminations: 
+        1. ~2,500 iterations like the paper used for training
+        2. Graph convergance i.e. utility is largley stable
+        3. Model reaches a certaint ultility level
+    """
+        #run actor
+        #run critic
 
-    #update graph/get new score
+        #update graph/get new score
 
-    #update actor
-    #update critic
+        #update actor
+        #update critic
 
-    #update actor and critic inputs
+        #update actor and critic inputs
 
-    #loop
+        #loop  
+    #check if training stopping critearia is met, conditionally loop
+    
 
 

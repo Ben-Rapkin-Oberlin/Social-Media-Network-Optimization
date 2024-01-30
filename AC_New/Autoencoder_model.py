@@ -69,7 +69,7 @@ class EncoderDecoderConvLSTM(nn.Module):
         outputs = torch.stack(outputs, 1)
         outputs = outputs.permute(0, 2, 1, 3, 4) #this is reshapeing the output in a learnable way, it is not introducing randomness
         outputs = self.decoder_CNN(outputs)
-        outputs = torch.nn.Sigmoid()(outputs)
+        outputs = torch.nn.Sigmoid()(outputs) #might want to do softmax here, we need every
 
         return outputs
 

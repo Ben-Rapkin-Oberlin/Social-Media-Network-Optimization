@@ -6,6 +6,7 @@ Currently work is being done on implementing an actor critic model with the clus
 
 To run
 ```
+$ cd AC_New
 $ python AC_driver.py
 ```
 
@@ -24,7 +25,7 @@ $ python AC_driver.py
 
 **tester** is a utility script and area to run functions
 
-### File Outlines
+### Folder Outlines
 **Images** Contains graphs of first AC trials
 
 **MCMC** For future implementations of Markov Decision Processes

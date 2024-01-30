@@ -304,6 +304,3 @@ class SLSim:
             np.save("meanhamm_"+str(k)+"_"+str(id)+".npy", meanhamm)
             np.save("spread_"+str(k)+"_"+str(id)+".npy", spread)
 
-id = int(sys.argv[1])
-sim = SLSim()
-sim.exp(2,4,2,id)

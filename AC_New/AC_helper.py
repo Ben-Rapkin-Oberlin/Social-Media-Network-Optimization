@@ -2,21 +2,22 @@ import torch
 import numpy as np 
 import random
 
+import Original_NK as NK
 import new_graph as graph
 
 
-def prime_episode(loops):
+def prime_episode(loops,info):
     #make each ep unique
     np.random.seed(loops)
     random.seed(loops)
     torch.manual_seed(loops)
 
-    landscape=NK.NKLandscape(N,K)
-    pop=graph.Population(Nodes, N, landscape, Neighbors)
+    landscape=NK.NKLandscape(info[2],info[3])
+    pop=graph.Population(info[0], info[2], landscape, info[1])
 
     initial_genotypes = pop.genotypes.copy()
     pop.set_pop(initial_genotypes)
-    nk.init_visited()
+    landscape.init_visited()
 
     pop.set_community(.7,.1)
     pop.share_rate = .5 #This is what they initially define as a partial share
@@ -24,18 +25,19 @@ def prime_episode(loops):
     pop.mut_rate = .5 #This is again the default
 
     #generate starting input
-    instance=torch.zeros(1,FRAME_COUNT,1,CLUSTERS+1,CLUSTERS) #   batch, time, channel, height, width
+    instance=torch.zeros(1,info[4],1,info[5]+1,info[5]) #   batch, time, channel, height, width
     
     #Get avg Fitness
-    inital_fit=pop.stats()
+    inital_fit, _,_=pop.stats()
 
     #Make diagonal as each cluster currently has its own sudo-block
-    inital_state=torch.eye(CLUSTERS,CLUSTERS)
+    inital_state=torch.eye(info[5],info[5])
 
     #Make first tensors
-    instance[0,FRAME_COUNT-1,0:CLUSTERS,:]=inital_state
-    instance[0,FRAME_COUNT-1,-1,:]=inital_fit
-    print(instance[0,FRAME_COUNT-1,:,:])
+    print(instance[0,info[4]-1,0,0:info[5],:].shape)
+    instance[0,info[4]-1,0,0:info[5],:]=inital_state
+    instance[0,info[4]-1,0,-1,:]=inital_fit
+    print(instance[0,info[4]-1,0,:,:])
 
     return pop,instance
 

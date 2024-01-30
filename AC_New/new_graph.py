@@ -3,7 +3,7 @@ import numpy as np
 import networkx as nx
 import matplotlib.pyplot as plt
 import random
-
+import Original_NK as NK
 
 """
 First Prime the graph with a random graph of Cluster blocks each of size Nodes/Clusters
@@ -47,6 +47,7 @@ class Population:
             if sample > 0:
                 self.node_edge_max[i]=sample
                 i+=1           
+
 
     def clean_edge_count(self):
         #take the SBM graph and apply the dict of normally dist max_neighbor_count for each node
@@ -101,8 +102,6 @@ class Population:
         # plt.show()
     
    
-
-
     def recluster(self, cluster_matrix):
 
         #we need a way to remeber the which cluster/sudoblock each node is in
@@ -148,8 +147,6 @@ class Population:
         # if node has too many edges, compare hamming distance and keep the top mnc/(mnc+1) edges
         
         
-
-
     def set_pop(self, genotypes):
         """Set the population genotypes to the given genotypes"""
         self.genotypes = genotypes.copy()
@@ -240,6 +237,9 @@ class Population:
                             if np.random.rand() <= self.mut_rate:
                                 new_genotypes[i][g] = np.random.randint(2)
         self.genotypes = new_genotypes.copy()
+
+
+
 
 
 class SLSim:

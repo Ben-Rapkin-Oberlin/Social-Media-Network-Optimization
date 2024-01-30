@@ -1,56 +1,41 @@
-import torch.nn as nn
 import torch
+import numpy as np 
+import random
 
-from ConvLSTM_Imp import ConvLSTM
-
-
-#Current Plan:
-#Actor is a ConvLSTM which outputs 
-#The critic will be a CNN which accepts the output of Actor 
-#and a tensor of the last X scores
-#The critic will output a single value
+import new_graph as graph
 
 
-#make CNN for critic
-#Current dimensions are temporary
-class Critic(nn.Module):
-    def __init__(self, input_dim):
-        super(Critic, self).__init__()
-        self.conv1 = nn.Conv2d(input_dim, 32, kernel_size=8, stride=4)
-        self.conv2 = nn.Conv2d(32, 64, kernel_size=4, stride=2)
-        self.conv3 = nn.Conv2d(64, 64, kernel_size=3,stride=1)
-        self.fc1 = nn.Linear(7*7*64, 512)
-        self.fc2 = nn.Linear(512, 1)
-        self.relu = nn.ReLU()
+def prime_episode(loops):
+    #make each ep unique
+    np.random.seed(loops)
+    random.seed(loops)
+    torch.manual_seed(loops)
+
+    landscape=NK.NKLandscape(N,K)
+    pop=graph.Population(Nodes, N, landscape, Neighbors)
+
+    initial_genotypes = pop.genotypes.copy()
+    pop.set_pop(initial_genotypes)
+    nk.init_visited()
+
+    pop.set_community(.7,.1)
+    pop.share_rate = .5 #This is what they initially define as a partial share
+    pop.share_radius = 1 # I think this means only those directly connected by 1 edge
+    pop.mut_rate = .5 #This is again the default
+
+    #generate starting input
+    instance=torch.zeros(1,FRAME_COUNT,1,CLUSTERS+1,CLUSTERS) #   batch, time, channel, height, width
     
-    def forward(self, x):
-        x = self.relu(self.conv1(x))
-        x = self.relu(self.conv2(x))
-        x = self.relu(self.conv3(x))
-        
-        x = x.view(x.size(0), -1)
-        x = self.relu(self.fc1(x))
-        x = self.fc2(x)
-        
-        return x
-    
+    #Get avg Fitness
+    inital_fit=pop.stats()
 
+    #Make diagonal as each cluster currently has its own sudo-block
+    inital_state=torch.eye(CLUSTERS,CLUSTERS)
 
-def make_actorCritc(channels):
-    actor = ConvLSTM(input_dim=channels,
-                 #hidden_dim=[64, 64, 128],
-                 #I am not yet sure what we want hidden dimensions to be
-                 kernel_size=(3, 3),
-                 num_layers=3,
-                 batch_first=True
-                 bias=True,
-                 return_all_layers=False)
-    
+    #Make first tensors
+    instance[0,FRAME_COUNT-1,0:CLUSTERS,:]=inital_state
+    instance[0,FRAME_COUNT-1,-1,:]=inital_fit
+    print(instance[0,FRAME_COUNT-1,:,:])
 
-    #takes in list of last X scores and new suggested action and outputs a single value
-    critic = Critic(input_dim=#not sure specifically yet)
-    )
+    return pop,instance
 
-    return actor, critic
-
-    

@@ -309,11 +309,16 @@ class Population:
                                 new_genotypes[i][g] = np.random.randint(2)
         self.genotypes = new_genotypes.copy()
 
-    def step(self,action):
+    def step(self,action=None,static_edges=False):
         #update connections based on model actions
         #action is a CLUSTERxCLUSTER matrix where each column represents a block/leader and each row represents the
         #sudo-block they've been placed into
-        aa=self.recluster(action)
+        
+        if action==None and not static_edges:
+            print('input error')
+            exit()
+        if not static_edges:
+            aa=self.recluster(action)
 
 
         #run simulation

@@ -16,16 +16,15 @@ $ python AC_driver.py
 
 ```bash
 AC_New
-├── AC_driver.py:       Outlines the training loop and calls high level functions
-├── AC_helper.py:       Does most of the more technical elements of the training loop and interfaces with the other files
-├── Autoencoder.py:     Contain the actor critic class
-├── ConvLSTM_Imp.py:    Contains the classes implementing a ConvLSTM in pytorch
-├── Original_NK.py:     Contains the original nk_landscape code
-├── generate_graphs.py: Makes Diagrams
-├── new_graph.py:       Contains the updated version of the partial copying social network
-├── outputs:            contains performance graphs
-└── tester.py:          utility/testing script
-
+├── AC_driver.py:         File outlines the training loop and calls high level functions
+├── AC_helper.py:         File containing technical elements of the training loop
+├── Autoencoder.py:       File containing the actor critic class
+├── ConvLSTM_Imp.py:      File containing the classes implementing a ConvLSTM in pytorch
+├── Original_NK.py:       File containing the original nk_landscape code
+├── generate_graphs.py:   File which generates diagrams
+├── new_graph.py:         File containing the updated version of the partial copying social network
+├── outputs:              Directory containing performance graphs
+└── tester.py:            File containing utility/testing script
 ```
 
 ### Folder Outlines 

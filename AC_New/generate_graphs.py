@@ -17,8 +17,8 @@ CLUSTERS=int(NODES**(1/2))  #number of clusters
 #hidden_dim=(1,1,1)          #hidden dimension of ConvLSTM
 
 
-run_len=1500
-num_runs=10
+run_len=2500
+num_runs=15
 #way blocks are set up we need Sqrt(N) to be a whole number
 
 loops=0
@@ -29,11 +29,12 @@ hp.initialize(info)
 performance_old=[0 for x in range(run_len)]
 performance_new_7=[0 for x in range(run_len)]
 performance_new_8=[0 for x in range(run_len)]
-performance_new_9=[0 for x in range(run_len)]
+#performance_new_9=[0 for x in range(run_len)]
 
 #aa=nx.from_numpy_array(np.array(pop.adj_matrix))
 #nx.draw(aa)
 #plt.show
+act=torch.eye(info[5],info[5])
 for run in range(num_runs):
 	pop,_=hp.prime_episode(run)
 	for i in range(run_len):
@@ -42,24 +43,25 @@ for run in range(num_runs):
 
 	pop,_=hp.prime_episode(run,in_probs=.7)
 	for i in range(run_len):
-		avg,_,_=pop.step(torch.eye(info[5],info[5]))
+		avg,_,_=pop.step(act)
 		performance_new_7[i]+=avg
 
 	pop,_=hp.prime_episode(run,in_probs=.8)
 	for i in range(run_len):
-		avg,_,_=pop.step(torch.eye(info[5],info[5]))
+		avg,_,_=pop.step(act)
 		performance_new_8[i]+=avg
-
+	"""
 	pop,_=hp.prime_episode(run,in_probs=.9)
 	for i in range(run_len):
 		avg,_,_=pop.step(torch.eye(info[5],info[5]))
-		performance_new_9[i]+=avg
-		
+		performance_new_9[i]+=avg"""
 	print('run_number:', run)
+
+		
 performance_old=[x/num_runs for x in performance_old]
 performance_new_7=[x/num_runs for x in performance_new_7]
 performance_new_8=[x/num_runs for x in performance_new_8]
-performance_new_9=[x/num_runs for x in performance_new_9]
+#performance_new_9=[x/num_runs for x in performance_new_9]
 
 #aa=nx.from_numpy_array(np.array(pop.adj_matrix))
 #nx.draw(aa)

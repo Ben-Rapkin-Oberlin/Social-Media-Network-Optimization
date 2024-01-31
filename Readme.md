@@ -16,42 +16,20 @@ $ python AC_driver.py
 
 ```bash
 ├── AC_New
-│   ├── AC_driver.py
-│   ├── AC_helper.py
-│   ├── Autoencoder_model.py
-│   ├── ConvLSTM_Imp.py
-│   ├── Original_NK.py
-│   ├── __pycache__
-│   │   ├── AC_helper.cpython-310.pyc
-│   │   ├── Original_NK.cpython-310.pyc
-│   │   └── new_graph.cpython-310.pyc
-│   ├── generate_graphs.py
-│   ├── new_graph.py
-│   ├── original_graph
-│   │   ├── SLNK.py
-│   │   └── Sim_SL.py
-│   ├── outputs
-│   │   └── 10_1000_.7.png
-│   └── tester.py
+│   ├── AC_driver.py:       Outlines the training loop and calls high level functions
+│   ├── AC_helper.py:       Does most of the more technical elements of the training loop and interfaces with the other files
+│   ├── Autoencoder.py:     Contain the actor critic class
+│   ├── ConvLSTM_Imp.py:    Contains the classes implementing a ConvLSTM in pytorch
+│   ├── Original_NK.py:     Contains the original nk_landscape code
+│   ├── generate_graphs.py: Makes Diagrams
+│   ├── new_graph.py:       Contains the updated version of the partial copying social network
+│   ├── outputs: 			  contains performance graphs
+│   └── tester.py:          utility/testing script
 
 ```
-**AC_Driver** outlines the training loop and calls high level functions 
-
-**AC_helper** does most of the more technical elements of the training loop and interfaces with the other files   
-
-**new_graph** Contains the updated version of the partial copying social network 
-
-**Original_NK** Contains the original nk_landscape code 
-
-**ConvLSTM** Contains the classes implementing a ConvLSTM in pytorch 
-
-**Autoencoder** Contain the actor critic class 
-
-**tester** is a utility script and area to run functions 
-
 
 ### Folder Outlines 
-**Images** Contains graphs of first AC trials 
+**Images** Contains graphs of first/old AC trials 
 
 **MCMC** For future implementations of Markov Decision Processes 
 

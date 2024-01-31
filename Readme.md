@@ -13,6 +13,28 @@ $ python AC_driver.py
 
 ``` 
 ### Important Files 
+
+```bash
+├── AC_New
+│   ├── AC_driver.py
+│   ├── AC_helper.py
+│   ├── Autoencoder_model.py
+│   ├── ConvLSTM_Imp.py
+│   ├── Original_NK.py
+│   ├── __pycache__
+│   │   ├── AC_helper.cpython-310.pyc
+│   │   ├── Original_NK.cpython-310.pyc
+│   │   └── new_graph.cpython-310.pyc
+│   ├── generate_graphs.py
+│   ├── new_graph.py
+│   ├── original_graph
+│   │   ├── SLNK.py
+│   │   └── Sim_SL.py
+│   ├── outputs
+│   │   └── 10_1000_.7.png
+│   └── tester.py
+
+```
 **AC_Driver** outlines the training loop and calls high level functions 
 
 **AC_helper** does most of the more technical elements of the training loop and interfaces with the other files   

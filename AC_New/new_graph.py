@@ -17,7 +17,7 @@ Then update nodes by belives of neighbors
 class Population:
     """"""
 
-    def __init__(self, popsize, n, landscape, max_edge_mean, clusters, community=True):
+    def __init__(self, popsize, n, landscape, max_edge_mean, clusters, community=True,in_group=.7):
         self.popsize = popsize  # population size
         self.ng = n  # number of genes
         self.share_rate = 1.0  # recombination rate
@@ -33,6 +33,8 @@ class Population:
         self.community = community
         self.clusters=clusters
         
+        self.IN_GROUP_PROB=in_group
+        self.OUT_GROUP_PROB=(1-in_group)/(self.clusters-1)
         self.label={}
         self.node_edge_max={}
 
@@ -68,9 +70,11 @@ class Population:
                 #in future maybe pick the ones with greatest hamming distance
                             
 
-    def set_community(self, in_group, out_group):
+    def set_community(self):
         #seed maybe?
         # sizes = np.ones(communities)*(self.popsize/communities)
+        in_group=self.IN_GROUP_PROB
+        out_group=self.OUT_GROUP_PROB
 
         #we want sqrt(Nodes) communities
         prob=[]
@@ -118,8 +122,7 @@ class Population:
 
            TODO implement dropping via hamming distance and another protical for if a node is full of edges
         """
-        IN_GROUP_PROB=.7
-        OUT_GROUP_PROB=1-IN_GROUP_PROB
+        
         mapping={}
         #loop overall all sudo-blocks to find clusters included
         #check=[[0]*self.popsize]*self.popsize
@@ -159,7 +162,7 @@ class Population:
                 neighbor_list=self.get_neighbors(current_node)
                 neighbor_set=set(neighbor_list)
 
-                g=random.choices(['in','out'], weights=[IN_GROUP_PROB,OUT_GROUP_PROB],k=1)[0]
+                g=random.choices(['in','out'], weights=[self.IN_GROUP_PROB,1-self.IN_GROUP_PROB],k=1)[0]
 
                 if g=='in':
                     #print('inblock')

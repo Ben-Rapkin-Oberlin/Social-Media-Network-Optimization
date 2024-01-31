@@ -17,7 +17,7 @@ Then update nodes by belives of neighbors
 class Population:
     """"""
 
-    def __init__(self, popsize, n, landscape, max_edge_mean, clusters, community=False):
+    def __init__(self, popsize, n, landscape, max_edge_mean, clusters, community=True):
         self.popsize = popsize  # population size
         self.ng = n  # number of genes
         self.share_rate = 1.0  # recombination rate
@@ -162,69 +162,68 @@ class Population:
                 g=random.choices(['in','out'], weights=[IN_GROUP_PROB,OUT_GROUP_PROB],k=1)[0]
 
                 if g=='in':
-                    print('inblock')
+                    #print('inblock')
                     
                     #set diff will return elements contained in block but not neighbor_set
                     #add current node so no chance of self loop 
-                    candidates=block_set-neighbor_set.add(current_node)
-                    new_neighbor=random.choice(list(candidates)) #double cast is bad, but can't use rand to sample set
-                        
-                    nnl=self.get_neighbors(new_neighbor)
-                    if len(nnl)>=self.node_edge_max[new_neighbor]:
-                        dropped=random.choice(nnl)
-                        self.adj_matrix[new_neighbor,dropped]=0
-                        self.adj_matrix[dropped,new_neighbor]=0
-                        #print('3 dropped connection between ', dropped,new_neighbor)
-                        #check[new_neighbor,dropped]+=1###
-                        #check[dropped,new_neighbor]+=1###
-                    if len(neighbor_list)>=self.node_edge_max[current_node]:
-                        dropped=random.choice(neighbors_list)
-                        self.adj_matrix[current_node,dropped]=0
-                        self.adj_matrix[dropped,current_node]=0
-                        #print('4 dropped connection between ', dropped,current_node)
-                        #check[current_node,dropped]+=1###
-                        #check[dropped,current_node]+=1###
+                    
+                    neighbor_set.add(current_node)
+                    #print(current_node)
+                    #print(neighbor_list)
+                    #print(block_set)
+                    candidates=list(block_set-neighbor_set) #double cast is bad, but can't use rand to sample set
+                    if candidates != []:
+                        new_neighbor=random.choice(list(candidates)) 
+                            
+                        nnl=self.get_neighbors(new_neighbor)
+                        if len(nnl)>=self.node_edge_max[new_neighbor]:
+                            dropped=random.choice(nnl)
+                            self.adj_matrix[new_neighbor,dropped]=0
+                            self.adj_matrix[dropped,new_neighbor]=0
+                            #print('3 dropped connection between ', dropped,new_neighbor)
+                            #check[new_neighbor,dropped]+=1###
+                            #check[dropped,new_neighbor]+=1###
+                        if len(neighbor_list)>=self.node_edge_max[current_node]:
+                            dropped=random.choice(neighbor_list)
+                            self.adj_matrix[current_node,dropped]=0
+                            self.adj_matrix[dropped,current_node]=0
+                            #print('4 dropped connection between ', dropped,current_node)
+                            #check[current_node,dropped]+=1###
+                            #check[dropped,current_node]+=1###
 
-                    self.adj_matrix[new_neighbor,current_node]=1
-                    self.adj_matrix[current_node,new_neighbor]=1
-                    #print('new connection between ', new_neighbor,current_node)
-                    #check[current_node,new_neighbor]-=1###
-                    #check[new_neighbor,current_node]-=1###
+                        self.adj_matrix[new_neighbor,current_node]=1
+                        self.adj_matrix[current_node,new_neighbor]=1
+                        #print('new connection between ', new_neighbor,current_node)
+                        #check[current_node,new_neighbor]-=1###
+                        #check[new_neighbor,current_node]-=1###
                     
                 else:
-                    print('outblock')
-                    
-
-
+                    #print('outblock')
                     out_block=sudo_set[random.choice(out_group_iter)]
-                    candidates=out_block-neighbor_set #don't need to add current as this is an out_block
-                    new_neighbor=random.choice(list(candidates)) #double cast is bad, but can't use rand to sample set
-                    
-                    print('new neighbor: ',new_neighbor)
-                    print('currnet nl ', neighbor_list)
-                    
+                    candidates=list(out_block-neighbor_set)#don't need to add current as this is an out_block
+                    if candidates != []:
+                        new_neighbor=random.choice(candidates) #double cast is bad, but can't use rand to sample set
+                        nnl=self.get_neighbors(new_neighbor)
+                        if len(nnl)>=self.node_edge_max[new_neighbor]:
+                            dropped=random.choice(nnl)
+                            self.adj_matrix[new_neighbor,dropped]=0
+                            self.adj_matrix[dropped,new_neighbor]=0
+                            #print('3 dropped connection between ', dropped,new_neighbor)
+                            #check[new_neighbor,dropped]+=1###
+                            #check[dropped,new_neighbor]+=1###
+                        if len(neighbor_list)>=self.node_edge_max[current_node]:
+                            dropped=random.choice(neighbor_list)
+                            self.adj_matrix[current_node,dropped]=0
+                            self.adj_matrix[dropped,current_node]=0
+                            #print('4 dropped connection between ', dropped,current_node)
+                            #check[current_node,dropped]+=1###
+                            #check[dropped,current_node]+=1###
 
-                    nnl=self.get_neighbors(new_neighbor)
-                    if len(nnl)>=self.node_edge_max[new_neighbor]:
-                        dropped=random.choice(nnl)
-                        self.adj_matrix[new_neighbor,dropped]=0
-                        self.adj_matrix[dropped,new_neighbor]=0
-                        #print('3 dropped connection between ', dropped,new_neighbor)
-                        #check[new_neighbor,dropped]+=1###
-                        #check[dropped,new_neighbor]+=1###
-                    if len(neighbor_list)>=self.node_edge_max[current_node]:
-                        dropped=random.choice(neighbors_list)
-                        self.adj_matrix[current_node,dropped]=0
-                        self.adj_matrix[dropped,current_node]=0
-                        #print('4 dropped connection between ', dropped,current_node)
-                        #check[current_node,dropped]+=1###
-                        #check[dropped,current_node]+=1###
-
-                    self.adj_matrix[new_neighbor,current_node]=1
-                    self.adj_matrix[current_node,new_neighbor]=1
-                    #print('new connection between ', new_neighbor,current_node)
-                    #check[current_node,new_neighbor]-=1###
-                    #check[new_neighbor,current_node]-=1###
+                        self.adj_matrix[new_neighbor,current_node]=1
+                        self.adj_matrix[current_node,new_neighbor]=1
+                        #print('new connection between ', new_neighbor,current_node)
+                        #check[current_node,new_neighbor]-=1###
+                        #check[new_neighbor,current_node]-=1###
         return #check
          
         
@@ -295,7 +294,11 @@ class Population:
         for i in arr:
             if pref == 0 or self.learned[i] == 0:
                 if self.community:
-                    j = np.random.choice(self.get_neighbors(i))
+                    j=-1 #original fails when a node has no neighboers, this fixes that
+                    a=self.get_neighbors(i)
+                    if a!=[]:
+                        j = np.random.choice(a)
+
                 else:
                     # Pick a neighbor in your radius
                     j = np.random.randint(
@@ -306,17 +309,18 @@ class Population:
                             i - self.share_radius, i + self.share_radius + 1
                         )
                     j = j % self.popsize
-                # Compare fitness with neighbor
-                if self.landscape.fitness(self.genotypes[j]) > self.landscape.fitness(
-                    self.genotypes[i]
-                ):
-                    self.shared[i] = 1
-                    # If neighbor is better, get some of their answers
-                    for g in range(self.ng):
-                        if np.random.rand() <= self.share_rate:
-                            new_genotypes[i][g] = self.genotypes[j][g]
-                            if np.random.rand() <= self.mut_rate:
-                                new_genotypes[i][g] = np.random.randint(2)
+                # Compare fitness with 
+                if j!=-1:
+                    if self.landscape.fitness(self.genotypes[j]) > self.landscape.fitness(
+                        self.genotypes[i]
+                    ):
+                        self.shared[i] = 1
+                        # If neighbor is better, get some of their answers
+                        for g in range(self.ng):
+                            if np.random.rand() <= self.share_rate:
+                                new_genotypes[i][g] = self.genotypes[j][g]
+                                if np.random.rand() <= self.mut_rate:
+                                    new_genotypes[i][g] = np.random.randint(2)
         self.genotypes = new_genotypes.copy()
 
     def step(self,action=None,static_edges=False):
@@ -328,9 +332,7 @@ class Population:
             print('input error')
             exit()
         if not static_edges:
-            start = time.time()
             aa=self.recluster(action)
-            print(time.time()-start)
 
 
         #run simulation

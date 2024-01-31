@@ -28,13 +28,15 @@ pop,_=hp.prime_episode(1)
 
 performance_old=[]
 performance_new=[]
+'''
 for i in range(200):
 	avg,_,_=pop.step(static_edges=True)
 	performance_old.append(avg)
 	if i%20==0:
 		print(i)
-
+'''
 pop,_=hp.prime_episode(1)
+
 for i in range(200):
 	avg,_,_=pop.step(torch.eye(info[5],info[5]))
 	performance_new.append(avg)

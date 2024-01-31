@@ -4,7 +4,7 @@ import networkx as nx
 import matplotlib.pyplot as plt
 import random
 import Original_NK as NK
-
+import time
 """
 First Prime the graph with a random graph of Cluster blocks each of size Nodes/Clusters
 
@@ -145,65 +145,75 @@ class Population:
             temp=[key for key,val in zip(k,v) if val in mapping[i]]
             sudo.append(temp)
 
+        sudo_set=[set(x) for x in sudo]
         #may be biased as groups in lower numbers will always go first
-        for block in sudo:  
-            for current_node in block:
+        
+        
+        for i in range(len(sudo)):
+            block_set=sudo_set[i]
+            out_group_iter=[x for x in range(len(sudo)) if x!=i] #remove current block
+
+            for current_node in block_set:
+
+                #cache list of neighbors
+                neighbor_list=self.get_neighbors(current_node)
+                neighbor_set=set(neighbor_list)
+
                 g=random.choices(['in','out'], weights=[IN_GROUP_PROB,OUT_GROUP_PROB],k=1)[0]
+
                 if g=='in':
-                    new_neighbor=random.choice(block)
-                    while new_neighbor in self.get_neighbors(current_node):
-                        new_neighbor=random.choice(block)
-                    if new_neighbor!=current_node:
-                        if sum(self.get_neighbors(new_neighbor))>=self.node_edge_max[new_neighbor]:
-                            neighbors=self.get_neighbors(new_neighbor)
-                            dropped=random.choice(neighbors)
-                            self.adj_matrix[new_neighbor,dropped]=0
-                            self.adj_matrix[dropped,new_neighbor]=0
-                            #print('3 dropped connection between ', dropped,new_neighbor)
-                            #check[new_neighbor,dropped]+=1###
-                            #check[dropped,new_neighbor]+=1###
-                        if sum(self.get_neighbors(current_node))>=self.node_edge_max[current_node]:
-                            neighbors=self.get_neighbors(current_node)
-                            dropped=random.choice(neighbors)
-                            self.adj_matrix[current_node,dropped]=0
-                            self.adj_matrix[dropped,current_node]=0
-                            #print('4 dropped connection between ', dropped,current_node)
-                            #check[current_node,dropped]+=1###
-                            #check[dropped,current_node]+=1###
-
-                        self.adj_matrix[new_neighbor,current_node]=1
-                        self.adj_matrix[current_node,new_neighbor]=1
-                        #print('new connection between ', new_neighbor,current_node)
-                        #check[current_node,new_neighbor]-=1###
-                        #check[new_neighbor,current_node]-=1###
+                    print('inblock')
+                    
+                    #set diff will return elements contained in block but not neighbor_set
+                    #add current node so no chance of self loop 
+                    candidates=block_set-neighbor_set.add(current_node)
+                    new_neighbor=random.choice(list(candidates)) #double cast is bad, but can't use rand to sample set
                         
-
-
-                else:
-                    #print(sudo)
-                    g=random.choice(sudo)
-                    #make sure it is an out group
-                    while g==block:
-                        g=random.choice(sudo)
-                    #print(g)
-                    new_neighbor=random.choice(g)
-                    while new_neighbor in self.get_neighbors(current_node):
-                        new_neighbor=random.choice(g)
-                    #print('nn: ', new_neighbor)
-                    #print(self.get_neighbors(new_neighbor))
-                    #print(sum(self.get_neighbors(new_neighbor)))
-
-                    if sum(self.get_neighbors(new_neighbor))>=self.node_edge_max[new_neighbor]:
-                        neighbors=self.get_neighbors(new_neighbor)
-                        dropped=random.choice(neighbors)
+                    nnl=self.get_neighbors(new_neighbor)
+                    if len(nnl)>=self.node_edge_max[new_neighbor]:
+                        dropped=random.choice(nnl)
                         self.adj_matrix[new_neighbor,dropped]=0
                         self.adj_matrix[dropped,new_neighbor]=0
                         #print('3 dropped connection between ', dropped,new_neighbor)
                         #check[new_neighbor,dropped]+=1###
                         #check[dropped,new_neighbor]+=1###
-                    if sum(self.get_neighbors(current_node))>=self.node_edge_max[current_node]:
-                        neighbors=self.get_neighbors(current_node)
-                        dropped=random.choice(neighbors)
+                    if len(neighbor_list)>=self.node_edge_max[current_node]:
+                        dropped=random.choice(neighbors_list)
+                        self.adj_matrix[current_node,dropped]=0
+                        self.adj_matrix[dropped,current_node]=0
+                        #print('4 dropped connection between ', dropped,current_node)
+                        #check[current_node,dropped]+=1###
+                        #check[dropped,current_node]+=1###
+
+                    self.adj_matrix[new_neighbor,current_node]=1
+                    self.adj_matrix[current_node,new_neighbor]=1
+                    #print('new connection between ', new_neighbor,current_node)
+                    #check[current_node,new_neighbor]-=1###
+                    #check[new_neighbor,current_node]-=1###
+                    
+                else:
+                    print('outblock')
+                    
+
+
+                    out_block=sudo_set[random.choice(out_group_iter)]
+                    candidates=out_block-neighbor_set #don't need to add current as this is an out_block
+                    new_neighbor=random.choice(list(candidates)) #double cast is bad, but can't use rand to sample set
+                    
+                    print('new neighbor: ',new_neighbor)
+                    print('currnet nl ', neighbor_list)
+                    
+
+                    nnl=self.get_neighbors(new_neighbor)
+                    if len(nnl)>=self.node_edge_max[new_neighbor]:
+                        dropped=random.choice(nnl)
+                        self.adj_matrix[new_neighbor,dropped]=0
+                        self.adj_matrix[dropped,new_neighbor]=0
+                        #print('3 dropped connection between ', dropped,new_neighbor)
+                        #check[new_neighbor,dropped]+=1###
+                        #check[dropped,new_neighbor]+=1###
+                    if len(neighbor_list)>=self.node_edge_max[current_node]:
+                        dropped=random.choice(neighbors_list)
                         self.adj_matrix[current_node,dropped]=0
                         self.adj_matrix[dropped,current_node]=0
                         #print('4 dropped connection between ', dropped,current_node)
@@ -318,7 +328,9 @@ class Population:
             print('input error')
             exit()
         if not static_edges:
+            start = time.time()
             aa=self.recluster(action)
+            print(time.time()-start)
 
 
         #run simulation

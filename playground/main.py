@@ -2,11 +2,15 @@
 import torch
 import torch.nn as nn
 from torch.distributions import Categorical
-N=2
-probabilities = torch.softmax(torch.rand(N, N), dim=0)
-probabilities = torch.Tensor([[.01,.01,.01],[.01,.02,.98],[.98,.97,.01]]).T
+import hiddenlayer as hl
 
-# Sample one action for each agent
+layers=3
+kernal=3
+hidden_channels=2
+model=ConvLSTM(1,[hidden_channels]*layers,(kernal,kernal),layers,batch_first=True,bias=True)
+hl.build_graph(model, torch.zeros([1, 3, 1, 5, 5]))
+
+exit()
 # torch.multinomial expects weights in a 2D tensor where each row contains the weights and
 # we want to sample from columns, so we transpose the tensor.
 # No replacement since we're sampling one action per agent.

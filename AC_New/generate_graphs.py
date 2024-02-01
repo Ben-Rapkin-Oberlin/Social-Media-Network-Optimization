@@ -11,6 +11,7 @@ import pandas as pd
 
 import seaborn as sns
 import time 
+import os
 
 FRAME_COUNT=10              #number of timesteps/frames the Actor/Critic will recieve
 NODES=36                    #number of nodes
@@ -33,7 +34,7 @@ all_performance_new_8 = []
 
 print('num_runs:', num_runs)
 print('run_len:', run_len)
-
+last=''
 #aa=nx.from_numpy_array(np.array(pop.adj_matrix))
 #nx.draw(aa)
 #plt.show
@@ -76,6 +77,7 @@ for run in range(inital, inital+num_runs):
 
 	print('run_number:', run, 'Elapsed Time:', time.time()-start, 'prime_time:',prime_time)
 	if run%15==14:
+		new='outputs/Temp/raw_'+str(inital)+'_'+str(run_len)+'_'+str(run+1)+'.csv'
 		print('saving')
 		df_data = {
 	    'Run': np.tile(np.arange(run_len), (run+1-inital) * 3),
@@ -84,7 +86,10 @@ for run in range(inital, inital+num_runs):
 		}
 		#print(df_data)
 		df = pd.DataFrame(df_data)
-		df.to_csv('outputs/Temp/raw_'+str(inital)+'_'+str(run_len)+'_'+str(run+1)+'.csv')
+		df.to_csv(new)
+		if os.path.exists(last):
+  			os.remove(last)
+  		last=new
 
 
 

@@ -38,7 +38,7 @@ class ConvLSTMCell(nn.Module):
 
     def forward(self, input_tensor, cur_state):
         h_cur, c_cur = cur_state
-        
+        #print('c_cur: ',c_cur.shape)
         combined = torch.cat([input_tensor, h_cur], dim=1)  # concatenate along channel axis
         #print(combined.shape)
         combined_conv = self.conv(combined)
@@ -59,7 +59,7 @@ class ConvLSTMCell(nn.Module):
         #print(c_cur.shape)
         c_next = f * c_cur + i * g
         h_next = o * torch.tanh(c_next)
-
+        #print('c_next: ',c_next.shape)
         return h_next, c_next
 
     def init_hidden(self, batch_size, image_size):
@@ -96,7 +96,7 @@ class ConvLSTM(nn.Module):
         >> h = last_states[0][0]  # 0 for layer index, 0 for h index
     """
 
-    def __init__(self, input_dim, hidden_dim, kernel_size, num_layers,
+    def __init__(self, input_dim, hidden_dim, kernel_size, num_layers,out_dim,
                  batch_first=False, bias=True, return_all_layers=False):
         super(ConvLSTM, self).__init__()
 
@@ -120,7 +120,7 @@ class ConvLSTM(nn.Module):
         self.batch_first = batch_first
         self.bias = bias
         self.return_all_layers = return_all_layers
-
+        self.out_dim=out_dim
         cell_list = []
         for i in range(0, self.num_layers):
             cur_input_dim = self.input_dim if i == 0 else self.hidden_dim[i - 1]
@@ -132,6 +132,10 @@ class ConvLSTM(nn.Module):
 
         self.cell_list = nn.ModuleList(cell_list)
 
+        self.Actor = self.Critic = nn.Sequential(
+                        nn.Conv2d(in_channels=self.hidden_dim[-1], out_channels=1, kernel_size=(2,2), bias=self.bias),
+                        nn.AdaptiveAvgPool2d(self.out_dim)
+                        )
         self.Critic = nn.Sequential(
                         nn.Conv2d(in_channels=self.hidden_dim[-1]+1, out_channels=1, kernel_size=(2,2), bias=self.bias),
                         nn.AdaptiveAvgPool2d((1, 1))
@@ -191,18 +195,28 @@ class ConvLSTM(nn.Module):
             layer_output_list = layer_output_list[-1:]
             last_state_list = last_state_list[-1:]
 
+        #convert to one channel
+        b=self.Actor(last_state_list[0][1])
+
         #convert to probs
-        last_state_list[0][1]=nn.Softmax(dim=3)(last_state_list[0][0])
+        b=nn.Softmax(dim=3)(b)
         
         #let critic guess
         a=last_state_list[0][0] #last hidden
-        b=last_state_list[0][1] #last output
-        c=torch.stack((a[0,0],b[0,0]),dim=0) #merge to (2,N,N) so it has 2 channels
+        
+        #print(a[0])
+        #print(b[0])
+        c = torch.cat((a[0], b[0]), dim=0)
+        #c=torch.stack((a[0],b[0]),dim=0) #merg to (2,N,N) so it has 2 channels
+        #print('c',c.shape)
         guess=self.Critic(c)
         
+        #print(a)
+        #print(b)
+        #print(guess)
 
-
-        return layer_output_list, last_state_list,guess
+        #return (layer_output_list, last_state_list,guess)
+        return (a,b,guess)
 
     def _init_hidden(self, batch_size, image_size):
         init_states = []

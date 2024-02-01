@@ -93,6 +93,7 @@ cpdef step(cnp.ndarray[int, ndim=2] adj_matrix,
                         else:
                             #print("below_self_fail",landscape.get_fitness(new_solution),fit_score[i]) 
                             pass
+                            
                 except:
                     print("failed")
                     print(new_solution)

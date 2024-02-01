@@ -28,10 +28,9 @@ AC_New
 ### Directory Overview 
 ```bash
 ├── AC_New
-│   └── outputs: Directory containing performance graphs
-├── CythonMods
+│   └── outputs:           Directory containing performance graphs
+├── CythonMods             Cythoized versions of basic utility functions used in the first AC model and Simulated annealing 
 ├── MCMC:                  For future implementations of Markov Decision Processes 
-├── NN_models:             Cythoized versions of basic utility functions used in the first AC model and Simulated annealing 
 ├── Older_Work:            Attempt 1 at the AC model, an adapted GRU model, and Simulated Annealing which 
 ├── images:                Contains graphs of first/old AC trials 
 ├── jl_tests:              Partial Implementation of social graphs in julia

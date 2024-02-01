@@ -10,7 +10,7 @@ import numpy as np
 import pandas as pd
 
 import seaborn as sns
-
+import time 
 
 FRAME_COUNT=10              #number of timesteps/frames the Actor/Critic will recieve
 NODES=36                    #number of nodes
@@ -21,8 +21,8 @@ CLUSTERS=int(NODES**(1/2))  #number of clusters
 #hidden_dim=(1,1,1)          #hidden dimension of ConvLSTM
 
 
-run_len=200
-num_runs=20
+run_len=2000
+num_runs=100
 
 info=[NODES,NEIGHBORS,N,K,FRAME_COUNT,CLUSTERS]
 hp.initialize(info) 
@@ -31,12 +31,15 @@ all_performance_old = []
 all_performance_new_7 = []
 all_performance_new_8 = []
 
+print('num_runs:', num_runs)
+print('run_len:', run_len)
 
 #aa=nx.from_numpy_array(np.array(pop.adj_matrix))
 #nx.draw(aa)
 #plt.show
 act=torch.eye(info[5],info[5])
 for run in range(num_runs):
+	start=time.time()
 	temp_performance_old = [0 for x in range(run_len)]
 	temp_performance_new_7 = [0 for x in range(run_len)]
 	temp_performance_new_8 = [0 for x in range(run_len)]
@@ -64,7 +67,7 @@ for run in range(num_runs):
 	all_performance_new_7.append(temp_performance_new_7)
 	all_performance_new_8.append(temp_performance_new_8)
 
-	print('run_number:', run)
+	print('run_number:', run, 'Elapsed Time:', time.time()-start)
 
 
 df_data = {

@@ -6,6 +6,16 @@ TODO
 	a. Write end episode
 	b. figure out stopping conditions
 
-Testing:
-1. Run baselines
-	a. 
+
+
+Model Setup:
+
+(1,Frames,1,N+1,N)->input
+ConvLSTM(input)-> output 
+//output is of Size (NxN)
+Softmax(output, dim=0)->act_probs
+CNN(act_probs) -> pred_fit
+
+return act_probs
+
+

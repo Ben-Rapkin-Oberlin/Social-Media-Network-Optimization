@@ -84,7 +84,7 @@ for run in range(inital, inital+num_runs):
 		}
 		#print(df_data)
 		df = pd.DataFrame(df_data)
-		df.to_csv('outputs/Temp/raw_'+str(inital)+str(run_len)+'_'+str(run+1)+'.csv')
+		df.to_csv('outputs/Temp/raw_'+str(inital)+'_'+str(run_len)+'_'+str(run+1)+'.csv')
 
 
 
@@ -95,7 +95,7 @@ df_data = {
 }
 
 df = pd.DataFrame(df_data)
-df.to_csv('outputs/raw_'+str(inital)+str(run_len)+'_'+str(num_runs)+'.csv')
+df.to_csv('outputs/raw_'+str(inital)+'_'+str(run_len)+'_'+str(num_runs)+'.csv')
 # Seaborn plot with confidence intervals
 sns.lineplot(data=df, x='Run', y='Performance', hue='Condition', ci='sd')
 plt.legend(loc='upper left')

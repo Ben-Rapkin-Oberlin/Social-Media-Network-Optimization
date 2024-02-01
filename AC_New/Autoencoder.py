@@ -5,6 +5,20 @@ import torch
 import torch.nn as nn
 from ConvLSTM_Imp import ConvLSTMCell
 
+
+class ActorCritic(nn.Module):
+    def __init__(self, nf, in_chan):
+        super(ActorCritic, self).__init__() #not sure if I need this line
+
+        self.encoder_1_convlstm = ConvLSTMCell(input_dim=in_chan,
+                                               hidden_dim=nf,
+                                               kernel_size=(3, 3),
+                                               bias=True)
+        
+
+
+
+
 class EncoderDecoderConvLSTM(nn.Module):
     def __init__(self, nf, in_chan):
         super(EncoderDecoderConvLSTM, self).__init__()
@@ -37,13 +51,10 @@ class EncoderDecoderConvLSTM(nn.Module):
                                                kernel_size=(3, 3),
                                                bias=True)
 
-        self.decoder_CNN = nn.Conv3d(in_channels=nf,
-                                     out_channels=1,
-                                     kernel_size=(1, 3, 3),
-                                     padding=(0, 1, 1))
+        self.Actor_CNN = nn.Conv2d()
+        self.Critic_CNN =nn.Conv2d(1, 1, (5,5))
 
-
-    def autoencoder(self, x, seq_len, future_step, h_t, c_t, h_t2, c_t2, h_t3, c_t3, h_t4, c_t4):
+    def autoencoder(self, x, seq_len, h_t, c_t, h_t2, c_t2, h_t3, c_t3, h_t4, c_t4,future_step=1):
 
         outputs = []
 
@@ -64,12 +75,12 @@ class EncoderDecoderConvLSTM(nn.Module):
             h_t4, c_t4 = self.decoder_2_convlstm(input_tensor=h_t3,
                                                  cur_state=[h_t4, c_t4])  # we could concat to provide skip conn here
             encoder_vector = h_t4
-            outputs += [h_t4]  # predictions
+            outputs = [h_t4]  # predictions
 
-        outputs = torch.stack(outputs, 1)
-        outputs = outputs.permute(0, 2, 1, 3, 4) #this is reshapeing the output in a learnable way, it is not introducing randomness
-        outputs = self.decoder_CNN(outputs)
-        outputs = torch.nn.Sigmoid()(outputs) #might want to do softmax here, we need every
+
+        #output will be of size (NxN)
+        #Maybe Critic takes in hidden state?
+
 
         return outputs
 

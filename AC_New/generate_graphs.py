@@ -21,9 +21,9 @@ CLUSTERS=int(NODES**(1/2))  #number of clusters
 #hidden_dim=(1,1,1)          #hidden dimension of ConvLSTM
 
 
-run_len=2000
-num_runs=100
-
+run_len=2500
+num_runs=1000
+inital=0
 info=[NODES,NEIGHBORS,N,K,FRAME_COUNT,CLUSTERS]
 hp.initialize(info) 
 
@@ -38,23 +38,30 @@ print('run_len:', run_len)
 #nx.draw(aa)
 #plt.show
 act=torch.eye(info[5],info[5])
-for run in range(num_runs):
+for run in range(inital, inital+num_runs):
 	start=time.time()
+	prime_time=0
 	temp_performance_old = [0 for x in range(run_len)]
 	temp_performance_new_7 = [0 for x in range(run_len)]
 	temp_performance_new_8 = [0 for x in range(run_len)]
 
+	a=time.time()
 	pop,_=hp.prime_episode(run)
+	prime_time+=time.time()-a
 	for i in range(run_len):
 		avg,_,_=pop.step(static_edges=True)
 		temp_performance_old[i]=avg
 
+	a=time.time()
 	pop,_=hp.prime_episode(run,in_probs=.7)
+	prime_time+=time.time()-a
 	for i in range(run_len):
 		avg,_,_=pop.step(act)
 		temp_performance_new_7[i]=avg
 
+	a=time.time()
 	pop,_=hp.prime_episode(run,in_probs=.8)
+	prime_time+=time.time()-a
 	for i in range(run_len):
 		avg,_,_=pop.step(act)
 		temp_performance_new_8[i]=avg
@@ -67,17 +74,28 @@ for run in range(num_runs):
 	all_performance_new_7.append(temp_performance_new_7)
 	all_performance_new_8.append(temp_performance_new_8)
 
-	print('run_number:', run, 'Elapsed Time:', time.time()-start)
+	print('run_number:', run, 'Elapsed Time:', time.time()-start, 'prime_time:',prime_time)
+	if run%15==14:
+		print('saving')
+		df_data = {
+	    'Run': np.tile(np.arange(run_len), (run+1-inital) * 3),
+	    'Performance': np.concatenate(all_performance_old + all_performance_new_7 + all_performance_new_8),
+	    'Condition': ['old'] * run_len * (run+1-inital) + ['new_7'] * run_len *(run+1-inital) + ['new_8'] * run_len * (run+1-inital)
+		}
+		#print(df_data)
+		df = pd.DataFrame(df_data)
+		df.to_csv('outputs/Temp/raw_'+str(inital)+str(run_len)+'_'+str(run+1)+'.csv')
+
 
 
 df_data = {
-    'Run': np.tile(np.arange(run_len), num_runs * 3),
+    'Run': np.tile(np.arange(run_len), (num_runs-inital) * 3),
     'Performance': np.concatenate(all_performance_old + all_performance_new_7 + all_performance_new_8),
-    'Condition': ['old'] * run_len * num_runs + ['new_7'] * run_len * num_runs + ['new_8'] * run_len * num_runs
+    'Condition': ['old'] * run_len * (num_runs-inital) + ['new_7'] * run_len * (num_runs-inital) + ['new_8'] * run_len * (num_runs-inital)
 }
 
 df = pd.DataFrame(df_data)
-
+df.to_csv('outputs/raw_'+str(inital)+str(run_len)+'_'+str(num_runs)+'.csv')
 # Seaborn plot with confidence intervals
 sns.lineplot(data=df, x='Run', y='Performance', hue='Condition', ci='sd')
 plt.legend(loc='upper left')

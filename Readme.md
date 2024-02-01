@@ -10,6 +10,16 @@ $ cd AC_New
 
 $ python AC_driver.py 
 ``` 
+
+### Initial Results
+Baselines with N=15, K=12, Nodes=36, Clusters=6 and there are 330 aggregate trials
+![plot](./AC_New/outputs/330_2500_7_8_CI.png)
+
+**Model Architecture**
+![plot](./AC_New/outputs/model_overview.png)
+
+
+
 ### Important Files/Directories 
 
 ```bash

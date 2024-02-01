@@ -38,13 +38,18 @@ class ConvLSTMCell(nn.Module):
 
     def forward(self, input_tensor, cur_state):
         h_cur, c_cur = cur_state
-        print(h_cur.shape)
-        print(c_cur.shape)
+        
         combined = torch.cat([input_tensor, h_cur], dim=1)  # concatenate along channel axis
         #print(combined.shape)
         combined_conv = self.conv(combined)
-        #print(combined.shape)
+        #print(combined_conv.shape)
+        #print(combined[0,:,:,:])
+        #print('hh',self.hidden_dim)
+        #print(self.kernel_size)
+        #print(self.padding)
         cc_i, cc_f, cc_o, cc_g = torch.split(combined_conv, self.hidden_dim, dim=1)
+        #print(cc_i.shape, cc_f.shape, cc_o.shape, cc_g.shape)
+        #print(cc_i[0,0,:,:])
         i = torch.sigmoid(cc_i)
         f = torch.sigmoid(cc_f)
         o = torch.sigmoid(cc_o)
@@ -95,6 +100,11 @@ class ConvLSTM(nn.Module):
                  batch_first=False, bias=True, return_all_layers=False):
         super(ConvLSTM, self).__init__()
 
+
+        # action & reward buffer
+        self.saved_actions = []
+        self.rewards = []
+
         self._check_kernel_size_consistency(kernel_size)
 
         # Make sure that both `kernel_size` and `hidden_dim` are lists having len == num_layers
@@ -122,6 +132,10 @@ class ConvLSTM(nn.Module):
 
         self.cell_list = nn.ModuleList(cell_list)
 
+        self.Critic = nn.Sequential(
+                        nn.Conv2d(in_channels=self.hidden_dim[-1]+1, out_channels=1, kernel_size=(2,2), bias=self.bias),
+                        nn.AdaptiveAvgPool2d((1, 1))
+                        )
     def forward(self, input_tensor, hidden_state=None):
         """
 
@@ -161,8 +175,8 @@ class ConvLSTM(nn.Module):
             h, c = hidden_state[layer_idx]
             output_inner = []
             for t in range(seq_len):
-                print(c.shape)
-                print(h.shape)
+                #print(c.shape)
+                #print(h.shape)
                 h, c = self.cell_list[layer_idx](input_tensor=cur_layer_input[:, t, :, :, :],
                                                  cur_state=[h, c])
                 output_inner.append(h)
@@ -177,7 +191,18 @@ class ConvLSTM(nn.Module):
             layer_output_list = layer_output_list[-1:]
             last_state_list = last_state_list[-1:]
 
-        return layer_output_list, last_state_list
+        #convert to probs
+        last_state_list[0][1]=nn.Softmax(dim=3)(last_state_list[0][0])
+        
+        #let critic guess
+        a=last_state_list[0][0] #last hidden
+        b=last_state_list[0][1] #last output
+        c=torch.stack((a[0,0],b[0,0]),dim=0) #merge to (2,N,N) so it has 2 channels
+        guess=self.Critic(c)
+        
+
+
+        return layer_output_list, last_state_list,guess
 
     def _init_hidden(self, batch_size, image_size):
         init_states = []

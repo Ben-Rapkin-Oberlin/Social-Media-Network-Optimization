@@ -22,6 +22,8 @@ EPOCHS=1000                 #number of training epochs, may replace with episode
 loops=0
 info=[NODES,NEIGHBORS,N,K,FRAME_COUNT,CLUSTERS]
 hp.initialize(info) 
+ActorCritic=hp.make_model
+
 #start training loop
 """
     self.run(pop,nk,condition,rep,avg,meanhamm,spread,k)
@@ -91,10 +93,7 @@ while True:
             action = hp.select_action(state)
 
             # take the action
-            hp.step(instance,pop)
-            hp.update_instance(instance,avg,act_out)
-
-            state, reward, done, _, _ = pop.step(action)
+            state,reward=hp.step(action,state,pop)
 
             model.rewards.append(reward)
             ep_reward += reward

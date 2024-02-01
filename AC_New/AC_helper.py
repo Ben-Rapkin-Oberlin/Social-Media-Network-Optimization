@@ -10,6 +10,7 @@ import torch.optim as optim
 import torch.nn.functional as F
 
 info=[]
+model= object
 #model=F.conv1d((1,1), (1,1))
 #optimizer = optim.Adam(model.parameters(), lr=3e-2)
 eps= np.finfo(np.float32).eps.item()
@@ -19,6 +20,14 @@ def initialize(setup):
     global info 
     info = setup
     return
+
+def make_model():
+    global model
+    layers=3
+    kernal=3
+    hidden_channels=2
+    model=ConvLSTM(1,[hidden_channels]*layers,(kernal,kernal),layers,batch_first=True,bias=True)
+    return model
 
 def prime_episode(loops,in_probs=.7):
     #make each ep unique
@@ -67,10 +76,6 @@ def update_instance(instance,act_out,avg):
     return new
 
 
-
-
-
-
 def step(action,instance,pop):
 
     #run pop on action
@@ -82,19 +87,65 @@ def step(action,instance,pop):
     return instance, avg
 
 
-
-def select_action(state):
+def select_action(network_state):
     #state = torch.from_numpy(state).float()
-    probs, state_value = model(state)
+    _, last_layer, guess = model(network_state)
     
-    # create a categorical distribution over the list of probabilities of actions
-    m = Categorical(probs)
+    act_probs=last_layer[0][0]
+    act_probs=act_probs.T #transpose for easier access
+    m=Categorical(act_probs)
+    chosen_actions=m.sample()
 
-    # and sample an action using the distribution
-    action = m.sample()
+    action = torch.zeros((info[0],info[0]))
+    for i,val in zip(range(0,info[0]),chosen_actions):
+        action[val,i]=1
 
     # save to action buffer
-    model.saved_actions.append(SavedAction(m.log_prob(action), state_value))
+    model.saved_actions.append(SavedAction(m.log_prob(chosen_actions), state_value))
 
     # the action to take (left or right)
-    return action.item()
+    return action
+
+
+def finish_episode():
+    
+    """
+    Training code. Calculates actor and critic loss and performs backprop.
+    """
+    R = 0
+    saved_actions = model.saved_actions
+    policy_losses = [] # list to save actor (policy) loss
+    value_losses = [] # list to save critic (value) loss
+    returns = [] # list to save the true values
+
+    # calculate the true value using rewards returned from the environment
+    for r in model.rewards[::-1]:
+        # calculate the discounted value
+        R = r + args.gamma * R
+        returns.insert(0, R)
+
+    returns = torch.tensor(returns)
+    returns = (returns - returns.mean()) / (returns.std() + eps)
+
+    for (log_prob, value), R in zip(saved_actions, returns):
+        advantage = R - value.item()
+
+        # calculate actor (policy) loss
+        policy_losses.append(-log_prob * advantage)
+
+        # calculate critic (value) loss using L1 smooth loss
+        value_losses.append(F.smooth_l1_loss(value, torch.tensor([R])))
+
+    # reset gradients
+    optimizer.zero_grad()
+
+    # sum up all the values of policy_losses and value_losses
+    loss = torch.stack(policy_losses).sum() + torch.stack(value_losses).sum()
+
+    # perform backprop
+    loss.backward()
+    optimizer.step()
+
+    # reset rewards and action buffer
+    del model.rewards[:]
+    del model.saved_actions[:]

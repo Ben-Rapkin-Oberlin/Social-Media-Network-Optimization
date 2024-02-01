@@ -1,21 +1,13 @@
 TODO
-1. Test recluster with non-diagonal inputs
-2. Set up Actor-Critic Model
-	a. Figure out hidden dimensions
-3. Write Training loop
-	a. Write end episode
-	b. figure out stopping conditions
+1. Write Finish_Episode
+2. Test recluster with non-diagonal inputs
+3. 
 
+Optional
+3. Consider Hyperparameter Opt
+4. More Cythoization
+5. Make version with constant edge count to compared to original version
+6. 
 
-
-Model Setup:
-
-(1,Frames,1,N+1,N)->input
-ConvLSTM(input)-> output 
-//output is of Size (NxN)
-Softmax(output, dim=0)->act_probs
-CNN(act_probs) -> pred_fit
-
-return act_probs
 
 

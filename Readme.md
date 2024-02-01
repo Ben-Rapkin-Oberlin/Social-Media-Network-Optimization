@@ -1,6 +1,6 @@
 ### Overview  
 
-Currently work is being done on implementing an actor critic model with the clustering action space. Recluster needs testing on non-diagonal matrices, the training loop needs some edits, and the models need tailoring. For more details see AC_New/TODO.txt
+Currently work is being done on implementing an actor critic model with clustering action space. For details on current development see AC_New/TODO.txt
 
 
 To run 
@@ -39,9 +39,11 @@ AC_New
 ```bash
 ├── AC_New
 │   └── outputs:           Directory containing performance graphs
-├── CythonMods             Cythoized versions of basic utility functions used in the first AC model and Simulated annealing 
+├── CythonMods             Cythoized versions of basic utility functions used in  
+│                               the first AC model and Simulated annealing
 ├── MCMC:                  For future implementations of Markov Decision Processes 
-├── Older_Work:            Attempt 1 at the AC model, an adapted GRU model, and Simulated Annealing which 
+├── Older_Work:            Attempt 1 at the AC model, an adapted GRU model, and 
+│                               Simulated Annealing 
 ├── images:                Contains graphs of first/old AC trials 
 ├── jl_tests:              Partial Implementation of social graphs in julia
 └── playground:            Area to test python code

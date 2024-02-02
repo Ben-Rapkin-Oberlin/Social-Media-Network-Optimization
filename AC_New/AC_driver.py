@@ -4,7 +4,7 @@ import AC_helper as hp
 import random
 import numpy as np
 import torch
-
+from collections import namedtuple
 
 #make actor crtitc
 FRAME_COUNT=10              #number of timesteps/frames the Actor/Critic will recieve
@@ -22,99 +22,45 @@ EPOCHS=1000                 #number of training epochs, may replace with episode
 loops=0
 info=[NODES,NEIGHBORS,N,K,FRAME_COUNT,CLUSTERS]
 hp.initialize(info) 
-ActorCritic=hp.make_model
-
-#start training loop
-"""
-    self.run(pop,nk,condition,rep,avg,meanhamm,spread,k)
-
-    a,mh,sp = pop.stats()
-    avg[condition,rep,0]=a
-    meanhamm[condition,rep,0]=mh
-    spread[condition,rep,0]=sp
-    for trial_num in range(1,trials+1):
-        pop.share(1)
-        pop.learn(0)
-        a,mh,sp = pop.stats()
-        avg[condition,rep,trial_num]=a
-        meanhamm[condition,rep,trial_num]=mh
-        spread[condition,rep,trial_num]=sp
-"""
-
+ActorCritic=hp.make_model()
 SavedAction = namedtuple('SavedAction', ['log_prob', 'value'])
-while True:
-    #run episodes:
-    """
-    Each episode will initialize a new random graph, then the RL process is run until we reach some terminating state.
-    Possible terminations: 
-        1. ~2,500 iterations like the paper used for training
-        2. Graph convergance i.e. utility is largley stable
-        3. Model reaches a certaint ultility level
-    """
-    #generates new landscape and graph, seeds with loop
-    pop,instance=hp.prime_episode(loops,info) 
-    
-    for i in range(0,2500): #initially using paper's times steps instead of convergence
 
-        frame=pop.step() #returns new fitness average
-        #get input
-        #run actor
-        #run critic
 
-        act_out,crit_out=model(instance)
+running_reward = 10
+for i_episode in range(20): #initially make stopping condition episode count
 
-        #update graph/get new score
-        avg=pop.step(act_out)
+    # reset environment and episode reward
+    pop,state=hp.prime_episode(loops) 
+    ep_reward = 0
 
-        #update actor
-        #update critic
+    # for each episode, only run 9999 steps so that we don't
+    # infinite loop while learning
+    for t in range(1, 2000):
 
-        #update actor and critic inputs
+        # select action from policy
+        action = hp.select_action(state)
 
-        #update instance
-        instance=hp.update_instance(instance,avg,act_out)
+        # take the action
+        state,reward=hp.step(action,state,pop)
 
-        #loop  
-
-  running_reward = 10
-
-    # run infinitely many episodes
-    for i_episode in count(1):
-
-        # reset environment and episode reward
-        pop,state=hp.prime_episode(loops) 
-        ep_reward = 0
-
-        # for each episode, only run 9999 steps so that we don't
-        # infinite loop while learning
-        for t in range(1, 10000):
-
-            # select action from policy
-            action = hp.select_action(state)
-
-            # take the action
-            state,reward=hp.step(action,state,pop)
-
-            model.rewards.append(reward)
-            ep_reward += reward
-            if done:
-                break
-
-        # update cumulative reward
-        running_reward = 0.05 * ep_reward + (1 - 0.05) * running_reward
-
-        # perform backprop
-        finish_episode()
-
-        # log results
-        if i_episode % args.log_interval == 0:
-            print('Episode {}\tLast reward: {:.2f}\tAverage reward: {:.2f}'.format(
-                  i_episode, ep_reward, running_reward))
-
-        # check if we have "solved" the cart pole problem
-        if running_reward > env.spec.reward_threshold:
-            print("Solved! Running reward is now {} and "
-                  "the last episode runs to {} time steps!".format(running_reward, t))
+        model.rewards.append(reward)
+        ep_reward += reward
+        if done:
             break
+
+    # update cumulative reward
+    running_reward = 0.05 * ep_reward + (1 - 0.05) * running_reward
+
+    # perform backprop
+    finish_episode()
+
+    # log results
+    print('Episode {}\tLast reward: {:.2f}\tAverage reward: {:.2f}'.format(i_episode, ep_reward, running_reward))
+
+'''# check if we have "solved" the cart pole problem
+                                if running_reward > :
+                                    print("Solved! Running reward is now {} and "
+                                          "the last episode runs to {} time steps!".format(running_reward, t))
+break'''
 
 

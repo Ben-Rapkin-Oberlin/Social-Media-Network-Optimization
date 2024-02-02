@@ -17,7 +17,7 @@ from torch.utils.tensorboard import SummaryWriter
 # default `log_dir` is "runs" - we'll be more specific here
 #writer = SummaryWriter('outputs/Temp/test')
 
-'''
+
 layers=3
 kernal=3
 hidden_channels=2
@@ -26,13 +26,14 @@ model=ConvLSTM(1,[hidden_channels]*layers,(kernal,kernal),layers,(clusters,clust
 hl.build_graph(model, torch.zeros([1, 3, 1, 5, 5]))
 #writer.add_graph(model,torch.zeros([1, 3, 1, 5, 5]))#use_strict_trace =False)
 #writer.close()
+
 '''
 df=pd.read_csv('outputs\\Temp\\raw_02500_330.csv')
 
 sns.lineplot(data=df, x='Run', y='Performance', hue='Condition', ci='sd')
 plt.legend(loc='upper left')
 plt.show()
-
+'''
 
 '''x=torch.randn(1,3,5,5)
 hidden=torch.zeros(1,2,5,5)

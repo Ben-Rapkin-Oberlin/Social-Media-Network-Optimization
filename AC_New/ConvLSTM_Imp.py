@@ -1,6 +1,6 @@
 import torch.nn as nn
 import torch
-
+from collections import namedtuple
 #Code from https://github.com/ndrplz/ConvLSTM_pytorch
 
 class ConvLSTMCell(nn.Module):
@@ -124,7 +124,6 @@ class ConvLSTM(nn.Module):
         cell_list = []
         for i in range(0, self.num_layers):
             cur_input_dim = self.input_dim if i == 0 else self.hidden_dim[i - 1]
-
             cell_list.append(ConvLSTMCell(input_dim=cur_input_dim,
                                           hidden_dim=self.hidden_dim[i],
                                           kernel_size=self.kernel_size[i],
@@ -132,7 +131,7 @@ class ConvLSTM(nn.Module):
 
         self.cell_list = nn.ModuleList(cell_list)
 
-        self.Actor = self.Critic = nn.Sequential(
+        self.Actor  = nn.Sequential(
                         nn.Conv2d(in_channels=self.hidden_dim[-1], out_channels=1, kernel_size=(2,2), bias=self.bias),
                         nn.AdaptiveAvgPool2d(self.out_dim)
                         )
@@ -195,6 +194,7 @@ class ConvLSTM(nn.Module):
             layer_output_list = layer_output_list[-1:]
             last_state_list = last_state_list[-1:]
 
+        print(last_state_list[0][1].shape)
         #convert to one channel
         b=self.Actor(last_state_list[0][1])
 
@@ -204,8 +204,8 @@ class ConvLSTM(nn.Module):
         #let critic guess
         a=last_state_list[0][0] #last hidden
         
-        #print(a[0])
-        #print(b[0])
+        print(a[0].shape)
+        print(b[0].shape)
         c = torch.cat((a[0], b[0]), dim=0)
         #c=torch.stack((a[0],b[0]),dim=0) #merg to (2,N,N) so it has 2 channels
         #print('c',c.shape)

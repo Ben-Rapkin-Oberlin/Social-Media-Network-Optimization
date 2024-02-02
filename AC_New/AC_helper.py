@@ -8,6 +8,7 @@ import torch
 from torch.distributions import Categorical
 import torch.optim as optim
 import torch.nn.functional as F
+from ConvLSTM_Imp import ConvLSTM
 
 info=[]
 model= object
@@ -26,7 +27,8 @@ def make_model():
     layers=3
     kernal=3
     hidden_channels=2
-    model=ConvLSTM(1,[hidden_channels]*layers,(kernal,kernal),layers,batch_first=True,bias=True)
+    out_dim= info[5] #NxN output
+    model=ConvLSTM(1,[hidden_channels]*layers,(kernal,kernal),layers,(out_dim,out_dim),batch_first=True,bias=True)
     return model
 
 def prime_episode(loops,in_probs=.7):

@@ -8,6 +8,8 @@ import torch
 from torch.distributions import Categorical
 import torch.optim as optim
 import torch.nn.functional as F
+
+
 from ConvLSTM_Imp import ConvLSTM
 from collections import namedtuple
 
@@ -17,7 +19,7 @@ model= object
 #optimizer = optim.Adam(model.parameters(), lr=3e-2)
 eps= np.finfo(np.float32).eps.item()
 SavedAction = namedtuple('SavedAction', ['log_prob', 'value'])
-
+optimizer =None
 
 def initialize(setup):
     global info 
@@ -25,12 +27,13 @@ def initialize(setup):
     return
 
 def make_model():
-    global model
+    global model, optimizer
     layers=3
     kernal=3
     hidden_channels=2
     out_dim= info[5] #NxN output
     model=ConvLSTM(1,[hidden_channels]*layers,(kernal,kernal),layers,out_dim,batch_first=True,bias=True)
+    optimizer = optim.Adam(model.parameters(), lr=3e-2)
     return model
 
 def prime_episode(loops,in_probs=.7):
@@ -105,7 +108,7 @@ def select_action(network_state):
         action[val,i]=1
 
     # save to action buffer
-    model.saved_actions.append(SavedAction(m.log_prob(chosen_actions), guess.item()))
+    model.saved_actions.append(SavedAction(m.log_prob(chosen_actions), guess))
 
     # the action to take (left or right)
     return action
@@ -116,6 +119,9 @@ def finish_episode():
     """
     Training code. Calculates actor and critic loss and performs backprop.
     """
+    #For now set gamma to .9 based on example 
+    gamma=.9
+
     R = 0
     saved_actions = model.saved_actions
     policy_losses = [] # list to save actor (policy) loss
@@ -125,7 +131,7 @@ def finish_episode():
     # calculate the true value using rewards returned from the environment
     for r in model.rewards[::-1]:
         # calculate the discounted value
-        R = r + args.gamma * R
+        R = r + gamma * R
         returns.insert(0, R)
 
     returns = torch.tensor(returns)
@@ -138,7 +144,7 @@ def finish_episode():
         policy_losses.append(-log_prob * advantage)
 
         # calculate critic (value) loss using L1 smooth loss
-        value_losses.append(F.smooth_l1_loss(value, torch.tensor([R])))
+        value_losses.append(F.smooth_l1_loss(value, R))
 
     # reset gradients
     optimizer.zero_grad()

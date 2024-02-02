@@ -4,7 +4,7 @@ import AC_helper as hp
 import random
 import numpy as np
 import torch
-
+import matplotlib.pyplot as plt
 #make actor crtitc
 FRAME_COUNT=10              #number of timesteps/frames the Actor/Critic will recieve
 NODES=16                   #number of nodes
@@ -22,17 +22,18 @@ info=[NODES,NEIGHBORS,N,K,FRAME_COUNT,CLUSTERS]
 hp.initialize(info) 
 ActorCritic=hp.make_model()
 
+all_performances=[]
 
 running_reward = 10
-for i_episode in range(20): #initially make stopping condition episode count
+for i_episode in range(31): #initially make stopping condition episode count
 
     # reset environment and episode reward
     pop,state=hp.prime_episode(loops) 
     ep_reward = 0
-
+    temp_reward=[0 for x in range(2000)]
     # for each episode, only run 9999 steps so that we don't
     # infinite loop while learning
-    for t in range(1, 200):
+    for t in range(0, 2000):
 
         # select action from policy
         action = hp.select_action(state)
@@ -43,7 +44,9 @@ for i_episode in range(20): #initially make stopping condition episode count
         ActorCritic.rewards.append(reward)
         ep_reward += reward
 
+        temp_reward[t]=reward
     # update cumulative reward
+    all_performances.append(temp_reward)
     running_reward = 0.05 * ep_reward + (1 - 0.05) * running_reward
 
     # perform backprop
@@ -58,4 +61,13 @@ for i_episode in range(20): #initially make stopping condition episode count
                                           "the last episode runs to {} time steps!".format(running_reward, t))
 break'''
 
+for i, trial_data in enumerate(all_performances):
+    if i%15==0:
+        plt.plot(trial_data, label=f'Trial {i+1}')  # Plot each trial's data
 
+plt.title('Time Series Data from Multiple Trials')
+plt.xlabel('Time Points')  # Adjust as necessary
+plt.ylabel('Values')  # Adjust as necessary
+plt.legend(loc='upper left') # Show legend
+plt.grid(True)  # Show grid
+plt.show()

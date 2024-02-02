@@ -5,6 +5,7 @@ import random
 import numpy as np
 import torch
 import matplotlib.pyplot as plt
+import pandas as pd
 #make actor crtitc
 FRAME_COUNT=10              #number of timesteps/frames the Actor/Critic will recieve
 NODES=16                   #number of nodes
@@ -25,15 +26,15 @@ ActorCritic=hp.make_model()
 all_performances=[]
 
 running_reward = 10
-for i_episode in range(31): #initially make stopping condition episode count
+for i_episode in range(51): #initially make stopping condition episode count
 
     # reset environment and episode reward
     pop,state=hp.prime_episode(loops) 
     ep_reward = 0
-    temp_reward=[0 for x in range(2000)]
+    temp_reward=[0 for x in range(500)]
     # for each episode, only run 9999 steps so that we don't
     # infinite loop while learning
-    for t in range(0, 2000):
+    for t in range(0, 500):
 
         # select action from policy
         action = hp.select_action(state)
@@ -49,6 +50,8 @@ for i_episode in range(31): #initially make stopping condition episode count
     all_performances.append(temp_reward)
     running_reward = 0.05 * ep_reward + (1 - 0.05) * running_reward
 
+    if i_episode%8==0:
+        pd.DataFrame(all_performances).to_csv("outputs/Temp/model_data_"+str(i_episode)+".csv")
     # perform backprop
     hp.finish_episode()
 
@@ -61,8 +64,10 @@ for i_episode in range(31): #initially make stopping condition episode count
                                           "the last episode runs to {} time steps!".format(running_reward, t))
 break'''
 
+df=pd.DataFrame(all_performances)
+df.to_csv("outputs/Temp/model_data.csv")
 for i, trial_data in enumerate(all_performances):
-    if i%15==0:
+    if i%25==0:
         plt.plot(trial_data, label=f'Trial {i+1}')  # Plot each trial's data
 
 plt.title('Time Series Data from Multiple Trials')

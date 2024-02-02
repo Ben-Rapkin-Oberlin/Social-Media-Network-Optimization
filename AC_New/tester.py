@@ -22,8 +22,22 @@ layers=3
 kernal=3
 hidden_channels=2
 clusters=5
-model=ConvLSTM(1,[hidden_channels]*layers,(kernal,kernal),layers,(clusters,clusters),batch_first=True,bias=True)
-hl.build_graph(model, torch.zeros([1, 3, 1, 5, 5]))
+'''input_dim, hidden_dim, kernel_size, num_layers,
+               batch_first=False, bias=True, return_all_layers=False)'''
+
+model=ConvLSTM(1,[hidden_channels]*layers,(kernal,kernal),layers,clusters,batch_first=True,bias=True)
+x=torch.randn(1,3,1,6,5)
+h,o,g=model(x)
+#o=o[0,0]
+#o[:,2]=2
+print(h.shape)
+print(o.shape)
+#print(o.sum(dim=0)) 
+#print(o.sum(dim=1))
+print(g)
+
+
+#hl.build_graph(model, torch.zeros([1, 3, 1, 5, 5]))
 #writer.add_graph(model,torch.zeros([1, 3, 1, 5, 5]))#use_strict_trace =False)
 #writer.close()
 

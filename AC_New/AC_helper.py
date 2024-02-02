@@ -9,12 +9,14 @@ from torch.distributions import Categorical
 import torch.optim as optim
 import torch.nn.functional as F
 from ConvLSTM_Imp import ConvLSTM
+from collections import namedtuple
 
 info=[]
 model= object
 #model=F.conv1d((1,1), (1,1))
 #optimizer = optim.Adam(model.parameters(), lr=3e-2)
 eps= np.finfo(np.float32).eps.item()
+SavedAction = namedtuple('SavedAction', ['log_prob', 'value'])
 
 
 def initialize(setup):
@@ -28,7 +30,7 @@ def make_model():
     kernal=3
     hidden_channels=2
     out_dim= info[5] #NxN output
-    model=ConvLSTM(1,[hidden_channels]*layers,(kernal,kernal),layers,(out_dim,out_dim),batch_first=True,bias=True)
+    model=ConvLSTM(1,[hidden_channels]*layers,(kernal,kernal),layers,out_dim,batch_first=True,bias=True)
     return model
 
 def prime_episode(loops,in_probs=.7):
@@ -81,29 +83,29 @@ def update_instance(instance,act_out,avg):
 def step(action,instance,pop):
 
     #run pop on action
-    avg,new_state=pop.step(action)
+    new_avg=pop.step(action)
 
     
-    instance=update_instance(instance,action,avg)
+    instance=update_instance(instance,action,new_avg)
 
-    return instance, avg
+    return instance, new_avg
 
 
 def select_action(network_state):
     #state = torch.from_numpy(state).float()
-    _, last_layer, guess = model(network_state)
-    
-    act_probs=last_layer[0][0]
+    hid, act_probs, guess = model(network_state)
+
     act_probs=act_probs.T #transpose for easier access
     m=Categorical(act_probs)
     chosen_actions=m.sample()
 
-    action = torch.zeros((info[0],info[0]))
-    for i,val in zip(range(0,info[0]),chosen_actions):
+
+    action = torch.zeros((info[5],info[5]))
+    for i,val in zip(range(0,info[5]),chosen_actions):
         action[val,i]=1
 
     # save to action buffer
-    model.saved_actions.append(SavedAction(m.log_prob(chosen_actions), state_value))
+    model.saved_actions.append(SavedAction(m.log_prob(chosen_actions), guess.item()))
 
     # the action to take (left or right)
     return action

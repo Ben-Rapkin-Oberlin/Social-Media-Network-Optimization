@@ -134,7 +134,9 @@ class Population:
             for j in range(self.clusters):
                 if action[i,j]==1:
                     mapping[i]=mapping[i]+[j]
-        
+        #at this point, mapping takes in a sudoblock and tells you which leaders/clusters are in them
+
+
         #remove any empty sudoblocks
         for i in list(mapping.keys()):
             if mapping[i]==[]:
@@ -143,12 +145,24 @@ class Population:
         #now sort nodes by their sudoclusters
         k=list(self.label.keys())
         v=list(self.label.values())
+
+        #print(action)
+
+        a=mapping.keys()
+        #print([(x,mapping[x]) for x in a])
+        #print('key',k)
+        #print('val',v)
+
         
+        #now that we know which clusters are in each sudo-block,
+        #make a list of nodes for easy access
         sudo=[]
-        for i in range(self.clusters):
+        for i in mapping.keys():
             temp=[key for key,val in zip(k,v) if val in mapping[i]]
             sudo.append(temp)
 
+        #print('sudo',sudo)
+        #exit()
         sudo_set=[set(x) for x in sudo]
         #may be biased as groups in lower numbers will always go first
         
@@ -163,7 +177,11 @@ class Population:
                 neighbor_list=self.get_neighbors(current_node)
                 neighbor_set=set(neighbor_list)
 
-                g=random.choices(['in','out'], weights=[self.IN_GROUP_PROB,1-self.IN_GROUP_PROB],k=1)[0]
+                #make sure there is an outgroup, model may put everyone together
+                if out_group_iter!=[]:
+                    g=random.choices(['in','out'], weights=[self.IN_GROUP_PROB,1-self.IN_GROUP_PROB],k=1)[0]
+                else:
+                    g='in'
 
                 if g=='in':
                     #print('inblock')
@@ -343,6 +361,6 @@ class Population:
 
         self.share(1)
         self.learn(0)
-        a,mh,sp=self.stats()
-        return a,mh,sp
+        avg,mh,sp=self.stats()
+        return avg
             

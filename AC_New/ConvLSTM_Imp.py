@@ -120,7 +120,7 @@ class ConvLSTM(nn.Module):
         self.batch_first = batch_first
         self.bias = bias
         self.return_all_layers = return_all_layers
-        self.out_dim=out_dim
+        self.out_dim=(out_dim,out_dim)
         cell_list = []
         for i in range(0, self.num_layers):
             cur_input_dim = self.input_dim if i == 0 else self.hidden_dim[i - 1]
@@ -131,12 +131,14 @@ class ConvLSTM(nn.Module):
 
         self.cell_list = nn.ModuleList(cell_list)
 
+        #print(out_dim)
         self.Actor  = nn.Sequential(
                         nn.Conv2d(in_channels=self.hidden_dim[-1], out_channels=1, kernel_size=(2,2), bias=self.bias),
-                        nn.AdaptiveAvgPool2d(self.out_dim)
+                        nn.AdaptiveAvgPool2d(self.out_dim),
+                        nn.Softmax(dim=2)
                         )
         self.Critic = nn.Sequential(
-                        nn.Conv2d(in_channels=self.hidden_dim[-1]+1, out_channels=1, kernel_size=(2,2), bias=self.bias),
+                        nn.Conv2d(in_channels=self.hidden_dim[-1]*2, out_channels=1, kernel_size=(2,2), bias=self.bias),
                         nn.AdaptiveAvgPool2d((1, 1))
                         )
     def forward(self, input_tensor, hidden_state=None):
@@ -193,30 +195,24 @@ class ConvLSTM(nn.Module):
         if not self.return_all_layers:
             layer_output_list = layer_output_list[-1:]
             last_state_list = last_state_list[-1:]
+        #print('raw out 0', last_state_list[0][0].shape)
+        #print('raw out 1', last_state_list[0][1].shape)
 
-        print(last_state_list[0][1].shape)
-        #convert to one channel
-        b=self.Actor(last_state_list[0][1])
 
-        #convert to probs
-        b=nn.Softmax(dim=3)(b)
-        
-        #let critic guess
-        a=last_state_list[0][0] #last hidden
-        
-        print(a[0].shape)
-        print(b[0].shape)
-        c = torch.cat((a[0], b[0]), dim=0)
-        #c=torch.stack((a[0],b[0]),dim=0) #merg to (2,N,N) so it has 2 channels
-        #print('c',c.shape)
-        guess=self.Critic(c)
-        
-        #print(a)
-        #print(b)
-        #print(guess)
 
-        #return (layer_output_list, last_state_list,guess)
-        return (a,b,guess)
+        #
+        fin_hid=last_state_list[0][0]
+        fin_out=last_state_list[0][1]
+
+        c = torch.cat((fin_hid[0], fin_out[0]), dim=0)        
+        #print('c', c.shape)
+        #let critic run
+        guess=self.Critic(c)[0,0,0]
+        
+        #let actor run
+        action_probs=self.Actor(fin_out)[0,0]
+        #print(action_probs)
+        return (fin_hid,action_probs,guess)
 
     def _init_hidden(self, batch_size, image_size):
         init_states = []
